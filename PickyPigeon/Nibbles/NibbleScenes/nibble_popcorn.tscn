@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://ilmcdpwiw3fv"]
+
+[ext_resource type="PackedScene" uid="uid://c01i5gimr0eu3" path="res://Nibbles/NibbleScenes/Nibble.tscn" id="1_36xb2"]
+[ext_resource type="Gradient" uid="uid://ctikfdfj8404r" path="res://Nibbles/NibbleArt/nibble_popcorn_placeholderTexture.tres" id="2_4hmg1"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_dm0x6"]
+gradient = ExtResource("2_4hmg1")
+fill_from = Vector2(0.513761, 1)
+fill_to = Vector2(0.493119, 0)
+
+[node name="Nibble_popcorn" instance=ExtResource("1_36xb2")]
+nibbleType = "popcorn"
+
+[node name="Sprite2D" parent="." index="0"]
+texture = SubResource("GradientTexture2D_dm0x6")

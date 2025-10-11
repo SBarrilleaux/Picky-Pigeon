@@ -1,0 +1,26 @@
+extends Node2D
+
+@export var nibbleType:String 
+
+var sprite
+
+var matched = false
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	sprite = $Sprite2D
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+
+# animates nibble movement
+func move(target):
+	var tween: Tween = create_tween()
+	tween.tween_property(self,"position",target, 0.3).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
+func dim():
+	#var sprite = get_node("Sprite2D")
+	sprite.modulate = Color(1,1,1, .5)

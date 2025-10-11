@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://cwgcueo3c1166"]
+
+[ext_resource type="PackedScene" uid="uid://c01i5gimr0eu3" path="res://Nibbles/NibbleScenes/Nibble.tscn" id="1_u2kgj"]
+[ext_resource type="Texture2D" uid="uid://c7hsn67tl5a8s" path="res://Nibbles/NibbleArt/nibble_peanut_placeholderTexture.tres" id="2_qood8"]
+
+[node name="Nibble_peanut" instance=ExtResource("1_u2kgj")]
+nibbleType = "peanut"
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_qood8")

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://c01i5gimr0eu3"]
+
+[ext_resource type="Script" uid="uid://dok47u4bfv5g6" path="res://scripts/nibble.gd" id="1_qnivr"]
+
+[node name="Nibble" type="Node2D"]
+script = ExtResource("1_qnivr")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
