@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=4 uid="uid://b3ox4v1uf6k3o"]
 
-[ext_resource type="Script" uid="uid://du5rertq388rh" path="res://scripts/board_manager.gd" id="1_v8fcf"]
-[ext_resource type="Texture2D" uid="uid://dtwqv0vqix6pi" path="res://BackgroundTiles.png" id="1_yfvsw"]
+[ext_resource type="Texture2D" uid="uid://dtwqv0vqix6pi" path="res://BackgroundAndUI/BackgroundTiles.png" id="1_voe8m"]
+[ext_resource type="Script" uid="uid://du5rertq388rh" path="res://scripts/board_manager.gd" id="2_2qc8i"]
 
 [sub_resource type="Gradient" id="Gradient_7ngup"]
 colors = PackedColorArray(0.1007, 0.155768, 0.19, 1, 0.325845, 0.371292, 0.765205, 1)
@@ -14,7 +14,7 @@ fill_from = Vector2(0.472477, 0)
 fill_to = Vector2(0.474771, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6stna"]
-texture = ExtResource("1_yfvsw")
+texture = ExtResource("1_voe8m")
 texture_region_size = Vector2i(256, 256)
 0:0/0 = 0
 1:0/0 = 0
@@ -41,18 +41,19 @@ sources/0 = SubResource("TileSetAtlasSource_6stna")
 
 [node name="Board" type="Node2D" parent="."]
 
-[node name="background" type="TextureRect" parent="Board"]
+[node name="Background" type="TextureRect" parent="Board"]
 offset_right = 1928.0
 offset_bottom = 1102.0
 texture = SubResource("GradientTexture2D_v8fcf")
 
-[node name="SideBackground" type="ColorRect" parent="Board/background"]
+[node name="SideBackground" type="ColorRect" parent="Board/Background"]
 visible = false
+layout_mode = 0
 offset_right = 330.0
 offset_bottom = 552.0
 color = Color(0.6885, 0, 0.81, 0.180392)
 
-[node name="SideBackground2" type="ColorRect" parent="Board/background"]
+[node name="SideBackground2" type="ColorRect" parent="Board/Background"]
 visible = false
 layout_mode = 1
 anchors_preset = 1
@@ -71,10 +72,27 @@ scale = Vector2(0.5, 0.5)
 tile_map_data = PackedByteArray("AAAFAAMAAAAAAAAAAAAEAAMAAAAAAAAAAAADAAMAAAAAAAAAAAACAAMAAAAAAAAAAAABAAMAAAAAAAAAAAABAAIAAAAAAAAAAAACAAIAAAAAAAAAAAADAAIAAAAAAAAAAAAEAAIAAAAAAAAAAAAFAAIAAAAAAAAAAAAFAAEAAAAAAAAAAAAEAAEAAAAAAAAAAAADAAEAAAAAAAAAAAACAAEAAAAAAAAAAAABAAEAAAAAAAAAAAABAAAAAAAAAAAAAAACAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAFAAAAAAAAAAAAAAAFAAQAAAAAAAAAAAAEAAQAAAAAAAAAAAADAAQAAAAAAAAAAAACAAQAAAAAAAAAAAABAAQAAAAAAAAAAAAGAAQAAAAAAAAAAAAGAAMAAAAAAAAAAAAGAAIAAAAAAAAAAAAGAAEAAAAAAAAAAAAGAAAAAAAAAAAAAAAHAAAAAAAAAAAAAAAHAAEAAAAAAAAAAAAHAAIAAAAAAAAAAAAHAAMAAAAAAAAAAAAHAAQAAAAAAAAAAAAIAAQAAAAAAAAAAAAIAAMAAAAAAAAAAAAIAAIAAAAAAAAAAAAIAAEAAAAAAAAAAAAIAAAAAAAAAAAAAAABAAUAAAAAAAAAAAABAAYAAAAAAAAAAAABAAcAAAAAAAAAAAACAAcAAAAAAAAAAAADAAcAAAAAAAAAAAAEAAcAAAAAAAAAAAAFAAcAAAAAAAAAAAAGAAcAAAAAAAAAAAAHAAcAAAAAAAAAAAAIAAcAAAAAAAAAAAAIAAYAAAAAAAAAAAAIAAUAAAAAAAAAAAAHAAUAAAAAAAAAAAAGAAUAAAAAAAAAAAAFAAUAAAAAAAAAAAAEAAUAAAAAAAAAAAADAAUAAAAAAAAAAAACAAUAAAAAAAAAAAACAAYAAAAAAAAAAAADAAYAAAAAAAAAAAAEAAYAAAAAAAAAAAAFAAYAAAAAAAAAAAAGAAYAAAAAAAAAAAAHAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAAcAAAAAAAAAAAAJAAcAAAAAAAAAAAAJAAYAAAAAAAAAAAAJAAUAAAAAAAAAAAAJAAQAAAAAAAAAAAAJAAMAAAAAAAAAAAAJAAIAAAAAAAAAAAAJAAEAAAAAAAAAAAAJAAAAAAAAAAAAAAA=")
 tile_set = SubResource("TileSet_o68rb")
 
-[node name="grid" type="Node2D" parent="Board"]
-script = ExtResource("1_v8fcf")
+[node name="Grid" type="Node2D" parent="Board"]
+script = ExtResource("2_2qc8i")
 width = 10
 height = 8
 xStart = 385
 yStart = 980
 offset = 128
+yNibbleOffset = 2
+
+[node name="DestroyTimer" type="Timer" parent="Board/Grid"]
+wait_time = 0.2
+one_shot = true
+
+[node name="CollapseTimer" type="Timer" parent="Board/Grid"]
+wait_time = 0.1
+one_shot = true
+
+[node name="RefillTimer" type="Timer" parent="Board/Grid"]
+wait_time = 0.4
+one_shot = true
+
+[connection signal="timeout" from="Board/Grid/DestroyTimer" to="Board/Grid" method="_on_destroy_time_timeout"]
+[connection signal="timeout" from="Board/Grid/CollapseTimer" to="Board/Grid" method="_on_collapse_timer_timeout"]
+[connection signal="timeout" from="Board/Grid/RefillTimer" to="Board/Grid" method="_on_refill_timer_timeout"]

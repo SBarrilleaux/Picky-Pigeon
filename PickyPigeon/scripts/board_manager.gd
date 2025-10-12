@@ -7,6 +7,8 @@ extends Node2D
 @export var yStart: int
 @export var offset: int
 
+# how much nibble should drop from
+@export var yNibbleOffset: int
 
 
 # load the different nibble types so they can be used later
@@ -85,47 +87,39 @@ func pixelToGrid(pixelX, pixelY):
 	return Vector2(newX, newY)
 	
 # Checks if a position is a valid space on the board
-func isInGrid(column, row):
-	if column >= 0 && column < width:
-		if row >= 0 && row < height:
+func isInGrid(gridPosition):
+	if gridPosition.x >= 0 && gridPosition.x < width:
+		if gridPosition.y >= 0 && gridPosition.y < height:
 			return true
 	return false
 
 # handles storing inputs and converts mouse positions to its grid position
-# Uses pixelToGrid
 func mouseInput():
 	if Input.is_action_just_pressed("click"):
-		#if isInGrid(pixelToGrid(get_global_mouse_position().x, get_global_mouse_position().y):
-			#pass
-
-
-
-		first_click = get_global_mouse_position()
-		var gridPosition = pixelToGrid(first_click.x, first_click.y)
-		if isInGrid(gridPosition.x,gridPosition.y):
+		if isInGrid(pixelToGrid(get_global_mouse_position().x, get_global_mouse_position().y)):
+			first_click = pixelToGrid(get_global_mouse_position().x, get_global_mouse_position().y)
 			controlling = true
-		else:
-			controlling = false
 			
 	if Input.is_action_just_released("click"):
-		final_click = get_global_mouse_position()
-		var gridPosition = pixelToGrid(final_click.x, final_click.y)
-		if isInGrid(gridPosition.x, gridPosition.y) && controlling == true:
-			touchDifference(pixelToGrid(first_click.x, first_click.y), gridPosition)
+		if isInGrid(pixelToGrid(get_global_mouse_position().x, get_global_mouse_position().y)) && controlling == true:
+			controlling = false
+			final_click = pixelToGrid(get_global_mouse_position().x, get_global_mouse_position().y)
+			touchDifference(first_click, final_click)
 			controlling = false
 # Takes the position in the grid of a piece, and then direction to swap it
 func swapNibble(column, row, direction: Vector2):
 	var firstNibble = boardNibbles[column][row]
 	var secondNibble = boardNibbles[column + direction.x][row + direction.y]
 	
-	# Swaps the pieces in the grid
-	boardNibbles[column][row] = secondNibble
-	boardNibbles[column + direction.x][row + direction.y] = firstNibble
-	
-	# Swaps the pieces actual visual position
-	firstNibble.move(gridToPixel(column + direction.x, row + direction.y))
-	secondNibble.move(gridToPixel(column, row))
-	findMatches()
+	if firstNibble != null && secondNibble != null:
+		# Swaps the pieces in the grid
+		boardNibbles[column][row] = secondNibble
+		boardNibbles[column + direction.x][row + direction.y] = firstNibble
+		
+		# Swaps the pieces actual visual position
+		firstNibble.move(gridToPixel(column + direction.x, row + direction.y))
+		secondNibble.move(gridToPixel(column, row))
+		findMatches()
 # Finds the direction to swap pieces in
 func touchDifference(gridOne, gridTwo):
 	var difference = gridTwo - gridOne
@@ -170,8 +164,66 @@ func findMatches():
 							boardNibbles[column][row].dim()
 							boardNibbles[column][row + 1].matched = true
 							boardNibbles[column][row + 1].dim()
-							
-							
+	$DestroyTimer.start()
+
+
+func destroyMatched():
+	for i in width:
+		for j in height:
+			if boardNibbles[i][j] != null:
+				if boardNibbles[i][j].matched:
+					boardNibbles[i][j].queue_free()
+					boardNibbles[i][j] = null
+	$CollapseTimer.start()
+
+# Makes nibbles "fall" by searching above to the height for a moveable nibble
+func collapseColumns():
+	for i in width:
+		for j in height:
+			if boardNibbles[i][j] == null:
+				for k in range(j + 1, height):
+					if boardNibbles[i][k] != null:
+						boardNibbles[i][k].move(gridToPixel(i,j))
+						boardNibbles[i][j] = boardNibbles[i][k]
+						boardNibbles[i][k] = null
+						break
+	$RefillTimer.start()
+
+
+func refillColumns():
+	for i in width:
+		for j in height:
+			if boardNibbles[i][j] == null:
+				# choose random nibble type to spawn
+				var rand = floor(randf_range(0,possibleNibbles.size()))
+		
+				var newNibble = possibleNibbles[rand].instantiate()
+				
+				# Check if new nibble will create a match
+				# if it would, reroll to different piece
+				var loops = 0
+				while(matchAt(i,j,newNibble.nibbleType) && loops < 100):
+					rand = floor(randf_range(0,possibleNibbles.size() - 1))
+					loops += 1
+					newNibble = possibleNibbles[rand].instantiate()
+				# spawn the chosen nibble in the scene
+				add_child(newNibble) # new nodes need to be parented
+				newNibble.set_position(gridToPixel(i,height))
+				newNibble.move(gridToPixel(i,j))
+				boardNibbles[i][j] = newNibble # change to new array if this isnt
+
+
+func _on_destroy_time_timeout() -> void:
+	destroyMatched()
+
+
+func _on_collapse_timer_timeout() -> void:
+	collapseColumns()
+func _on_refill_timer_timeout() -> void:
+	refillColumns()
+	findMatches()
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# seeds the random generation
@@ -179,10 +231,8 @@ func _ready() -> void:
 	# intial board setup
 	boardNibbles = make2dArray()
 	spawnNibbles()
-	pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	mouseInput()
-	pass
