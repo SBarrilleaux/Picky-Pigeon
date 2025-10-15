@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dtwqv0vqix6pi"
-path="res://.godot/imported/BackgroundTiles.png-6a6bce7996729b1c55af286cf138431b.ctex"
+uid="uid://dkpie7rle4fej"
+path="res://.godot/imported/nibble_peanut.png-230c2fd86ad2b956402831b38859782d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://BackgroundTiles.png"
-dest_files=["res://.godot/imported/BackgroundTiles.png-6a6bce7996729b1c55af286cf138431b.ctex"]
+source_file="res://Nibbles/NibbleArt/nibble_peanut.png"
+dest_files=["res://.godot/imported/nibble_peanut.png-230c2fd86ad2b956402831b38859782d.ctex"]
 
 [params]
 

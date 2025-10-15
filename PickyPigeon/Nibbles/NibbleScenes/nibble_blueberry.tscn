@@ -1,10 +1,17 @@
 [gd_scene load_steps=3 format=3 uid="uid://b30xr58qfvfkk"]
 
 [ext_resource type="PackedScene" uid="uid://c01i5gimr0eu3" path="res://Nibbles/NibbleScenes/Nibble.tscn" id="1_j0uil"]
-[ext_resource type="Texture2D" uid="uid://rhwqj86du47k" path="res://Nibbles/NibbleArt/nibble_blueberry_placeholderTexture.tres" id="2_8nc1l"]
+[ext_resource type="Texture2D" uid="uid://cumafhe57f78f" path="res://Nibbles/NibbleArt/nibble_blueberry.png" id="2_j0uil"]
 
 [node name="Nibble_blueberry" instance=ExtResource("1_j0uil")]
 nibbleType = "blueberry"
 
 [node name="Sprite2D" parent="." index="0"]
-texture = ExtResource("2_8nc1l")
+z_index = 2
+scale = Vector2(0.08, 0.08)
+texture = ExtResource("2_j0uil")
+
+[node name="Sprite2D2" type="Sprite2D" parent="." index="1"]
+self_modulate = Color(0, 0, 0, 1)
+scale = Vector2(0.082, 0.082)
+texture = ExtResource("2_j0uil")

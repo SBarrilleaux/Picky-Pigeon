@@ -11,9 +11,9 @@ config_version=5
 [application]
 
 config/name="PickyPigeonProject"
-run/main_scene="res://levelOne.tscn"
+run/main_scene="res://Levels/levelOne.tscn"
 config/features=PackedStringArray("4.4", "Mobile")
-config/icon="res://icon.svg"
+config/icon="res://BackgroundAndUI/Icons/icon.svg"
 
 [display]
 
