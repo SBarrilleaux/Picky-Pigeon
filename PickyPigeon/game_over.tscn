@@ -1,0 +1,189 @@
+[gd_scene load_steps=6 format=4 uid="uid://c12jrn0err337"]
+
+[ext_resource type="Theme" uid="uid://de2n0oa8q8kvm" path="res://BackgroundAndUI/FontTheme.tres" id="1_y26ei"]
+[ext_resource type="Script" uid="uid://doo4ojpeud6pk" path="res://game_over.gd" id="1_yxx3c"]
+[ext_resource type="Texture2D" uid="uid://dtwqv0vqix6pi" path="res://BackgroundAndUI/BackgroundTiles.png" id="2_ccer4"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8u835"]
+texture = ExtResource("2_ccer4")
+texture_region_size = Vector2i(256, 256)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_ftari"]
+tile_size = Vector2i(256, 256)
+sources/0 = SubResource("TileSetAtlasSource_8u835")
+
+[node name="GameOver" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_yxx3c")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+visible = false
+modulate = Color(0.564651, 0.811688, 0.754759, 1)
+position = Vector2(516.48, 272.84)
+scale = Vector2(1.229, 1.229)
+tile_map_data = PackedByteArray("AAABAAAAAAAAAAIAAAACAAAAAAAAAAIAAAAAAAAAAAAAAAIAAAACAAEAAAAAAAIAAAABAAEAAAAAAAIAAAAAAAEAAAAAAAIAAAA=")
+tile_set = SubResource("TileSet_ftari")
+
+[node name="ColorRect" type="ColorRect" parent="TileMapLayer"]
+visible = false
+offset_top = 3.0
+offset_right = 765.0
+offset_bottom = 255.0
+color = Color(0.439092, 0.451971, 0.606878, 0.427451)
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(25.51, 13.83)
+pivot_offset = Vector2(20, 20)
+color = Color(0.629398, 0.566889, 0.936926, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(24.64, 13.358)
+pivot_offset = Vector2(20, 20)
+color = Color(0.303373, 0.2562, 0.61, 1)
+
+[node name="ColorRect3" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -145.0
+offset_right = 20.0
+offset_bottom = -105.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(23.4, 5.908)
+pivot_offset = Vector2(20, 20)
+color = Color(0.217281, 0.124908, 0.442945, 1)
+
+[node name="Restart" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 78.0
+offset_top = 168.0
+offset_right = 317.0
+offset_bottom = 245.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_y26ei")
+text = "Restart"
+
+[node name="ReturnToMain" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -341.0
+offset_top = 168.0
+offset_right = -64.0
+offset_bottom = 245.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_y26ei")
+text = "Main Menu"
+
+[node name="Placeholder" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -220.0
+offset_top = -145.0
+offset_right = -180.0
+offset_bottom = -105.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(3.47, 3.47)
+pivot_offset = Vector2(20, 20)
+color = Color(0.621524, 0.621524, 0.621524, 1)
+
+[node name="Placeholder2" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -145.0
+offset_right = 20.0
+offset_bottom = -105.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(3.47, 3.47)
+pivot_offset = Vector2(20, 20)
+color = Color(0.257476, 0.257476, 0.257476, 1)
+
+[node name="Placeholder3" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 180.0
+offset_top = -145.0
+offset_right = 220.0
+offset_bottom = -105.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(3.47, 3.47)
+pivot_offset = Vector2(20, 20)
+color = Color(0.270222, 0.270222, 0.270222, 1)
+
+[connection signal="pressed" from="Restart" to="." method="_on_restart_pressed"]

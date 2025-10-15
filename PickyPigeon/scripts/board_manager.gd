@@ -7,10 +7,11 @@ extends Node2D
 @export var yStart: int
 @export var offset: int
 
+# state machine
+enum {wait, move, gameOver}
+var state
 # how much nibble should drop from
 @export var yNibbleOffset: int
-
-
 # load the different nibble types so they can be used later
 var possibleNibbles = [
 	preload("res://Nibbles/NibbleScenes/nibble_blueberry.tscn"),
@@ -21,11 +22,24 @@ var possibleNibbles = [
 # the board / nibbles on the board
 var boardNibbles = []
 
+# Variables used for swapping back when a swap doesn't creeate a match
+var nibbleOne = null
+var nibbleTwo = null
+var lastPlace = Vector2.ZERO
+var lastDirection = Vector2.ZERO
+var moveChecked = false
+
+@export var turnMax: int = 0
+var turnRemaining: int = 0
+
+
 # Input Variables
 var first_click = Vector2.ZERO
 var final_click = Vector2.ZERO
 var controlling = false
 
+
+var turnText = ""
 
 # this turns an array into a 2D array
 func make2dArray():
@@ -80,6 +94,7 @@ func gridToPixel(column, row):
 	var newX = xStart + offset * column
 	var newY = yStart + -offset * row
 	return Vector2(newX, newY)
+
 # pixel positions to grid
 func pixelToGrid(pixelX, pixelY):
 	var newX = round((pixelX - xStart) / offset)
@@ -112,14 +127,36 @@ func swapNibble(column, row, direction: Vector2):
 	var secondNibble = boardNibbles[column + direction.x][row + direction.y]
 	
 	if firstNibble != null && secondNibble != null:
+		storeInfo(firstNibble, secondNibble, Vector2(column,row), direction)
 		# Swaps the pieces in the grid
+		state = wait
 		boardNibbles[column][row] = secondNibble
 		boardNibbles[column + direction.x][row + direction.y] = firstNibble
-		
 		# Swaps the pieces actual visual position
 		firstNibble.move(gridToPixel(column + direction.x, row + direction.y))
 		secondNibble.move(gridToPixel(column, row))
-		findMatches()
+		
+		if !moveChecked:
+			findMatches()
+			turnRemaining -= 1
+		updateText()
+
+# Store the nibbles to be matched in case swap back is needed
+func storeInfo(firstNibble,secondNibble, place, direction):
+	nibbleOne = firstNibble
+	nibbleTwo = secondNibble
+	lastPlace = place
+	lastDirection = direction
+
+# move previously swapped pieces back if no match is made
+func swapBack():
+	if nibbleOne != null && nibbleTwo != null:
+		turnRemaining += 1
+		swapNibble(lastPlace.x,lastPlace.y, lastDirection)
+	state = move
+	moveChecked = false
+
+
 # Finds the direction to swap pieces in
 func touchDifference(gridOne, gridTwo):
 	var difference = gridTwo - gridOne
@@ -133,9 +170,6 @@ func touchDifference(gridOne, gridTwo):
 			swapNibble(gridOne.x, gridOne.y, Vector2(0,1))
 		elif difference.y < 0:
 			swapNibble(gridOne.x, gridOne.y, Vector2(0,-1))
-			
-			
-
 
 # Handles finding matches on the board during gameplay
 # TODO refactor later
@@ -166,15 +200,20 @@ func findMatches():
 							boardNibbles[column][row + 1].dim()
 	$DestroyTimer.start()
 
-
 func destroyMatched():
+	var wasMatched = false
 	for i in width:
 		for j in height:
 			if boardNibbles[i][j] != null:
 				if boardNibbles[i][j].matched:
+					wasMatched = true
 					boardNibbles[i][j].queue_free()
 					boardNibbles[i][j] = null
-	$CollapseTimer.start()
+	moveChecked = true
+	if wasMatched:
+		$CollapseTimer.start()
+	else:
+		swapBack()
 
 # Makes nibbles "fall" by searching above to the height for a moveable nibble
 func collapseColumns():
@@ -188,7 +227,6 @@ func collapseColumns():
 						boardNibbles[i][k] = null
 						break
 	$RefillTimer.start()
-
 
 func refillColumns():
 	for i in width:
@@ -211,28 +249,56 @@ func refillColumns():
 				newNibble.set_position(gridToPixel(i,height))
 				newNibble.move(gridToPixel(i,j))
 				boardNibbles[i][j] = newNibble # change to new array if this isnt
+	afterRefill()
+
+func afterRefill():
+	for i in width:
+		for j in height:
+			if boardNibbles[i][j] != null:
+				if matchAt(i,j, boardNibbles[i][j].nibbleType):
+					findMatches()
+					$DestroyTimer.start()
+					return
+	state = move
+	moveChecked = false
 
 
 func _on_destroy_time_timeout() -> void:
 	destroyMatched()
 
-
 func _on_collapse_timer_timeout() -> void:
 	collapseColumns()
+
 func _on_refill_timer_timeout() -> void:
 	refillColumns()
-	findMatches()
+	#findMatches()
 
-
+func updateText():
+	turnText.text = "Turns \n Remaining \n" + str(turnRemaining)
+	
+func endLevel():
+	state = gameOver
+	await waitTimer(1)
+	get_parent().get_node("GameOver").visible = true
 # Called when the node enters the scene tree for the first time.
+
+func waitTimer(seconds: float):
+	await get_tree().create_timer(seconds).timeout
+
 func _ready() -> void:
+	state = move
 	# seeds the random generation
 	randomize()
 	# intial board setup
 	boardNibbles = make2dArray()
 	spawnNibbles()
-
+	turnRemaining = turnMax
+	turnText = %TurnTextLabel
+	updateText()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	mouseInput()
+	if turnRemaining > 0 && state == move:
+		mouseInput()
+	elif turnRemaining == 0 && state == move:
+			endLevel() # TODO move this around

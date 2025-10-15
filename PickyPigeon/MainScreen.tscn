@@ -1,0 +1,149 @@
+[gd_scene load_steps=14 format=3 uid="uid://7mryyx5le04p"]
+
+[ext_resource type="Script" uid="uid://bpcrfs265rvrx" path="res://scripts/MainMenuControl.gd" id="1_453mu"]
+[ext_resource type="Gradient" uid="uid://rbihfgdpuwx0" path="res://BackgroundAndUI/Icons/PlaceholderGradientIcon.tres" id="1_i8u74"]
+[ext_resource type="Texture2D" uid="uid://bv7mfj1lllire" path="res://BackgroundAndUI/Icons/PickyPigeonLogo.png" id="2_ih8ls"]
+[ext_resource type="FontFile" uid="uid://c6lb8h4ou5gfa" path="res://BackgroundAndUI/Rubik_Doodle_Shadow_Font/RubikDoodleShadow-Regular.ttf" id="3_ih8ls"]
+[ext_resource type="Theme" uid="uid://de2n0oa8q8kvm" path="res://BackgroundAndUI/FontTheme.tres" id="4_7pmop"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_k0hwa"]
+gradient = ExtResource("1_i8u74")
+width = 512
+height = 512
+fill_from = Vector2(0.526992, 1)
+fill_to = Vector2(0.539846, 0)
+
+[sub_resource type="Gradient" id="Gradient_40bai"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_phq65"]
+gradient = SubResource("Gradient_40bai")
+width = 512
+height = 512
+
+[sub_resource type="Gradient" id="Gradient_647a5"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_okd1t"]
+gradient = SubResource("Gradient_647a5")
+width = 512
+height = 512
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ih8ls"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="Gradient" id="Gradient_453mu"]
+colors = PackedColorArray(0.6138, 0.462, 0.66, 1, 0.285075, 0.1701, 0.63, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_7pmop"]
+gradient = SubResource("Gradient_453mu")
+width = 1920
+height = 1080
+fill = 1
+fill_from = Vector2(0.457, 0.07)
+fill_to = Vector2(0, 1)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Node2D" type="Node2D" parent="."]
+script = ExtResource("1_453mu")
+
+[node name="Control" type="Control" parent="Node2D"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Level Select" type="Control" parent="Node2D/Control"]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ItemList" type="ItemList" parent="Node2D/Control/Level Select"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 162.0
+offset_top = 258.0
+offset_right = 1718.0
+offset_bottom = 782.0
+grow_horizontal = 2
+grow_vertical = 2
+auto_width = true
+auto_height = true
+item_count = 3
+max_columns = 3
+item_0/icon = SubResource("GradientTexture2D_k0hwa")
+item_1/icon = SubResource("GradientTexture2D_phq65")
+item_2/icon = SubResource("GradientTexture2D_okd1t")
+
+[node name="Panel" type="Panel" parent="Node2D/Control/Level Select"]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 920.0
+offset_right = 960.0
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="Logo" type="Control" parent="Node2D/Control"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+pivot_offset = Vector2(960, 540)
+
+[node name="MainIcon" type="TextureRect" parent="Node2D/Control/Logo"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -84.0
+offset_right = 1964.0
+offset_bottom = 2048.0
+grow_horizontal = 2
+scale = Vector2(0.52, 0.52)
+pivot_offset = Vector2(1025, 0)
+texture = ExtResource("2_ih8ls")
+
+[node name="LogoText" type="TextEdit" parent="Node2D/Control/Logo"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 578.05
+offset_top = 453.0
+offset_right = 1378.05
+offset_bottom = 653.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_7pmop")
+theme_override_colors/font_outline_color = Color(0.16, 0.16, 1, 1)
+theme_override_colors/font_color = Color(0.15, 1, 0.759167, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("3_ih8ls")
+theme_override_font_sizes/font_size = 100
+theme_override_styles/normal = SubResource("StyleBoxFlat_ih8ls")
+text = "  Picky  Pigeon"
+
+[node name="Startup" type="Timer" parent="Node2D"]
+wait_time = 3.0
+one_shot = true
+autostart = true
+
+[node name="Background" type="TextureRect" parent="Node2D"]
+z_index = -1930
+offset_right = 1924.0
+offset_bottom = 1096.0
+texture = SubResource("GradientTexture2D_7pmop")
+
+[connection signal="timeout" from="Node2D/Startup" to="Node2D" method="_on_startup_timeout"]

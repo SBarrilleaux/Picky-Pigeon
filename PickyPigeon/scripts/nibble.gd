@@ -3,6 +3,7 @@ extends Node2D
 @export var nibbleType:String 
 
 var sprite
+var effectScaleAmount = Vector2(.3,.3)
 
 var matched = false
 
@@ -23,4 +24,7 @@ func move(target):
 
 func dim():
 	#var sprite = get_node("Sprite2D")
-	sprite.modulate = Color(1,1,1, .5)
+	#currentScale = scale
+	sprite.modulate = Color(1.5,1.5,1.5, .5)
+	var tween: Tween = create_tween()
+	tween.tween_property(self,"scale",scale + effectScaleAmount, 0.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)

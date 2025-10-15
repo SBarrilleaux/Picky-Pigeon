@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://7l0ivxxgch8"
-path="res://.godot/imported/icon.svg-726263d8aa7f2f40ffb118f734c23b16.ctex"
+uid="uid://dkpie7rle4fej"
+path="res://.godot/imported/nibble_peanut.png-230c2fd86ad2b956402831b38859782d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://BackgroundAndUI/icon.svg"
-dest_files=["res://.godot/imported/icon.svg-726263d8aa7f2f40ffb118f734c23b16.ctex"]
+source_file="res://Nibbles/NibbleArt/nibble_peanut.png"
+dest_files=["res://.godot/imported/nibble_peanut.png-230c2fd86ad2b956402831b38859782d.ctex"]
 
 [params]
 
@@ -32,6 +32,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

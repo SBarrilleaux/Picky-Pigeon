@@ -1,10 +1,18 @@
 [gd_scene load_steps=3 format=3 uid="uid://cwgcueo3c1166"]
 
 [ext_resource type="PackedScene" uid="uid://c01i5gimr0eu3" path="res://Nibbles/NibbleScenes/Nibble.tscn" id="1_u2kgj"]
-[ext_resource type="Texture2D" uid="uid://c7hsn67tl5a8s" path="res://Nibbles/NibbleArt/nibble_peanut_placeholderTexture.tres" id="2_qood8"]
+[ext_resource type="Texture2D" uid="uid://dkpie7rle4fej" path="res://Nibbles/NibbleArt/nibble_peanut.png" id="2_qood8"]
 
 [node name="Nibble_peanut" instance=ExtResource("1_u2kgj")]
 nibbleType = "peanut"
 
 [node name="Sprite2D" parent="." index="0"]
+z_index = 2
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_qood8")
+offset = Vector2(5.44, 0)
+
+[node name="Sprite2D2" type="Sprite2D" parent="." index="1"]
+self_modulate = Color(0, 0, 0, 1)
+scale = Vector2(0.102, 0.102)
 texture = ExtResource("2_qood8")
