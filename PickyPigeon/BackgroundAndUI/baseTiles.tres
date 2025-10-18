@@ -1,6 +1,12 @@
-[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://dsg25f2us8oo6"]
+[gd_resource type="TileSet" load_steps=5 format=3 uid="uid://dsg25f2us8oo6"]
 
 [ext_resource type="Texture2D" uid="uid://dtwqv0vqix6pi" path="res://BackgroundAndUI/BackgroundTiles.png" id="1_3yiij"]
+
+[sub_resource type="TileMapPattern" id="TileMapPattern_bknlu"]
+tile_data = PackedInt32Array(0, 131072, 1, 65536, 131072, 0, 1, 131072, 0, 65537, 131072, 1)
+
+[sub_resource type="TileMapPattern" id="TileMapPattern_phsut"]
+tile_data = PackedInt32Array(0, 131072, 0, 1, 131072, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nmy6e"]
 texture = ExtResource("1_3yiij")
@@ -25,3 +31,5 @@ texture_region_size = Vector2i(256, 256)
 [resource]
 tile_size = Vector2i(256, 256)
 sources/0 = SubResource("TileSetAtlasSource_nmy6e")
+pattern_0 = SubResource("TileMapPattern_bknlu")
+pattern_1 = SubResource("TileMapPattern_phsut")

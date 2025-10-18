@@ -7,6 +7,11 @@ extends Node2D
 @export var yStart: int
 @export var offset: int
 
+# Board customizations
+@export var emptySpaces: PackedVector2Array
+signal validTiles(boardSpace: Vector2)
+
+
 # state machine
 enum {wait, move, gameOver}
 var state
@@ -41,6 +46,14 @@ var controlling = false
 
 var turnText = ""
 
+# check if a tile isn't factored into nibble movements
+func restictedMovement(place: Vector2):
+	# check empty
+	for i in emptySpaces.size():
+		if emptySpaces[i] == place:
+			return true
+	return false
+
 # this turns an array into a 2D array
 func make2dArray():
 	var array = []
@@ -55,22 +68,23 @@ func make2dArray():
 func spawnNibbles():
 	for i in width:
 		for j in height:
-			# choose random nibble type to spawn
-			var rand = floor(randf_range(0,possibleNibbles.size()))
-			
-			var newNibble = possibleNibbles[rand].instantiate()
-			
-			# Check if new nibble will create a match
-			# if it would, reroll to different piece
-			var loops = 0
-			while(matchAt(i,j,newNibble.nibbleType) && loops < 100):
-				rand = floor(randf_range(0,possibleNibbles.size() - 1))
-				loops += 1
-				newNibble = possibleNibbles[rand].instantiate()
-			# spawn the chosen nibble in the scene
-			add_child(newNibble) # new nodes need to be parented
-			newNibble.set_position(gridToPixel(i,j))
-			boardNibbles[i][j] = newNibble # change to new array if this isnt
+			if !restictedMovement(Vector2(i,j)):
+				# choose random nibble type to spawn
+				var rand = floor(randf_range(0,possibleNibbles.size()))
+				
+				var newNibble = possibleNibbles[rand].instantiate()
+				
+				# Check if new nibble will create a match
+				# if it would, reroll to different piece
+				var loops = 0
+				while(matchAt(i,j,newNibble.nibbleType) && loops < 100):
+					rand = floor(randf_range(0,possibleNibbles.size() - 1))
+					loops += 1
+					newNibble = possibleNibbles[rand].instantiate()
+				# spawn the chosen nibble in the scene
+				add_child(newNibble) # new nodes need to be parented
+				newNibble.set_position(gridToPixel(i,j))
+				boardNibbles[i][j] = newNibble # change to new array if this isnt
 
 
 # searches board for matches of three
@@ -219,7 +233,7 @@ func destroyMatched():
 func collapseColumns():
 	for i in width:
 		for j in height:
-			if boardNibbles[i][j] == null:
+			if boardNibbles[i][j] == null && !restictedMovement(Vector2(i,j)):
 				for k in range(j + 1, height):
 					if boardNibbles[i][k] != null:
 						boardNibbles[i][k].move(gridToPixel(i,j))
@@ -228,10 +242,11 @@ func collapseColumns():
 						break
 	$RefillTimer.start()
 
+
 func refillColumns():
 	for i in width:
 		for j in height:
-			if boardNibbles[i][j] == null:
+			if boardNibbles[i][j] == null && !restictedMovement(Vector2(i,j)):
 				# choose random nibble type to spawn
 				var rand = floor(randf_range(0,possibleNibbles.size()))
 		
@@ -295,6 +310,12 @@ func _ready() -> void:
 	turnRemaining = turnMax
 	turnText = %TurnTextLabel
 	updateText()
+	
+	for i in width:
+		for j in height:
+			if boardNibbles[i][j] != null && !restictedMovement(Vector2(i,j)):
+				validTiles.emit(pixelToGrid(boardNibbles[i][j].position.x,boardNibbles[i][j].position.y))
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
