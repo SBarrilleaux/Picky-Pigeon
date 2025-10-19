@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=6 format=3 uid="uid://de2n0oa8q8kvm"]
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://de2n0oa8q8kvm"]
 
 [ext_resource type="FontFile" uid="uid://c6lb8h4ou5gfa" path="res://BackgroundAndUI/Rubik_Doodle_Shadow_Font/RubikDoodleShadow-Regular.ttf" id="1_5adxy"]
 
@@ -33,6 +33,9 @@ corner_radius_bottom_left = 40
 expand_margin_left = 10.0
 expand_margin_right = 10.0
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2d33e"]
+bg_color = Color(0.155247, 0.0522, 0.29, 0.0352941)
+
 [resource]
 default_font = ExtResource("1_5adxy")
 default_font_size = 50
@@ -45,6 +48,10 @@ Button/styles/focus = SubResource("StyleBoxFlat_1opvy")
 Button/styles/hover = SubResource("StyleBoxFlat_5adxy")
 Button/styles/normal = SubResource("StyleBoxFlat_s2o0n")
 Button/styles/pressed = SubResource("StyleBoxFlat_wg85w")
+ItemList/colors/font_color = Color(0.679144, 0.749856, 0.991336, 1)
+ItemList/colors/font_outline_color = Color(0.372549, 0.427451, 0.898039, 1)
+ItemList/constants/outline_size = 0
+ItemList/styles/panel = SubResource("StyleBoxFlat_2d33e")
 Label/colors/font_color = Color(1, 1, 1, 1)
 Label/colors/font_outline_color = Color(0.371353, 0.426332, 0.897069, 1)
 Label/colors/font_shadow_color = Color(0.160784, 0.607843, 1, 1)

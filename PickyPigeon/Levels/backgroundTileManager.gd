@@ -7,14 +7,6 @@ var mainBoardLayer: TileMapLayer
 func _ready() -> void:
 	mainBoardLayer = $BoardTiles
 	boardGrid.emptySpaces
-	
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
 
 # Receives signal of spaces on current board to place background tiles
 # TODO add patterns for board
