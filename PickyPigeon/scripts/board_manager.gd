@@ -156,6 +156,7 @@ func swapNibble(column, row, direction: Vector2):
 		firstNibble.move(gridToPixel(column + direction.x, row + direction.y))
 		secondNibble.move(gridToPixel(column, row))
 		
+		$Sounds/MoveSound.play(0)
 		if !moveChecked:
 			findMatches()
 			turnRemaining -= 1
@@ -227,7 +228,6 @@ func destroyMatched():
 		for j in height:
 			if boardNibbles[i][j] != null:
 				if boardNibbles[i][j].matched:
-					
 					# Check if match is part of any collection objectives and subtract if so
 					if objectives.has(boardNibbles[i][j].nibbleType) && boardNibbles[i][j].matched:
 						if objectives[boardNibbles[i][j].nibbleType] > 0:
@@ -235,7 +235,7 @@ func destroyMatched():
 						elif objectives[boardNibbles[i][j].nibbleType] > 0:
 							objectives[boardNibbles[i][j].nibbleType] = 0
 					
-
+					$Sounds/DestroySound.play(0)
 					wasMatched = true
 					boardNibbles[i][j].queue_free()
 					boardNibbles[i][j] = null				

@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=4 uid="uid://b3ox4v1uf6k3o"]
+[gd_scene load_steps=25 format=4 uid="uid://b3ox4v1uf6k3o"]
 
 [ext_resource type="FontFile" uid="uid://c6lb8h4ou5gfa" path="res://BackgroundAndUI/Rubik_Doodle_Shadow_Font/RubikDoodleShadow-Regular.ttf" id="1_2qc8i"]
 [ext_resource type="Gradient" uid="uid://bsqdnytxyj05o" path="res://BackgroundAndUI/gradient_placeholder.tres" id="1_jryeg"]
@@ -12,6 +12,8 @@
 [ext_resource type="PackedScene" uid="uid://c12jrn0err337" path="res://game_over.tscn" id="6_nmy6e"]
 [ext_resource type="Texture2D" uid="uid://dbi11ikdal6hj" path="res://Nibbles/NibbleArt/nibble_popcorn.png" id="7_yqj4f"]
 [ext_resource type="Texture2D" uid="uid://dkpie7rle4fej" path="res://Nibbles/NibbleArt/nibble_peanut.png" id="8_ovrr6"]
+[ext_resource type="AudioStream" uid="uid://lfx6yt7mo4bg" path="res://sounds/soundEffectSwoosh.mp3" id="12_yqj4f"]
+[ext_resource type="AudioStream" uid="uid://wrw0c818p312" path="res://sounds/soundEffectsPop.mp3" id="13_yqj4f"]
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_2ti2u"]
 gradient = ExtResource("1_jryeg")
@@ -303,6 +305,16 @@ one_shot = true
 [node name="RefillTimer" type="Timer" parent="Board/Grid"]
 wait_time = 0.4
 one_shot = true
+
+[node name="Sounds" type="Node2D" parent="Board/Grid"]
+
+[node name="MoveSound" type="AudioStreamPlayer2D" parent="Board/Grid/Sounds"]
+stream = ExtResource("12_yqj4f")
+volume_db = 4.366
+
+[node name="DestroySound" type="AudioStreamPlayer2D" parent="Board/Grid/Sounds"]
+stream = ExtResource("13_yqj4f")
+volume_db = -8.336
 
 [node name="GameOver" parent="Board" instance=ExtResource("6_nmy6e")]
 visible = false
