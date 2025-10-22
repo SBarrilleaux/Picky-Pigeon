@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=4 uid="uid://b3ox4v1uf6k3o"]
+[gd_scene load_steps=21 format=4 uid="uid://b3ox4v1uf6k3o"]
 
 [ext_resource type="FontFile" uid="uid://c6lb8h4ou5gfa" path="res://BackgroundAndUI/Rubik_Doodle_Shadow_Font/RubikDoodleShadow-Regular.ttf" id="1_2qc8i"]
 [ext_resource type="Gradient" uid="uid://bsqdnytxyj05o" path="res://BackgroundAndUI/gradient_placeholder.tres" id="1_jryeg"]
@@ -7,11 +7,7 @@
 [ext_resource type="TileSet" uid="uid://dsg25f2us8oo6" path="res://BackgroundAndUI/baseTiles.tres" id="4_nmy6e"]
 [ext_resource type="StyleBox" uid="uid://odlv7kym1cy4" path="res://BackgroundAndUI/backgroundPanels.tres" id="4_rg8y0"]
 [ext_resource type="Script" uid="uid://c7yn3ws1vic0f" path="res://Levels/backgroundTileManager.gd" id="5_1lu10"]
-[ext_resource type="Texture2D" uid="uid://cumafhe57f78f" path="res://Nibbles/NibbleArt/nibble_blueberry.png" id="5_ymgk7"]
-[ext_resource type="Texture2D" uid="uid://fs56n7105g8" path="res://Nibbles/NibbleArt/nibble_sunflower.png" id="6_mxec8"]
 [ext_resource type="PackedScene" uid="uid://c12jrn0err337" path="res://game_over.tscn" id="6_nmy6e"]
-[ext_resource type="Texture2D" uid="uid://dbi11ikdal6hj" path="res://Nibbles/NibbleArt/nibble_popcorn.png" id="7_yqj4f"]
-[ext_resource type="Texture2D" uid="uid://dkpie7rle4fej" path="res://Nibbles/NibbleArt/nibble_peanut.png" id="8_ovrr6"]
 [ext_resource type="AudioStream" uid="uid://lfx6yt7mo4bg" path="res://sounds/soundEffectSwoosh.mp3" id="12_yqj4f"]
 [ext_resource type="AudioStream" uid="uid://wrw0c818p312" path="res://sounds/soundEffectsPop.mp3" id="13_yqj4f"]
 
@@ -246,20 +242,7 @@ grow_horizontal = 0
 grow_vertical = 2
 theme = ExtResource("2_2ti2u")
 allow_search = false
-item_count = 4
 icon_scale = 0.1
-item_0/text = "blueberry"
-item_0/icon = ExtResource("5_ymgk7")
-item_0/selectable = false
-item_1/text = "sunflower"
-item_1/icon = ExtResource("6_mxec8")
-item_1/selectable = false
-item_2/text = "popcorn"
-item_2/icon = ExtResource("7_yqj4f")
-item_2/selectable = false
-item_3/text = "peanut"
-item_3/icon = ExtResource("8_ovrr6")
-item_3/selectable = false
 
 [node name="TileMaps" type="Node2D" parent="Board" node_paths=PackedStringArray("boardGrid")]
 position = Vector2(320, 20)
@@ -288,10 +271,8 @@ xStart = 385
 yStart = 980
 offset = 128
 emptySpaces = PackedVector2Array(5, 3, 5, 4, 4, 4, 4, 3, 6, 5, 3, 5, 6, 2, 3, 2)
-objectives = Dictionary[String, int]({
-"blueberry": 20,
-"sunflower": 10
-})
+objectiveItems = Array[String](["popcorn", "sunflower", "blueberry"])
+objectiveGoalTotal = Array[int]([20, 15, 30, 0, 0])
 turnMax = 15
 
 [node name="DestroyTimer" type="Timer" parent="Board/Grid"]

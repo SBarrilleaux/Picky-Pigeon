@@ -10,8 +10,9 @@ extends Node2D
 # Board customizations
 ## Locations on board which nibbles can't land on
 @export var emptySpaces: PackedVector2Array
+# custom signal used to send all currently used board spaces to the tilsetlayer
+# This allows background tiles to automatically be placed to match the board
 signal validTiles(boardSpace: Vector2)
-
 
 # state machine
 enum {wait, move, gameOver}
@@ -29,9 +30,10 @@ var possibleNibbles = [
 var boardNibbles = []
 
 # Level Objectives
-#TODO refactor, probably change to a 2D array instead
-## String should be a nibble type, int is how many to clear for objective
-@export var objectives: Dictionary[String, int]
+## Should contain the names of types of nibbles to be cleared
+@export var objectiveItems: Array[String]
+## Should contain the amount of types of nibble to be cleared, and be the same size as objectiveItems
+@export var objectiveGoalTotal: Array[int]
 
 # Variables used for swapping back when a swap doesn't creeate a match
 var nibbleOne = null
@@ -92,7 +94,7 @@ func spawnNibbles():
 				boardNibbles[i][j] = newNibble # change to new array if this isnt
 
 
-# searches board for matches of three
+# searches board for matches
 func matchAt(column,row, nibbleType):
 	
 	if column > 1:
@@ -228,13 +230,14 @@ func destroyMatched():
 		for j in height:
 			if boardNibbles[i][j] != null:
 				if boardNibbles[i][j].matched:
-					# Check if match is part of any collection objectives and subtract if so
-					if objectives.has(boardNibbles[i][j].nibbleType) && boardNibbles[i][j].matched:
-						if objectives[boardNibbles[i][j].nibbleType] > 0:
-							objectives[boardNibbles[i][j].nibbleType] -= 1
-						elif objectives[boardNibbles[i][j].nibbleType] > 0:
-							objectives[boardNibbles[i][j].nibbleType] = 0
-					
+					# Check if match is part of any collection objectives and subtract if so and don't go below 0
+					if objectiveItems.has(boardNibbles[i][j].nibbleType):
+						var itemIndex = objectiveItems.find(boardNibbles[i][j].nibbleType)
+						if objectiveGoalTotal[itemIndex] > 0:
+							objectiveGoalTotal[itemIndex] -= 1
+						elif objectiveGoalTotal[itemIndex] <= 0:
+							objectiveGoalTotal[itemIndex] = 0
+
 					$Sounds/DestroySound.play(0)
 					wasMatched = true
 					boardNibbles[i][j].queue_free()
@@ -261,7 +264,6 @@ func collapseColumns():
 						boardNibbles[i][k] = null
 						break
 	$RefillTimer.start()
-
 
 func refillColumns():
 	for i in width:
@@ -297,7 +299,6 @@ func afterRefill():
 	state = move
 	moveChecked = false
 
-
 func _on_destroy_time_timeout() -> void:
 	destroyMatched()
 
@@ -312,14 +313,10 @@ func updateMenus():
 	# update text for turns remaining
 	turnText.text = "Turns \n Remaining \n" + str(turnRemaining)
 	var counter = 0
-	# update objectives display 
-	# TODO implement multiple objectives / different objectives / swapout concept test code
-	for i in objectives.keys():
-		%ObjectivesList.set_item_text(counter, str(objectives[i]))
-		counter += 1
-		#print(i)
-		#pass
-	#%ObjectivesList.set_item_text(0, str(objectives["blueberry"]))
+
+	# update objectives to current amounts			
+	for i in objectiveItems.size():
+		%ObjectivesList.set_item_text(i, str(objectiveGoalTotal[i]))
 
 
 func endLevel():
@@ -340,25 +337,22 @@ func _ready() -> void:
 	spawnNibbles()
 	turnRemaining = turnMax
 	turnText = %TurnTextLabel
-	updateMenus()
 	
+	# Add current level objectives to the list on the right side of screen
+	for i in objectiveItems.size():
+		while objectiveItems.size() < objectiveGoalTotal.size():
+			objectiveGoalTotal.pop_back()
+			
+		var iconTexture = load("res://Nibbles/NibbleArt/nibble_" + objectiveItems[i] + ".png")
+		if iconTexture != null:
+			%ObjectivesList.add_item(str(objectiveGoalTotal[i]),iconTexture,false)
+		
 	# Sends what tiles aren't restricted and should have background tiles placed for them as a signal.
 	for i in width:
 		for j in height:
 			if boardNibbles[i][j] != null && !restictedMovement(Vector2(i,j)):
 				validTiles.emit(pixelToGrid(boardNibbles[i][j].position.x,boardNibbles[i][j].position.y))
 	
-	# Setup objectives panel with current levels objectives
-	if !objectives.has("peanut"):
-		%ObjectivesList.remove_item(3)	
-	if !objectives.has("popcorn"):
-		%ObjectivesList.remove_item(2)
-	if !objectives.has("sunflower"):
-		%ObjectivesList.remove_item(1)
-	if !objectives.has("blueberry"):
-		%ObjectivesList.remove_item(0)
-
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
