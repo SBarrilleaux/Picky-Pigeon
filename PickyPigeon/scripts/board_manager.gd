@@ -10,13 +10,17 @@ extends Node2D
 # Board customizations
 ## Locations on board which nibbles can't land on
 @export var emptySpaces: PackedVector2Array
-# custom signal used to send all currently used board spaces to the tilsetlayer
-# This allows background tiles to automatically be placed to match the board
+## custom signal used to send all currently used board spaces to the tilsetlayer.
+## This allows background tiles to automatically be placed to match the board spaces
 signal validTiles(boardSpace: Vector2)
 
+## Takes an int that should be 0-3 in score rating. 0 being fail and 3 being perfect.
+signal clearScore(rating: int)
 # state machine
-enum {wait, move, gameOver}
+enum {wait, move, item, gameOver}
 var state
+
+
 # how much nibble should drop from
 @export var yNibbleOffset: int
 # load the different nibble types so they can be used later
@@ -237,8 +241,6 @@ func destroyMatched():
 							objectiveGoalTotal[itemIndex] -= 1
 						elif objectiveGoalTotal[itemIndex] <= 0:
 							objectiveGoalTotal[itemIndex] = 0
-
-					$Sounds/DestroySound.play(0)
 					wasMatched = true
 					boardNibbles[i][j].queue_free()
 					boardNibbles[i][j] = null				
@@ -248,6 +250,7 @@ func destroyMatched():
 	moveChecked = true
 	
 	if wasMatched:
+		$Sounds/DestroySound.play(0)
 		$CollapseTimer.start()
 	else:
 		swapBack()
@@ -323,11 +326,27 @@ func endLevel():
 	state = gameOver
 	await waitTimer(1)
 	get_parent().get_node("GameOver").visible = true
-# Called when the node enters the scene tree for the first time.
+	
+	# get the amount of objectives completed
+	var goalsComplete: int = 0
+	for i in objectiveItems.size():
+		if objectiveGoalTotal[i] == 0:
+			goalsComplete += 1
+	# Determine the level rating based on number of goals complete out of total amount of goals
+	if goalsComplete == objectiveItems.size():
+		emit_signal("clearScore", 3)
+	elif goalsComplete == 0:
+		emit_signal("clearScore", 0)
+	elif goalsComplete <= objectiveItems.size()/2.00:
+		emit_signal("clearScore", 1)
+	elif goalsComplete >= objectiveItems.size()/2.00:
+		emit_signal("clearScore", 2)
+
 
 func waitTimer(seconds: float):
+	
 	await get_tree().create_timer(seconds).timeout
-
+# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	state = move
 	# seeds the random generation
@@ -360,3 +379,9 @@ func _process(delta: float) -> void:
 		mouseInput()
 	elif turnRemaining == 0 && state == move:
 			endLevel() # TODO
+
+
+# Item Functions
+
+func _on_item_remove_nibble_toggled(toggled_on: bool) -> void:
+	state = item

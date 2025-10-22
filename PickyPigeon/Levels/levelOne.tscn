@@ -19,6 +19,7 @@ fill_from = Vector2(0.5, 0)
 fill_to = Vector2(0.5, 1)
 
 [sub_resource type="Gradient" id="Gradient_qsmd2"]
+colors = PackedColorArray(0, 0.905203, 0.767897, 1, 0.634542, 0.8764, 1, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_rg8y0"]
 gradient = SubResource("Gradient_qsmd2")
@@ -152,7 +153,7 @@ offset_right = 321.0
 offset_bottom = 661.0
 theme_override_styles/panel = ExtResource("4_rg8y0")
 
-[node name="Item1" type="Button" parent="Board/Background/ItemsPanel"]
+[node name="item_removeNibble" type="Button" parent="Board/Background/ItemsPanel"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -163,11 +164,13 @@ offset_right = 114.0
 offset_bottom = -29.5
 grow_vertical = 2
 theme = ExtResource("2_2ti2u")
+toggle_mode = true
+text = "1"
 icon = SubResource("GradientTexture2D_rg8y0")
 flat = true
 icon_alignment = 1
 
-[node name="Button2" type="Button" parent="Board/Background/ItemsPanel"]
+[node name="Item2" type="Button" parent="Board/Background/ItemsPanel"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -178,11 +181,12 @@ offset_right = 114.0
 offset_bottom = 145.5
 grow_vertical = 2
 theme = ExtResource("2_2ti2u")
+toggle_mode = true
 icon = SubResource("GradientTexture2D_qsmd2")
 flat = true
 icon_alignment = 1
 
-[node name="Button3" type="Button" parent="Board/Background/ItemsPanel"]
+[node name="Item3" type="Button" parent="Board/Background/ItemsPanel"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -193,11 +197,12 @@ offset_right = 264.0
 offset_bottom = -29.5
 grow_vertical = 2
 theme = ExtResource("2_2ti2u")
+toggle_mode = true
 icon = SubResource("GradientTexture2D_fx57p")
 flat = true
 icon_alignment = 1
 
-[node name="Button4" type="Button" parent="Board/Background/ItemsPanel"]
+[node name="Item4" type="Button" parent="Board/Background/ItemsPanel"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -208,6 +213,7 @@ offset_right = 264.0
 offset_bottom = 145.5
 grow_vertical = 2
 theme = ExtResource("2_2ti2u")
+toggle_mode = true
 icon = SubResource("GradientTexture2D_mxec8")
 flat = true
 icon_alignment = 1
@@ -271,8 +277,8 @@ xStart = 385
 yStart = 980
 offset = 128
 emptySpaces = PackedVector2Array(5, 3, 5, 4, 4, 4, 4, 3, 6, 5, 3, 5, 6, 2, 3, 2)
-objectiveItems = Array[String](["popcorn", "sunflower", "blueberry"])
-objectiveGoalTotal = Array[int]([20, 15, 30, 0, 0])
+objectiveItems = Array[String](["sunflower", "popcorn", "blueberry"])
+objectiveGoalTotal = Array[int]([20, 15, 10])
 turnMax = 15
 
 [node name="DestroyTimer" type="Timer" parent="Board/Grid"]
@@ -291,7 +297,7 @@ one_shot = true
 
 [node name="MoveSound" type="AudioStreamPlayer2D" parent="Board/Grid/Sounds"]
 stream = ExtResource("12_yqj4f")
-volume_db = 4.366
+volume_db = 1.19
 
 [node name="DestroySound" type="AudioStreamPlayer2D" parent="Board/Grid/Sounds"]
 stream = ExtResource("13_yqj4f")
@@ -303,6 +309,8 @@ z_index = 180
 offset_right = 1920.0
 offset_bottom = 1080.0
 
+[connection signal="toggled" from="Board/Background/ItemsPanel/item_removeNibble" to="Board/Grid" method="_on_item_remove_nibble_toggled"]
+[connection signal="clearScore" from="Board/Grid" to="Board/GameOver" method="_on_grid_clear_score"]
 [connection signal="validTiles" from="Board/Grid" to="Board/TileMaps" method="_on_grid_valid_tiles"]
 [connection signal="timeout" from="Board/Grid/DestroyTimer" to="Board/Grid" method="_on_destroy_time_timeout"]
 [connection signal="timeout" from="Board/Grid/CollapseTimer" to="Board/Grid" method="_on_collapse_timer_timeout"]

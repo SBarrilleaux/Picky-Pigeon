@@ -1,8 +1,20 @@
-[gd_scene load_steps=6 format=4 uid="uid://c12jrn0err337"]
+[gd_scene load_steps=10 format=4 uid="uid://c12jrn0err337"]
 
 [ext_resource type="Theme" uid="uid://de2n0oa8q8kvm" path="res://BackgroundAndUI/FontTheme.tres" id="1_y26ei"]
 [ext_resource type="Script" uid="uid://doo4ojpeud6pk" path="res://game_over.gd" id="1_yxx3c"]
 [ext_resource type="Texture2D" uid="uid://dtwqv0vqix6pi" path="res://BackgroundAndUI/BackgroundTiles.png" id="2_ccer4"]
+
+[sub_resource type="Gradient" id="Gradient_ccer4"]
+offsets = PackedFloat32Array(0.0121359, 1)
+colors = PackedColorArray(0.87, 0.67773, 0.5307, 1, 0.884788, 0.648596, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_8u835"]
+gradient = SubResource("Gradient_ccer4")
+
+[sub_resource type="Gradient" id="Gradient_8u835"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ftari"]
+gradient = SubResource("Gradient_8u835")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8u835"]
 texture = ExtResource("2_ccer4")
@@ -36,6 +48,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_yxx3c")
+clearIconTexture = SubResource("GradientTexture2D_8u835")
+lossIconTexture = SubResource("GradientTexture2D_ftari")
+scoreStartPoint = Vector2(640, 350)
+scoreHorizontalOffset = 250.0
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 visible = false
@@ -134,56 +150,5 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_y26ei")
 text = "Main Menu"
-
-[node name="Placeholder" type="ColorRect" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -220.0
-offset_top = -145.0
-offset_right = -180.0
-offset_bottom = -105.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(3.47, 3.47)
-pivot_offset = Vector2(20, 20)
-color = Color(0.621524, 0.621524, 0.621524, 1)
-
-[node name="Placeholder2" type="ColorRect" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -145.0
-offset_right = 20.0
-offset_bottom = -105.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(3.47, 3.47)
-pivot_offset = Vector2(20, 20)
-color = Color(0.257476, 0.257476, 0.257476, 1)
-
-[node name="Placeholder3" type="ColorRect" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 180.0
-offset_top = -145.0
-offset_right = 220.0
-offset_bottom = -105.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(3.47, 3.47)
-pivot_offset = Vector2(20, 20)
-color = Color(0.270222, 0.270222, 0.270222, 1)
 
 [connection signal="pressed" from="Restart" to="." method="_on_restart_pressed"]

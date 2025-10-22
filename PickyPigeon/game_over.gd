@@ -1,11 +1,18 @@
 extends Control
 
-
+@export var clearIconTexture: Texture2D
+@export var lossIconTexture: Texture2D
+@export var scoreStartPoint: Vector2
+@export var scoreHorizontalOffset: float
+var scoreIconsArray: Array[TextureRect]
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
-
-
+	for i in 3:
+		var scoreIcon = TextureRect.new()
+		scoreIcon.texture = lossIconTexture
+		scoreIcon.position = Vector2(scoreStartPoint.x + (scoreHorizontalOffset * i), scoreStartPoint.y)
+		add_child(scoreIcon)
+		scoreIconsArray.append(scoreIcon)
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	
@@ -14,3 +21,22 @@ func _process(delta: float) -> void:
 
 func _on_restart_pressed() -> void:
 	get_tree().reload_current_scene()
+
+
+func _on_grid_clear_score(rating: int) -> void:
+	# ensure rating is in correct range
+	if rating > 3:
+		rating = 3
+	elif rating < 0:
+		rating = 0
+		
+		
+	if rating == 0:
+		#$ScoreIcons.add_item("Fail",null,false)
+		pass
+	else:
+		for i in range(0,rating):
+			#$ScoreIcons.add_item(" ",iconTexture, false)
+			#scoreIcon.texture = clearIconTexture
+			scoreIconsArray[i].texture = clearIconTexture
+		
