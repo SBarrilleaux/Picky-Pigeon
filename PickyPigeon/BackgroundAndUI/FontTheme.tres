@@ -13,9 +13,17 @@ corner_radius_bottom_right = 40
 corner_radius_bottom_left = 40
 expand_margin_left = 10.0
 expand_margin_right = 10.0
+shadow_color = Color(0.762392, 0.820602, 0.967271, 0.6)
+shadow_size = 10
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s2o0n"]
-bg_color = Color(0.72, 0.925333, 1, 1)
+bg_color = Color(0.776, 0.72, 1, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.14902, 0.137255, 0.262745, 1)
+border_blend = true
 corner_radius_top_left = 40
 corner_radius_top_right = 40
 corner_radius_bottom_right = 40
@@ -23,6 +31,9 @@ corner_radius_bottom_left = 40
 corner_detail = 20
 expand_margin_left = 10.0
 expand_margin_right = 10.0
+shadow_color = Color(0.14768, 0.1352, 0.26, 0.52549)
+shadow_size = 4
+shadow_offset = Vector2(4.96, 3.98)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wg85w"]
 bg_color = Color(0.253188, 0.188166, 0.618454, 1)
@@ -40,6 +51,7 @@ bg_color = Color(0.155247, 0.0522, 0.29, 0.0352941)
 default_font = ExtResource("1_5adxy")
 default_font_size = 50
 Button/colors/font_color = Color(0.258, 0.16, 1, 1)
+Button/colors/font_focus_color = Color(0.352941, 0.211765, 1, 1)
 Button/colors/font_hover_color = Color(0.354833, 0.21, 1, 1)
 Button/colors/font_outline_color = Color(0.160784, 0.160784, 1, 1)
 Button/colors/font_pressed_color = Color(0.77, 0.7815, 1, 1)

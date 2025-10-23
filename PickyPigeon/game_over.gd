@@ -11,6 +11,8 @@ func _ready() -> void:
 		var scoreIcon = TextureRect.new()
 		scoreIcon.texture = lossIconTexture
 		scoreIcon.position = Vector2(scoreStartPoint.x + (scoreHorizontalOffset * i), scoreStartPoint.y)
+		# set scale to account for textures size
+		scoreIcon.scale = Vector2(.2,.2)
 		add_child(scoreIcon)
 		scoreIconsArray.append(scoreIcon)
 # Called every frame. 'delta' is the elapsed time since the previous frame.

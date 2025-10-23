@@ -1,20 +1,11 @@
-[gd_scene load_steps=10 format=4 uid="uid://c12jrn0err337"]
+[gd_scene load_steps=9 format=4 uid="uid://c12jrn0err337"]
 
 [ext_resource type="Theme" uid="uid://de2n0oa8q8kvm" path="res://BackgroundAndUI/FontTheme.tres" id="1_y26ei"]
 [ext_resource type="Script" uid="uid://doo4ojpeud6pk" path="res://game_over.gd" id="1_yxx3c"]
 [ext_resource type="Texture2D" uid="uid://dtwqv0vqix6pi" path="res://BackgroundAndUI/BackgroundTiles.png" id="2_ccer4"]
-
-[sub_resource type="Gradient" id="Gradient_ccer4"]
-offsets = PackedFloat32Array(0.0121359, 1)
-colors = PackedColorArray(0.87, 0.67773, 0.5307, 1, 0.884788, 0.648596, 0, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_8u835"]
-gradient = SubResource("Gradient_ccer4")
-
-[sub_resource type="Gradient" id="Gradient_8u835"]
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_ftari"]
-gradient = SubResource("Gradient_8u835")
+[ext_resource type="Texture2D" uid="uid://50wbqgnhj5x4" path="res://BackgroundAndUI/Icons/clearIconV2.png" id="2_ftari"]
+[ext_resource type="Texture2D" uid="uid://bdl25n4cj1mpc" path="res://BackgroundAndUI/Icons/failIcon.png" id="3_28vn7"]
+[ext_resource type="Texture2D" uid="uid://rbqiydrcqfow" path="res://BackgroundAndUI/gameOverMenu.png" id="6_28vn7"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8u835"]
 texture = ExtResource("2_ccer4")
@@ -48,9 +39,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_yxx3c")
-clearIconTexture = SubResource("GradientTexture2D_8u835")
-lossIconTexture = SubResource("GradientTexture2D_ftari")
-scoreStartPoint = Vector2(640, 350)
+clearIconTexture = ExtResource("2_ftari")
+lossIconTexture = ExtResource("3_28vn7")
+scoreStartPoint = Vector2(610, 310)
 scoreHorizontalOffset = 250.0
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
@@ -69,6 +60,7 @@ offset_bottom = 255.0
 color = Color(0.439092, 0.451971, 0.606878, 0.427451)
 
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -86,6 +78,7 @@ pivot_offset = Vector2(20, 20)
 color = Color(0.629398, 0.566889, 0.936926, 1)
 
 [node name="ColorRect2" type="ColorRect" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -103,6 +96,7 @@ pivot_offset = Vector2(20, 20)
 color = Color(0.303373, 0.2562, 0.61, 1)
 
 [node name="ColorRect3" type="ColorRect" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -118,6 +112,24 @@ grow_vertical = 2
 scale = Vector2(23.4, 5.908)
 pivot_offset = Vector2(20, 20)
 color = Color(0.217281, 0.124908, 0.442945, 1)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+z_index = -20
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -512.0
+offset_top = -644.05
+offset_right = 512.0
+offset_bottom = 379.95
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.33, 1.32)
+pivot_offset = Vector2(512, 512)
+texture = ExtResource("6_28vn7")
 
 [node name="Restart" type="Button" parent="."]
 layout_mode = 1

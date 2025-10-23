@@ -278,7 +278,7 @@ yStart = 980
 offset = 128
 emptySpaces = PackedVector2Array(5, 3, 5, 4, 4, 4, 4, 3, 6, 5, 3, 5, 6, 2, 3, 2)
 objectiveItems = Array[String](["sunflower", "popcorn", "blueberry"])
-objectiveGoalTotal = Array[int]([20, 15, 10])
+objectiveGoalTotal = Array[int]([20, 30, 10])
 turnMax = 15
 
 [node name="DestroyTimer" type="Timer" parent="Board/Grid"]
