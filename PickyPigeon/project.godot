@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="PickyPigeonProject"
-run/main_scene="res://Levels/levelOne.tscn"
+run/main_scene="uid://h6qopsnt00y4"
 config/features=PackedStringArray("4.4", "Mobile")
 config/icon="res://BackgroundAndUI/Icons/icon.svg"
 
@@ -25,6 +25,10 @@ window/stretch/mode="viewport"
 
 project/assembly_name="AnotherTest"
 
+[gui]
+
+theme/custom="uid://de2n0oa8q8kvm"
+
 [input]
 
 click={
@@ -36,3 +40,4 @@ click={
 [rendering]
 
 renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true

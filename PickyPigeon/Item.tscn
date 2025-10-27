@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dbhrdgs0qgq60"]
 
-[ext_resource type="Theme" uid="uid://de2n0oa8q8kvm" path="res://BackgroundAndUI/FontTheme.tres" id="1_bp1wp"]
+[ext_resource type="Theme" uid="uid://de2n0oa8q8kvm" path="res://BackgroundAndUI/MenusTheme.tres" id="1_bp1wp"]
 
 [sub_resource type="GDScript" id="GDScript_bp1wp"]
 script/source = "class_name LevelItem extends Node2D
