@@ -1,0 +1,98 @@
+[gd_resource type="Theme" load_steps=10 format=3 uid="uid://cadxfbgyxkbvv"]
+
+[ext_resource type="FontFile" uid="uid://c6lb8h4ou5gfa" path="res://BackgroundAndUI/Rubik_Doodle_Shadow_Font/RubikDoodleShadow-Regular.ttf" id="1_bbvdp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1opvy"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5adxy"]
+bg_color = Color(0.76, 0.816, 1, 1)
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
+expand_margin_left = 10.0
+expand_margin_right = 10.0
+shadow_color = Color(0.762392, 0.820602, 0.967271, 0.6)
+shadow_size = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s2o0n"]
+bg_color = Color(0.776, 0.72, 1, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.14902, 0.137255, 0.262745, 1)
+border_blend = true
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
+corner_detail = 20
+expand_margin_left = 10.0
+expand_margin_right = 10.0
+shadow_color = Color(0.14768, 0.1352, 0.26, 0.52549)
+shadow_size = 4
+shadow_offset = Vector2(4.96, 3.98)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wg85w"]
+bg_color = Color(0.253188, 0.188166, 0.618454, 1)
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
+expand_margin_left = 10.0
+expand_margin_right = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bbvdp"]
+draw_center = false
+expand_margin_left = 3.0
+expand_margin_top = 3.0
+expand_margin_right = 3.0
+expand_margin_bottom = 3.0
+shadow_color = Color(1, 1, 1, 0.6)
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kl2by"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_teeun"]
+bg_color = Color(1, 1, 1, 1)
+draw_center = false
+expand_margin_left = 3.0
+expand_margin_top = 3.0
+expand_margin_right = 3.0
+expand_margin_bottom = 3.0
+shadow_color = Color(0.778825, 0.541386, 1, 0.6)
+shadow_size = 10
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2d33e"]
+bg_color = Color(0.155247, 0.0522, 0.29, 0.0352941)
+
+[resource]
+default_font = ExtResource("1_bbvdp")
+default_font_size = 50
+Button/colors/font_color = Color(0.258, 0.16, 1, 1)
+Button/colors/font_focus_color = Color(0.352941, 0.211765, 1, 1)
+Button/colors/font_hover_color = Color(0.354833, 0.21, 1, 1)
+Button/colors/font_outline_color = Color(0.160784, 0.160784, 1, 1)
+Button/colors/font_pressed_color = Color(0.77, 0.7815, 1, 1)
+Button/constants/outline_size = 1
+Button/styles/focus = SubResource("StyleBoxFlat_1opvy")
+Button/styles/hover = SubResource("StyleBoxFlat_5adxy")
+Button/styles/normal = SubResource("StyleBoxFlat_s2o0n")
+Button/styles/pressed = SubResource("StyleBoxFlat_wg85w")
+ItemButton/base_type = &"Button"
+ItemButton/colors/font_color = Color(0.513677, 0.590151, 0.744322, 1)
+ItemButton/constants/outline_size = 3
+ItemButton/styles/hover = SubResource("StyleBoxFlat_bbvdp")
+ItemButton/styles/normal = SubResource("StyleBoxFlat_kl2by")
+ItemButton/styles/pressed = SubResource("StyleBoxFlat_teeun")
+ItemList/colors/font_color = Color(0.679144, 0.749856, 0.991336, 1)
+ItemList/colors/font_outline_color = Color(0.372549, 0.427451, 0.898039, 1)
+ItemList/constants/outline_size = 0
+ItemList/styles/panel = SubResource("StyleBoxFlat_2d33e")
+Label/colors/font_color = Color(1, 1, 1, 1)
+Label/colors/font_outline_color = Color(0.371353, 0.426332, 0.897069, 1)
+Label/colors/font_shadow_color = Color(0.160784, 0.607843, 1, 1)

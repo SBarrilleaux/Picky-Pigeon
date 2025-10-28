@@ -1,43 +1,32 @@
-[gd_scene load_steps=21 format=4 uid="uid://b3ox4v1uf6k3o"]
+[gd_scene load_steps=19 format=4 uid="uid://dcc5gll3m8e6n"]
 
-[ext_resource type="FontFile" uid="uid://c6lb8h4ou5gfa" path="res://BackgroundAndUI/Rubik_Doodle_Shadow_Font/RubikDoodleShadow-Regular.ttf" id="1_2qc8i"]
-[ext_resource type="Gradient" uid="uid://bsqdnytxyj05o" path="res://BackgroundAndUI/gradient_placeholder.tres" id="1_jryeg"]
-[ext_resource type="Script" uid="uid://du5rertq388rh" path="res://scripts/board_manager.gd" id="2_2qc8i"]
-[ext_resource type="Theme" uid="uid://de2n0oa8q8kvm" path="res://BackgroundAndUI/FontTheme.tres" id="2_2ti2u"]
-[ext_resource type="TileSet" uid="uid://dsg25f2us8oo6" path="res://BackgroundAndUI/baseTiles.tres" id="4_nmy6e"]
-[ext_resource type="StyleBox" uid="uid://odlv7kym1cy4" path="res://BackgroundAndUI/backgroundPanels.tres" id="4_rg8y0"]
-[ext_resource type="Script" uid="uid://c7yn3ws1vic0f" path="res://scripts/backgroundTileManager.gd" id="5_1lu10"]
-[ext_resource type="PackedScene" uid="uid://c12jrn0err337" path="res://game_over.tscn" id="6_nmy6e"]
-[ext_resource type="AudioStream" uid="uid://lfx6yt7mo4bg" path="res://sounds/soundEffectSwoosh.mp3" id="12_yqj4f"]
-[ext_resource type="AudioStream" uid="uid://wrw0c818p312" path="res://sounds/soundEffectsPop.mp3" id="13_yqj4f"]
+[ext_resource type="Gradient" uid="uid://bsqdnytxyj05o" path="res://BackgroundAndUI/gradient_placeholder.tres" id="1_e5w5x"]
+[ext_resource type="StyleBox" uid="uid://odlv7kym1cy4" path="res://BackgroundAndUI/backgroundPanels.tres" id="2_f6vu8"]
+[ext_resource type="Theme" uid="uid://de2n0oa8q8kvm" path="res://BackgroundAndUI/FontTheme.tres" id="3_moi6l"]
+[ext_resource type="FontFile" uid="uid://c6lb8h4ou5gfa" path="res://BackgroundAndUI/Rubik_Doodle_Shadow_Font/RubikDoodleShadow-Regular.ttf" id="4_icov6"]
+[ext_resource type="Theme" uid="uid://cadxfbgyxkbvv" path="res://BackgroundAndUI/MenusTheme.tres" id="5_f6vu8"]
+[ext_resource type="Script" uid="uid://c7yn3ws1vic0f" path="res://scripts/backgroundTileManager.gd" id="5_fpy1w"]
+[ext_resource type="TileSet" uid="uid://dsg25f2us8oo6" path="res://BackgroundAndUI/baseTiles.tres" id="6_6h1wh"]
+[ext_resource type="Script" uid="uid://du5rertq388rh" path="res://scripts/board_manager.gd" id="7_v8iff"]
+[ext_resource type="AudioStream" uid="uid://lfx6yt7mo4bg" path="res://sounds/soundEffectSwoosh.mp3" id="8_ek7h3"]
+[ext_resource type="AudioStream" uid="uid://wrw0c818p312" path="res://sounds/soundEffectsPop.mp3" id="9_4v555"]
+[ext_resource type="AudioStream" uid="uid://dmmbmva2nuyxj" path="res://sounds/backgroundMusic.mp3" id="10_n2yux"]
+[ext_resource type="Script" uid="uid://qcwyh4jkjsk1" path="res://scripts/player_data.gd" id="11_qllts"]
+[ext_resource type="PackedScene" uid="uid://c12jrn0err337" path="res://game_over.tscn" id="12_dpxor"]
+[ext_resource type="SpriteFrames" uid="uid://jigbls5352ls" path="res://pickyPigeon/pickyPigeonAnimations.tres" id="13_x7biu"]
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_2ti2u"]
-gradient = ExtResource("1_jryeg")
+gradient = ExtResource("1_e5w5x")
 width = 1920
 height = 1080
 fill_from = Vector2(0.5, 0)
 fill_to = Vector2(0.5, 1)
 
-[sub_resource type="Gradient" id="Gradient_qsmd2"]
-colors = PackedColorArray(0, 0.905203, 0.767897, 1, 0.634542, 0.8764, 1, 1)
+[sub_resource type="Gradient" id="Gradient_ipwre"]
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_rg8y0"]
-gradient = SubResource("Gradient_qsmd2")
-
-[sub_resource type="Gradient" id="Gradient_1lu10"]
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_qsmd2"]
-gradient = SubResource("Gradient_1lu10")
-
-[sub_resource type="Gradient" id="Gradient_smfnu"]
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_fx57p"]
-gradient = SubResource("Gradient_smfnu")
-
-[sub_resource type="Gradient" id="Gradient_ymgk7"]
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_mxec8"]
-gradient = SubResource("Gradient_ymgk7")
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_yf1k1"]
+gradient = SubResource("Gradient_ipwre")
+fill_to = Vector2(0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2ti2u"]
 bg_color = Color(0.225, 0, 0.45, 0.788235)
@@ -80,7 +69,7 @@ offset_left = 2.0
 offset_top = 20.0
 offset_right = 321.0
 offset_bottom = 279.0
-theme_override_styles/panel = ExtResource("4_rg8y0")
+theme_override_styles/panel = ExtResource("2_f6vu8")
 
 [node name="TurnTextLabel" type="Label" parent="Board/Background/TurnTextPanel"]
 unique_name_in_owner = true
@@ -90,9 +79,9 @@ offset_left = -45.0
 offset_top = 8.6
 offset_right = 376.0
 offset_bottom = 194.6
-theme = ExtResource("2_2ti2u")
+theme = ExtResource("3_moi6l")
 theme_override_colors/font_shadow_color = Color(0.16256, 0.606715, 1, 1)
-theme_override_fonts/font = ExtResource("1_2qc8i")
+theme_override_fonts/font = ExtResource("4_icov6")
 theme_override_font_sizes/font_size = 50
 text = "Turns
 Remaining
@@ -110,7 +99,7 @@ offset_top = 20.0
 offset_right = -2.0
 offset_bottom = 1042.0
 grow_horizontal = 0
-theme_override_styles/panel = ExtResource("4_rg8y0")
+theme_override_styles/panel = ExtResource("2_f6vu8")
 
 [node name="ItemsText2" type="Label" parent="Board/Background/Objectives"]
 unique_name_in_owner = true
@@ -122,9 +111,9 @@ anchor_right = 1.0
 offset_left = -328.0
 offset_bottom = 186.0
 grow_horizontal = 0
-theme = ExtResource("2_2ti2u")
+theme = ExtResource("3_moi6l")
 theme_override_colors/font_shadow_color = Color(0.16256, 0.606715, 1, 1)
-theme_override_fonts/font = ExtResource("1_2qc8i")
+theme_override_fonts/font = ExtResource("4_icov6")
 theme_override_font_sizes/font_size = 50
 text = "Objectives"
 horizontal_alignment = 1
@@ -137,9 +126,9 @@ offset_left = -43.0
 offset_top = 278.6
 offset_right = 378.0
 offset_bottom = 464.6
-theme = ExtResource("2_2ti2u")
+theme = ExtResource("3_moi6l")
 theme_override_colors/font_shadow_color = Color(0.16256, 0.606715, 1, 1)
-theme_override_fonts/font = ExtResource("1_2qc8i")
+theme_override_fonts/font = ExtResource("4_icov6")
 theme_override_font_sizes/font_size = 50
 text = "Items"
 horizontal_alignment = 1
@@ -151,9 +140,9 @@ offset_left = 2.0
 offset_top = 274.0
 offset_right = 321.0
 offset_bottom = 661.0
-theme_override_styles/panel = ExtResource("4_rg8y0")
+theme_override_styles/panel = ExtResource("2_f6vu8")
 
-[node name="item_removeNibble" type="Button" parent="Board/Background/ItemsPanel"]
+[node name="item_removeNibble" type="Button" parent="Board/Background/ItemsPanel" groups=["itemButtons"]]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -163,14 +152,16 @@ offset_top = -93.5
 offset_right = 114.0
 offset_bottom = -29.5
 grow_vertical = 2
-theme = ExtResource("2_2ti2u")
+theme = ExtResource("5_f6vu8")
+theme_type_variation = &"ItemButton"
 toggle_mode = true
-text = "1"
-icon = SubResource("GradientTexture2D_rg8y0")
-flat = true
+text = "
+1"
+icon = SubResource("GradientTexture2D_yf1k1")
+alignment = 2
 icon_alignment = 1
 
-[node name="Item2" type="Button" parent="Board/Background/ItemsPanel"]
+[node name="item_clearRow" type="Button" parent="Board/Background/ItemsPanel" groups=["itemButtons"]]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -180,13 +171,13 @@ offset_top = 81.5
 offset_right = 114.0
 offset_bottom = 145.5
 grow_vertical = 2
-theme = ExtResource("2_2ti2u")
+theme = ExtResource("5_f6vu8")
+theme_type_variation = &"ItemButton"
 toggle_mode = true
-icon = SubResource("GradientTexture2D_qsmd2")
-flat = true
+text = "2"
 icon_alignment = 1
 
-[node name="Item3" type="Button" parent="Board/Background/ItemsPanel"]
+[node name="Item3" type="Button" parent="Board/Background/ItemsPanel" groups=["itemButtons"]]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -196,26 +187,26 @@ offset_top = -93.5
 offset_right = 264.0
 offset_bottom = -29.5
 grow_vertical = 2
-theme = ExtResource("2_2ti2u")
+theme = ExtResource("5_f6vu8")
 toggle_mode = true
-icon = SubResource("GradientTexture2D_fx57p")
+text = "3"
 flat = true
 icon_alignment = 1
 
-[node name="Item4" type="Button" parent="Board/Background/ItemsPanel"]
+[node name="Item_clearColumn" type="Button" parent="Board/Background/ItemsPanel" groups=["itemButtons"]]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_left = 200.0
-offset_top = 81.5
-offset_right = 264.0
-offset_bottom = 145.5
+offset_top = 77.5
+offset_right = 272.0
+offset_bottom = 149.5
 grow_vertical = 2
-theme = ExtResource("2_2ti2u")
+theme = ExtResource("5_f6vu8")
+theme_type_variation = &"ItemButton"
 toggle_mode = true
-icon = SubResource("GradientTexture2D_mxec8")
-flat = true
+text = "4"
 icon_alignment = 1
 
 [node name="TopBar" type="Panel" parent="Board/Background"]
@@ -246,31 +237,31 @@ offset_right = -16.0
 offset_bottom = 452.0
 grow_horizontal = 0
 grow_vertical = 2
-theme = ExtResource("2_2ti2u")
+theme = ExtResource("3_moi6l")
 allow_search = false
 icon_scale = 0.1
 
 [node name="TileMaps" type="Node2D" parent="Board" node_paths=PackedStringArray("boardGrid")]
 position = Vector2(320, 20)
 scale = Vector2(0.5, 0.5)
-script = ExtResource("5_1lu10")
+script = ExtResource("5_fpy1w")
 boardGrid = NodePath("../Grid")
 
 [node name="BoardTiles" type="TileMapLayer" parent="Board/TileMaps"]
 scale = Vector2(1, -1)
 tile_map_data = PackedByteArray("AAAAAAcAAAAAAAAAAAAJAAcAAAAAAAAAAAADAAcAAAACAAAAAAAEAAcAAAACAAEAAAAAAP//AAAAAAEAAAABAP//AAAAAAEAAAACAP//AAAAAAEAAAADAP//AAAAAAEAAAAEAP//AAAAAAEAAAAFAP//AAAAAAEAAAAGAP//AAAAAAEAAAAHAP//AAAAAAEAAAAIAP//AAAAAAEAAAAJAP//AAAAAAEAAAAJAP7/AAAAAAEAAAAIAP7/AAAAAAEAAAAHAP7/AAAAAAEAAAAGAP7/AAAAAAEAAAAFAP7/AAAAAAEAAAAEAP7/AAAAAAEAAAADAP7/AAAAAAEAAAACAP7/AAAAAAEAAAABAP7/AAAAAAEAAAAAAP7/AAAAAAEAAAAAAP3/AAAAAAEAAAAAAPz/AAAAAAEAAAAAAPv/AAAAAAEAAAAAAPr/AAAAAAEAAAAAAPn/AAAAAAEAAAAAAPj/AAAAAAEAAAABAPj/AAAAAAEAAAACAPj/AAAAAAEAAAADAPj/AAAAAAEAAAAEAPj/AAAAAAEAAAAFAPj/AAAAAAEAAAAGAPj/AAAAAAEAAAAHAPj/AAAAAAEAAAAIAPj/AAAAAAEAAAAJAPj/AAAAAAEAAAAJAPn/AAAAAAEAAAAJAPr/AAAAAAEAAAAIAPr/AAAAAAEAAAAIAPv/AAAAAAEAAAAIAPz/AAAAAAEAAAAIAP3/AAAAAAEAAAAJAP3/AAAAAAEAAAAJAPz/AAAAAAEAAAAIAPn/AAAAAAEAAAAHAPn/AAAAAAEAAAAJAPv/AAAAAAEAAAAHAPv/AAAAAAEAAAAHAPz/AAAAAAEAAAAGAPz/AAAAAAEAAAAGAP3/AAAAAAEAAAAFAP3/AAAAAAEAAAADAP3/AAAAAAEAAAACAP3/AAAAAAEAAAABAP3/AAAAAAEAAAABAPz/AAAAAAEAAAABAPv/AAAAAAEAAAABAPr/AAAAAAEAAAABAPn/AAAAAAEAAAACAPn/AAAAAAEAAAADAPn/AAAAAAEAAAAEAPn/AAAAAAEAAAAFAPn/AAAAAAEAAAAGAPr/AAAAAAEAAAAHAPr/AAAAAAEAAAAHAP3/AAAAAAEAAAAFAPz/AAAAAAEAAAAFAPv/AAAAAAEAAAAFAPr/AAAAAAEAAAAEAP3/AAAAAAEAAAACAPz/AAAAAAEAAAACAPv/AAAAAAEAAAADAPv/AAAAAAEAAAAEAPv/AAAAAAEAAAAEAPz/AAAAAAEAAAADAPz/AAAAAAEAAAACAPr/AAAAAAEAAAADAPr/AAAAAAEAAAAEAPr/AAAAAAEAAAAGAPn/AAAAAAEAAAAGAPv/AAAAAAEAAAA=")
-tile_set = ExtResource("4_nmy6e")
+tile_set = ExtResource("6_6h1wh")
 
 [node name="OtherBackgroundTiles" type="TileMapLayer" parent="Board/TileMaps"]
 modulate = Color(0.681338, 0.804405, 1, 0.560784)
 z_index = -13
 z_as_relative = false
 tile_map_data = PackedByteArray("AAD+/wEAAAAAAAEAAAD+/wAAAAAAAAEAAAD//wAAAAAAAAEAAAD//wEAAAAAAAEAAAD//wIAAAAAAAEAAAD+/wIAAAAAAAEAAAD9/wAAAAAAAAEAAAD9/wEAAAAAAAEAAAD9/wIAAAAAAAEAAAD//wMAAAAAAAEAAAD+/wMAAAAAAAEAAAD9/wMAAAAAAAEAAAD9/wQAAAAAAAEAAAD+/wQAAAAAAAEAAAD//wQAAAAAAAAAAAD//wUAAAAAAAEAAAD+/wUAAAAAAAEAAAD9/wUAAAAAAAEAAAD9/wYAAAAAAAEAAAD+/wYAAAAAAAEAAAD//wYAAAAAAAEAAAD//wcAAAAAAAEAAAD+/wcAAAAAAAEAAAD9/wcAAAAAAAEAAAD9/wgAAAAAAAEAAAD+/wgAAAAAAAEAAAD//wgAAAAAAAEAAAAAAAgAAAAAAAEAAAABAAgAAAAAAAEAAAACAAgAAAAAAAAAAAADAAgAAAAAAAAAAAAEAAgAAAAAAAAAAAAFAAgAAAAAAAAAAAAGAAgAAAAAAAAAAAAHAAgAAAAAAAEAAAAIAAgAAAAAAAEAAAAJAAgAAAAAAAEAAAAKAAgAAAAAAAEAAAALAAgAAAAAAAEAAAAMAAgAAAAAAAEAAAAMAAQAAAAAAAEAAAAMAAMAAAAAAAEAAAALAAMAAAAAAAEAAAAKAAMAAAAAAAEAAAAKAAIAAAAAAAEAAAALAAIAAAAAAAEAAAAMAAIAAAAAAAEAAAAMAAEAAAAAAAEAAAALAAEAAAAAAAEAAAAKAAEAAAAAAAEAAAAKAAAAAAAAAAEAAAALAAAAAAAAAAEAAAAMAAAAAAAAAAEAAAAMAP//AAAAAAEAAAALAP//AAAAAAEAAAAKAP//AAAAAAEAAAAIAP//AAAAAAEAAAAHAP//AAAAAAEAAAAGAP//AAAAAAEAAAAFAP//AAAAAAEAAAAEAP//AAAAAAEAAAADAP//AAAAAAEAAAACAP//AAAAAAEAAAABAP//AAAAAAEAAAD/////AAAAAAEAAAD+////AAAAAAEAAAD9////AAAAAAEAAAD9//7/AAABAAAAAAD+//7/AAABAAAAAAD///7/AAABAAAAAAAAAP7/AAABAAAAAAABAP7/AAABAAAAAAACAP7/AAABAAAAAAADAP7/AAABAAAAAAAEAP7/AAABAAAAAAAFAP7/AAABAAAAAAAGAP7/AAABAAAAAAAHAP7/AAABAAAAAAAIAP7/AAABAAAAAAAJAP7/AAABAAAAAAAKAP7/AAABAAAAAAALAP7/AAABAAAAAAAMAP7/AAABAAAAAAAKAAYAAAAAAAAAAAALAAYAAAAAAAAAAAALAAcAAAAAAAEAAAAMAAcAAAAAAAEAAAAMAAYAAAAAAAAAAAAMAAUAAAAAAAEAAAALAAUAAAAAAAEAAAALAAQAAAAAAAEAAAAKAAQAAAAAAAEAAAAKAAUAAAAAAAEAAAAKAAcAAAAAAAEAAAAJAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAHAAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAFAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAADAAAAAAAAAAAAAAACAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAAcAAAAAAAAAAAABAAcAAAAAAAAAAAAGAAcAAAAAAAAAAAAHAAcAAAAAAAAAAAAIAAcAAAAAAAAAAAAJAAcAAAAAAAAAAAAFAAcAAAAAAAAAAAAEAAcAAAAAAAAAAAADAAcAAAAAAAAAAAACAAcAAAAAAAAAAAACAAYAAAAAAAAAAAADAAYAAAAAAAAAAAAEAAYAAAAAAAAAAAAFAAYAAAAAAAAAAAAGAAYAAAAAAAAAAAAIAAYAAAAAAAAAAAAIAAUAAAAAAAAAAAAHAAUAAAAAAAAAAAAGAAUAAAAAAAAAAAAFAAUAAAAAAAAAAAAEAAUAAAAAAAAAAAABAAYAAAAAAAAAAAAHAAYAAAAAAAAAAAAJAAYAAAAAAAAAAAAJAAUAAAAAAAAAAAAGAAQAAAAAAAAAAAAFAAQAAAAAAAAAAAAEAAQAAAAAAAAAAAADAAQAAAAAAAAAAAACAAQAAAAAAAAAAAABAAQAAAAAAAAAAAABAAUAAAAAAAAAAAACAAUAAAAAAAAAAAADAAUAAAAAAAAAAAAJAAQAAAAAAAAAAAAIAAQAAAAAAAAAAAAIAAMAAAAAAAAAAAAHAAMAAAAAAAAAAAAGAAMAAAAAAAAAAAAFAAMAAAAAAAAAAAAEAAIAAAAAAAAAAAADAAIAAAAAAAAAAAACAAIAAAAAAAAAAAABAAIAAAAAAAAAAAABAAMAAAAAAAAAAAACAAMAAAAAAAAAAAADAAMAAAAAAAAAAAAEAAMAAAAAAAAAAAAJAAMAAAAAAAAAAAAIAAIAAAAAAAAAAAAHAAIAAAAAAAAAAAAGAAIAAAAAAAAAAAAFAAIAAAAAAAAAAAAHAAQAAAAAAAAAAAAHAAEAAAAAAAAAAAAGAAEAAAAAAAAAAAAFAAEAAAAAAAAAAAAEAAEAAAAAAAAAAAADAAEAAAAAAAAAAAAJAAIAAAAAAAAAAAAJAAEAAAAAAAAAAAAIAAEAAAAAAAAAAAACAAEAAAAAAAAAAAABAAEAAAAAAAAAAAAJAP//AAAAAAEAAAD8////AAAAAAEAAAAAAP//AAAAAAEAAAA=")
-tile_set = ExtResource("4_nmy6e")
+tile_set = ExtResource("6_6h1wh")
 
 [node name="Grid" type="Node2D" parent="Board"]
 position = Vector2(-1, 0)
-script = ExtResource("2_2qc8i")
+script = ExtResource("7_v8iff")
 width = 10
 height = 8
 xStart = 385
@@ -296,20 +287,37 @@ one_shot = true
 [node name="Sounds" type="Node2D" parent="Board/Grid"]
 
 [node name="MoveSound" type="AudioStreamPlayer2D" parent="Board/Grid/Sounds"]
-stream = ExtResource("12_yqj4f")
+stream = ExtResource("8_ek7h3")
 volume_db = 1.19
 
 [node name="DestroySound" type="AudioStreamPlayer2D" parent="Board/Grid/Sounds"]
-stream = ExtResource("13_yqj4f")
+stream = ExtResource("9_4v555")
 volume_db = -8.336
 
-[node name="GameOver" parent="Board" instance=ExtResource("6_nmy6e")]
+[node name="BackgroundMusic" type="AudioStreamPlayer2D" parent="Board/Grid/Sounds"]
+stream = ExtResource("10_n2yux")
+autoplay = true
+
+[node name="PlayerData" type="Node" parent="Board/Grid"]
+script = ExtResource("11_qllts")
+
+[node name="GameOver" parent="Board" instance=ExtResource("12_dpxor")]
 visible = false
 z_index = 180
 offset_right = 1920.0
 offset_bottom = 1080.0
 
+[node name="PickyPigeon" type="AnimatedSprite2D" parent="Board"]
+unique_name_in_owner = true
+position = Vector2(156, 889)
+scale = Vector2(0.266898, 0.266898)
+sprite_frames = ExtResource("13_x7biu")
+animation = &"PigeonIdle"
+
 [connection signal="toggled" from="Board/Background/ItemsPanel/item_removeNibble" to="Board/Grid" method="_on_item_remove_nibble_toggled"]
+[connection signal="pressed" from="Board/Background/ItemsPanel/item_clearRow" to="Board/Grid" method="_on_item_clear_row_pressed"]
+[connection signal="pressed" from="Board/Background/ItemsPanel/Item_clearColumn" to="Board/Grid" method="_on_item_clear_column_pressed"]
+[connection signal="clearScore" from="Board/Grid" to="Board/Grid/PlayerData" method="_on_grid_clear_score"]
 [connection signal="clearScore" from="Board/Grid" to="Board/GameOver" method="_on_grid_clear_score"]
 [connection signal="validTiles" from="Board/Grid" to="Board/TileMaps" method="_on_grid_valid_tiles"]
 [connection signal="timeout" from="Board/Grid/DestroyTimer" to="Board/Grid" method="_on_destroy_time_timeout"]

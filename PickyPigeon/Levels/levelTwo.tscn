@@ -4,7 +4,7 @@
 [ext_resource type="StyleBox" uid="uid://odlv7kym1cy4" path="res://BackgroundAndUI/backgroundPanels.tres" id="2_lrfw6"]
 [ext_resource type="Theme" uid="uid://de2n0oa8q8kvm" path="res://BackgroundAndUI/FontTheme.tres" id="3_rpuwh"]
 [ext_resource type="FontFile" uid="uid://c6lb8h4ou5gfa" path="res://BackgroundAndUI/Rubik_Doodle_Shadow_Font/RubikDoodleShadow-Regular.ttf" id="4_0f41i"]
-[ext_resource type="Script" uid="uid://c7yn3ws1vic0f" path="res://Levels/backgroundTileManager.gd" id="5_t86hm"]
+[ext_resource type="Script" uid="uid://c7yn3ws1vic0f" path="res://scripts/backgroundTileManager.gd" id="5_t86hm"]
 [ext_resource type="TileSet" uid="uid://dsg25f2us8oo6" path="res://BackgroundAndUI/baseTiles.tres" id="6_8fujj"]
 [ext_resource type="Script" uid="uid://du5rertq388rh" path="res://scripts/board_manager.gd" id="7_g6k6c"]
 [ext_resource type="PackedScene" uid="uid://c12jrn0err337" path="res://game_over.tscn" id="8_o44hj"]
