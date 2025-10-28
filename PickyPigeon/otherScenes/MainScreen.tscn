@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://7mryyx5le04p"]
+[gd_scene load_steps=11 format=3 uid="uid://7mryyx5le04p"]
 
 [ext_resource type="Script" uid="uid://bpcrfs265rvrx" path="res://scripts/MainMenuControl.gd" id="1_453mu"]
 [ext_resource type="Texture2D" uid="uid://v86r38v3w6ah" path="res://BackgroundAndUI/Icons/levelIconBase.tres" id="2_a8wb5"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dcc5gll3m8e6n" path="res://BaseLevel.tscn" id="3_b26h7"]
 [ext_resource type="FontFile" uid="uid://c6lb8h4ou5gfa" path="res://BackgroundAndUI/Rubik_Doodle_Shadow_Font/RubikDoodleShadow-Regular.ttf" id="3_ih8ls"]
 [ext_resource type="Theme" uid="uid://de2n0oa8q8kvm" path="res://BackgroundAndUI/FontTheme.tres" id="4_7pmop"]
+[ext_resource type="Theme" uid="uid://cadxfbgyxkbvv" path="res://BackgroundAndUI/MenusTheme.tres" id="4_drlny"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ih8ls"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -57,6 +58,7 @@ offset_right = 1718.0
 offset_bottom = 782.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("4_drlny")
 auto_width = true
 auto_height = true
 max_columns = 3
@@ -125,4 +127,5 @@ texture = SubResource("GradientTexture2D_7pmop")
 one_shot = true
 autostart = true
 
+[connection signal="item_clicked" from="Node2D/Control/LevelSelect/LevelList" to="Node2D" method="_on_level_list_item_clicked"]
 [connection signal="timeout" from="Node2D/Startup" to="Node2D" method="_on_startup_timeout"]

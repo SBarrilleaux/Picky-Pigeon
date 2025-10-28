@@ -9,8 +9,6 @@ var startupTimer
 @export var levels: Array[PackedScene]
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	seed(12345)
-	
 	logoGroup = $Control/Logo
 	startupTimer = $Startup
 	levelsGroup = $"Control/LevelSelect"
@@ -18,24 +16,36 @@ func _ready() -> void:
 	levelsGroup.visible = false
 	
 	for i in levels.size():
-		print(i)
-		levelIcon.gradient = randomIconColor()
-		$"Control/LevelSelect/LevelList".add_item("Level " + str(i + 1), levelIcon, true)
+		#levelIcon.gradient = randomIconColor(i)
+		$"Control/LevelSelect/LevelList".add_item("Level " + str(i + 1), randomIconColor(i), true)
+		print($"Control/LevelSelect/LevelList".get_item_icon(i))
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta: float) -> void:
-	
-func randomIconColor() -> Gradient:
-	var ranNum: int = randi_range(0,255)
-	var ranNumTwo: int = randi_range(0,255)
-	var gradientData := {
-	 0.49: Color(ranNum,ranNumTwo,255,1),
+
+# Generate a random circle icon for each level
+# Color is random from the seed it is called with, but is the same on each run of the game so that it looks conistent
+func randomIconColor(seed: int) -> GradientTexture2D:
+	seed(seed)
+	#var ranNum: int = randi_range(0,255)
+	var ranNum: float = randf()
+	#var ranNumTwo: int = randi_range(0,255)
+	var ranNumTwo: float = randf()
+	var gradientData = {
+	 0.49: Color(ranNum,ranNumTwo,1,1),
 	0.50: Color(0,0, 0, 0),
-}
+	}
 	var gradientRandom: Gradient = Gradient.new()
 	gradientRandom.offsets = gradientData.keys()
 	gradientRandom.colors = gradientData.values()
-	return gradientRandom
+	var newTexture = GradientTexture2D.new()
+	newTexture.gradient = gradientRandom
+	newTexture.width = 256
+	newTexture.height = 256
+	newTexture.fill = GradientTexture2D.FILL_RADIAL
+	newTexture.fill_from = Vector2(0.5,0.5)
+	newTexture.fill_to = Vector2(0,0)
+	return newTexture
 
 # Fade out logo
 func _on_startup_timeout() -> void:
@@ -51,3 +61,7 @@ func tweenDone():
 	var tween: Tween = create_tween()
 	tween.tween_property(levelsGroup,"modulate", Color(1,1,1, 1), .4).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	
+
+
+func _on_level_list_item_clicked(index: int, at_position: Vector2, mouse_button_index: int) -> void:
+	get_tree().change_scene_to_packed(levels[index])
