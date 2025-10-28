@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://c7yn3ws1vic0f" path="res://scripts/backgroundTileManager.gd" id="5_t86hm"]
 [ext_resource type="TileSet" uid="uid://dsg25f2us8oo6" path="res://BackgroundAndUI/baseTiles.tres" id="6_8fujj"]
 [ext_resource type="Script" uid="uid://du5rertq388rh" path="res://scripts/board_manager.gd" id="7_g6k6c"]
-[ext_resource type="PackedScene" uid="uid://c12jrn0err337" path="res://game_over.tscn" id="8_o44hj"]
+[ext_resource type="PackedScene" uid="uid://c12jrn0err337" path="res://otherScenes/game_over.tscn" id="8_o44hj"]
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_2ti2u"]
 gradient = ExtResource("1_vbx3y")

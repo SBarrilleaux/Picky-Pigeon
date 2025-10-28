@@ -1,31 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://7mryyx5le04p"]
+[gd_scene load_steps=10 format=3 uid="uid://7mryyx5le04p"]
 
 [ext_resource type="Script" uid="uid://bpcrfs265rvrx" path="res://scripts/MainMenuControl.gd" id="1_453mu"]
-[ext_resource type="Gradient" uid="uid://rbihfgdpuwx0" path="res://BackgroundAndUI/Icons/PlaceholderGradientIcon.tres" id="1_i8u74"]
+[ext_resource type="Texture2D" uid="uid://v86r38v3w6ah" path="res://BackgroundAndUI/Icons/levelIconBase.tres" id="2_a8wb5"]
 [ext_resource type="Texture2D" uid="uid://bv7mfj1lllire" path="res://BackgroundAndUI/Icons/PickyPigeonLogo.png" id="2_ih8ls"]
+[ext_resource type="PackedScene" uid="uid://dcc5gll3m8e6n" path="res://BaseLevel.tscn" id="3_b26h7"]
 [ext_resource type="FontFile" uid="uid://c6lb8h4ou5gfa" path="res://BackgroundAndUI/Rubik_Doodle_Shadow_Font/RubikDoodleShadow-Regular.ttf" id="3_ih8ls"]
 [ext_resource type="Theme" uid="uid://de2n0oa8q8kvm" path="res://BackgroundAndUI/FontTheme.tres" id="4_7pmop"]
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_k0hwa"]
-gradient = ExtResource("1_i8u74")
-width = 512
-height = 512
-fill_from = Vector2(0.526992, 1)
-fill_to = Vector2(0.539846, 0)
-
-[sub_resource type="Gradient" id="Gradient_40bai"]
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_phq65"]
-gradient = SubResource("Gradient_40bai")
-width = 512
-height = 512
-
-[sub_resource type="Gradient" id="Gradient_647a5"]
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_okd1t"]
-gradient = SubResource("Gradient_647a5")
-width = 512
-height = 512
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ih8ls"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -45,6 +25,8 @@ fill_to = Vector2(0, 1)
 
 [node name="Node2D" type="Node2D" parent="."]
 script = ExtResource("1_453mu")
+levelIcon = ExtResource("2_a8wb5")
+levels = Array[PackedScene]([ExtResource("3_b26h7"), null, null])
 
 [node name="Control" type="Control" parent="Node2D"]
 layout_mode = 3
@@ -56,13 +38,13 @@ offset_bottom = 1080.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Level Select" type="Control" parent="Node2D/Control"]
+[node name="LevelSelect" type="Control" parent="Node2D/Control"]
 modulate = Color(1, 1, 1, 0)
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="ItemList" type="ItemList" parent="Node2D/Control/Level Select"]
+[node name="LevelList" type="ItemList" parent="Node2D/Control/LevelSelect"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -77,13 +59,10 @@ grow_horizontal = 2
 grow_vertical = 2
 auto_width = true
 auto_height = true
-item_count = 3
 max_columns = 3
-item_0/icon = SubResource("GradientTexture2D_k0hwa")
-item_1/icon = SubResource("GradientTexture2D_phq65")
-item_2/icon = SubResource("GradientTexture2D_okd1t")
+icon_mode = 0
 
-[node name="Panel" type="Panel" parent="Node2D/Control/Level Select"]
+[node name="Panel" type="Panel" parent="Node2D/Control/LevelSelect"]
 visible = false
 layout_mode = 1
 anchors_preset = 5
@@ -135,15 +114,15 @@ theme_override_font_sizes/font_size = 100
 theme_override_styles/normal = SubResource("StyleBoxFlat_ih8ls")
 text = "  Picky  Pigeon"
 
-[node name="Startup" type="Timer" parent="Node2D"]
-wait_time = 3.0
-one_shot = true
-autostart = true
-
-[node name="Background" type="TextureRect" parent="Node2D"]
+[node name="Background" type="TextureRect" parent="Node2D/Control/Logo"]
 z_index = -1930
+layout_mode = 0
 offset_right = 1924.0
 offset_bottom = 1096.0
 texture = SubResource("GradientTexture2D_7pmop")
+
+[node name="Startup" type="Timer" parent="Node2D"]
+one_shot = true
+autostart = true
 
 [connection signal="timeout" from="Node2D/Startup" to="Node2D" method="_on_startup_timeout"]

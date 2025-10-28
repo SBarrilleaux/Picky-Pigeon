@@ -5,6 +5,10 @@ extends Control
 @export var scoreStartPoint: Vector2
 @export var scoreHorizontalOffset: float
 var scoreIconsArray: Array[TextureRect]
+
+# Allows the main menu scene to be specified in editor
+#@export var mainMenuScene: PackedScene
+@export_file("*.tscn") var mainMenuScenePath: String
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	for i in 3:
@@ -42,3 +46,9 @@ func _on_grid_clear_score(rating: int) -> void:
 			#scoreIcon.texture = clearIconTexture
 			scoreIconsArray[i].texture = clearIconTexture
 		
+
+
+func _on_return_to_main_pressed() -> void:
+	print(mainMenuScenePath)
+	get_tree().change_scene_to_file(mainMenuScenePath)
+	#get_tree().change_scene_to_packed(mainMenuScenePath)

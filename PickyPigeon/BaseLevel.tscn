@@ -12,7 +12,7 @@
 [ext_resource type="AudioStream" uid="uid://wrw0c818p312" path="res://sounds/soundEffectsPop.mp3" id="9_4v555"]
 [ext_resource type="AudioStream" uid="uid://dmmbmva2nuyxj" path="res://sounds/backgroundMusic.mp3" id="10_n2yux"]
 [ext_resource type="Script" uid="uid://qcwyh4jkjsk1" path="res://scripts/player_data.gd" id="11_qllts"]
-[ext_resource type="PackedScene" uid="uid://c12jrn0err337" path="res://game_over.tscn" id="12_dpxor"]
+[ext_resource type="PackedScene" uid="uid://c12jrn0err337" path="res://otherScenes/game_over.tscn" id="12_dpxor"]
 [ext_resource type="SpriteFrames" uid="uid://jigbls5352ls" path="res://pickyPigeon/pickyPigeonAnimations.tres" id="13_x7biu"]
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_2ti2u"]
