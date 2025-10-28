@@ -1,6 +1,6 @@
-[gd_resource type="Theme" load_steps=10 format=3 uid="uid://de2n0oa8q8kvm"]
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://de2n0oa8q8kvm"]
 
-[ext_resource type="FontFile" uid="uid://c6lb8h4ou5gfa" path="res://BackgroundAndUI/Rubik_Doodle_Shadow_Font/RubikDoodleShadow-Regular.ttf" id="1_bbvdp"]
+[ext_resource type="FontFile" uid="uid://c6lb8h4ou5gfa" path="res://BackgroundAndUI/Rubik_Doodle_Shadow_Font/RubikDoodleShadow-Regular.ttf" id="1_5adxy"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1opvy"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -44,34 +44,11 @@ corner_radius_bottom_left = 40
 expand_margin_left = 10.0
 expand_margin_right = 10.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bbvdp"]
-draw_center = false
-expand_margin_left = 3.0
-expand_margin_top = 3.0
-expand_margin_right = 3.0
-expand_margin_bottom = 3.0
-shadow_color = Color(1, 1, 1, 0.6)
-shadow_size = 5
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kl2by"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_teeun"]
-bg_color = Color(1, 1, 1, 1)
-draw_center = false
-expand_margin_left = 3.0
-expand_margin_top = 3.0
-expand_margin_right = 3.0
-expand_margin_bottom = 3.0
-shadow_color = Color(0.778825, 0.541386, 1, 0.6)
-shadow_size = 10
-shadow_offset = Vector2(2, 2)
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2d33e"]
 bg_color = Color(0.155247, 0.0522, 0.29, 0.0352941)
 
 [resource]
-default_font = ExtResource("1_bbvdp")
+default_font = ExtResource("1_5adxy")
 default_font_size = 50
 Button/colors/font_color = Color(0.258, 0.16, 1, 1)
 Button/colors/font_focus_color = Color(0.352941, 0.211765, 1, 1)
@@ -83,12 +60,6 @@ Button/styles/focus = SubResource("StyleBoxFlat_1opvy")
 Button/styles/hover = SubResource("StyleBoxFlat_5adxy")
 Button/styles/normal = SubResource("StyleBoxFlat_s2o0n")
 Button/styles/pressed = SubResource("StyleBoxFlat_wg85w")
-ItemButton/base_type = &"Button"
-ItemButton/colors/font_color = Color(0.513677, 0.590151, 0.744322, 1)
-ItemButton/constants/outline_size = 3
-ItemButton/styles/hover = SubResource("StyleBoxFlat_bbvdp")
-ItemButton/styles/normal = SubResource("StyleBoxFlat_kl2by")
-ItemButton/styles/pressed = SubResource("StyleBoxFlat_teeun")
 ItemList/colors/font_color = Color(0.679144, 0.749856, 0.991336, 1)
 ItemList/colors/font_outline_color = Color(0.372549, 0.427451, 0.898039, 1)
 ItemList/constants/outline_size = 0

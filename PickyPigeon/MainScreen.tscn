@@ -4,7 +4,7 @@
 [ext_resource type="Gradient" uid="uid://rbihfgdpuwx0" path="res://BackgroundAndUI/Icons/PlaceholderGradientIcon.tres" id="1_i8u74"]
 [ext_resource type="Texture2D" uid="uid://bv7mfj1lllire" path="res://BackgroundAndUI/Icons/PickyPigeonLogo.png" id="2_ih8ls"]
 [ext_resource type="FontFile" uid="uid://c6lb8h4ou5gfa" path="res://BackgroundAndUI/Rubik_Doodle_Shadow_Font/RubikDoodleShadow-Regular.ttf" id="3_ih8ls"]
-[ext_resource type="Theme" uid="uid://de2n0oa8q8kvm" path="res://BackgroundAndUI/MenusTheme.tres" id="4_7pmop"]
+[ext_resource type="Theme" uid="uid://de2n0oa8q8kvm" path="res://BackgroundAndUI/FontTheme.tres" id="4_7pmop"]
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_k0hwa"]
 gradient = ExtResource("1_i8u74")
