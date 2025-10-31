@@ -319,7 +319,6 @@ func _on_refill_timer_timeout() -> void:
 func updateMenus():
 	# update text for turns remaining
 	turnText.text = "Turns \n Remaining \n" + str(turnRemaining)
-	var counter = 0
 
 	# update objectives to current amounts			
 	for i in objectiveItems.size():
@@ -390,28 +389,6 @@ func _process(delta: float) -> void:
 	elif state == item:
 		itemMouseInput(recentItem)
 
-"""
-# Signal receivers for the different level items 
-
-#func _on_item_remove_nibble_toggled(toggled_on: bool) -> void:
-		#itemTrigger(1)
-#func _on_item_clear_row_pressed() -> void:
-	#itemTrigger(2)
-#
-#func _on_item_clear_column_pressed() -> void:
-	#itemTrigger(4)
-
-## Makes sure the button is displaying correctly and updates what currentItem is in use
-#func itemTrigger(whatItem: int):
-	#if state == move:
-		#state = item
-		#currentItem = whatItem
-	## if button is pressed again without doing action, cancel
-	#elif state == item:
-		#state = move
-	#elif state == wait:
-		#updateItemButtonsDisplay()
-"""
 # Gets input when in the item state, and calling the correct function for each item
 func itemMouseInput(currentItem: String):
 	state = item
@@ -430,6 +407,8 @@ func itemMouseInput(currentItem: String):
 					clearAllOfType(first_click)
 				_:
 					print("Item select error in board Manager")
+				
+			updateItemUses()
 		else:
 			updateItemButtonsDisplay()
 			state = move
@@ -453,6 +432,7 @@ func clearRow(gridPosition: Vector2):
 					boardNibbles[i][gridPosition.y].dim()
 				$DestroyTimer.start()
 				boardUpdate()
+				
 
 # clears the column of given grid position
 func clearColumn(gridPosition: Vector2):
@@ -465,6 +445,7 @@ func clearColumn(gridPosition: Vector2):
 					boardNibbles[gridPosition.x][j].dim()
 				$DestroyTimer.start()
 				boardUpdate()
+				
 # clears all of the nibbleType specified by given grid position
 func clearAllOfType(gridPosition: Vector2):
 	if boardNibbles[gridPosition.x][gridPosition.y] != null:
@@ -473,12 +454,15 @@ func clearAllOfType(gridPosition: Vector2):
 			for j in height:
 				if typeSelected != null && boardNibbles[i][j] != null:
 					if typeSelected == boardNibbles[i][j].nibbleType:
-						print("here!")
 						boardNibbles[i][j].matched = true
 						boardNibbles[i][j].dim()
 						$DestroyTimer.start()
 						boardUpdate()
 
+func updateItemUses():
+	for i in get_tree().get_nodes_in_group("itemButtons"):
+		if i.itemType == recentItem:
+			i.setUse(1)
 # update board, usually needed after removing nibbles with items
 func boardUpdate():
 	updateMenus()

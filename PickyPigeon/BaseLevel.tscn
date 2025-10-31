@@ -187,7 +187,7 @@ offset_right = 1936.0
 offset_bottom = 20.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_2ti2u")
 
-[node name="TopBar2" type="Panel" parent="Board/Background"]
+[node name="BottomBar" type="Panel" parent="Board/Background"]
 layout_mode = 0
 offset_top = 1042.0
 offset_right = 1936.0

@@ -7,23 +7,28 @@ script/source = "extends Control
 
 var itemButton: Button
 @export var itemType: String
+# Get a reference to the board manager / grid in a level scene to figure out the game state
 @export var gameManager: Node2D
-
-signal itemUse(itemType: String)
 
 var uses: int
 var lastState: bool = false
+
+func setUse(value: int):
+	
+	uses -= abs(value)
+	updateText()
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	itemButton = $ItemButton
 	# Button data should have been loaded from the PlayerData node.
 
+# Triggers whenver button is pressed
 func _on_item_button_toggled(toggled_on: bool) -> void:
 	if toggled_on:
 		if gameManager != null:
 			if gameManager.state == 1 && uses > 0:
 				gameManager.itemMouseInput(itemType)
-				uses -= 1
 				updateText()
 			else:
 				itemButton.button_pressed = false

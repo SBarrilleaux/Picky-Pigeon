@@ -7,7 +7,7 @@ var allButtonsToSave
 func _ready() -> void:
 	# Get the current levels name
 	var currentScenePath = get_tree().current_scene.scene_file_path
-	var allButtonsToSave = get_tree().get_nodes_in_group("itemButtons")
+	allButtonsToSave = get_tree().get_nodes_in_group("itemButtons")
 	currentScene = currentScenePath.get_file().get_basename()
 	# Load any data to level, if existing
 	if loadData() != null:
@@ -37,7 +37,7 @@ func saveData():
 		saveFile.store_line(str(playerSaveStats.keys()[i],":",playerSaveStats.values()[i],"\r").replace(" ",""))
 	
 	# TODO save item usages and coins
-	var allButtonsToSave = get_tree().get_nodes_in_group("itemButtons")
+	allButtonsToSave = get_tree().get_nodes_in_group("itemButtons")
 	for i in allButtonsToSave.size():
 		saveFile.store_line(allButtonsToSave[i].saveButton())
 	saveFile.close()
