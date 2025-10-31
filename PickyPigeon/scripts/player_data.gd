@@ -1,38 +1,46 @@
 extends Node
 
-var levelScores: Dictionary[String,int]
+var playerSaveStats: Dictionary[String,int]
 var currentScene
+var allButtonsToSave
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# Get the current levels name
 	var currentScenePath = get_tree().current_scene.scene_file_path
+	var allButtonsToSave = get_tree().get_nodes_in_group("itemButtons")
 	currentScene = currentScenePath.get_file().get_basename()
 	# Load any data to level, if existing
 	if loadData() != null:
-		levelScores = loadData()
+		playerSaveStats = loadData()
+		for i in allButtonsToSave.size():
+			allButtonsToSave[i].loadButton(loadData())
+		
 	
 	print("Prior Best: ")
-	print(levelScores.get(currentScene))
+	print(playerSaveStats.get(currentScene))
 	print(currentScene)
 
 func _on_grid_clear_score(rating: int) -> void:
 	#Add the current levels score to the dictionary if it is a new high score or no score exists
-	if levelScores.get(currentScene) != null &&  rating > levelScores.get(currentScene):
+	if playerSaveStats.get(currentScene) != null &&  rating > playerSaveStats.get(currentScene):
 		var scoreEntry: Dictionary[String, int] = {currentScene: rating}
-		levelScores.assign(scoreEntry)
-	elif levelScores.get(currentScene) == null:
+		playerSaveStats.assign(scoreEntry)
+	elif playerSaveStats.get(currentScene) == null:
 		var scoreEntry: Dictionary[String, int] = {currentScene: rating}
-		levelScores.assign(scoreEntry)
+		playerSaveStats.assign(scoreEntry)
 	saveData()
 
 func saveData():
 	var saveFile = FileAccess.open("user://savegame.save", FileAccess.WRITE)
 	# Save level Scores
-	for i in levelScores.size():
-		saveFile.store_line(str(levelScores.keys()[i],":",levelScores.values()[i],"\r").replace(" ",""))
-	saveFile.close()
+	for i in playerSaveStats.size():
+		saveFile.store_line(str(playerSaveStats.keys()[i],":",playerSaveStats.values()[i],"\r").replace(" ",""))
+	
 	# TODO save item usages and coins
-
+	var allButtonsToSave = get_tree().get_nodes_in_group("itemButtons")
+	for i in allButtonsToSave.size():
+		saveFile.store_line(allButtonsToSave[i].saveButton())
+	saveFile.close()
 # Loads data into a dictionary of string: int to return
 func loadData():
 	var saveFile = FileAccess.open("user://savegame.save", FileAccess.READ)

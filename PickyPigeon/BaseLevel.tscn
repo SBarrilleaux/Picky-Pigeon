@@ -1,15 +1,18 @@
-[gd_scene load_steps=19 format=4 uid="uid://dcc5gll3m8e6n"]
+[gd_scene load_steps=20 format=4 uid="uid://dcc5gll3m8e6n"]
 
 [ext_resource type="Gradient" uid="uid://bsqdnytxyj05o" path="res://BackgroundAndUI/gradient_placeholder.tres" id="1_e5w5x"]
 [ext_resource type="StyleBox" uid="uid://odlv7kym1cy4" path="res://BackgroundAndUI/backgroundPanels.tres" id="2_f6vu8"]
 [ext_resource type="Theme" uid="uid://de2n0oa8q8kvm" path="res://BackgroundAndUI/FontTheme.tres" id="3_moi6l"]
 [ext_resource type="FontFile" uid="uid://c6lb8h4ou5gfa" path="res://BackgroundAndUI/Rubik_Doodle_Shadow_Font/RubikDoodleShadow-Regular.ttf" id="4_icov6"]
-[ext_resource type="Theme" uid="uid://cadxfbgyxkbvv" path="res://BackgroundAndUI/MenusTheme.tres" id="5_f6vu8"]
+[ext_resource type="PackedScene" uid="uid://brho8cm01rtcm" path="res://items/rowClearMenuItem.tscn" id="5_6h1wh"]
 [ext_resource type="Script" uid="uid://c7yn3ws1vic0f" path="res://scripts/backgroundTileManager.gd" id="5_fpy1w"]
 [ext_resource type="TileSet" uid="uid://dsg25f2us8oo6" path="res://BackgroundAndUI/baseTiles.tres" id="6_6h1wh"]
+[ext_resource type="PackedScene" uid="uid://bspviwtq0o2n5" path="res://items/singleClearMenuItem.tscn" id="7_ek7h3"]
 [ext_resource type="Script" uid="uid://du5rertq388rh" path="res://scripts/board_manager.gd" id="7_v8iff"]
+[ext_resource type="PackedScene" uid="uid://baymklqleycpa" path="res://items/typeClearMenuItem.tscn" id="8_4v555"]
 [ext_resource type="AudioStream" uid="uid://lfx6yt7mo4bg" path="res://sounds/soundEffectSwoosh.mp3" id="8_ek7h3"]
 [ext_resource type="AudioStream" uid="uid://wrw0c818p312" path="res://sounds/soundEffectsPop.mp3" id="9_4v555"]
+[ext_resource type="PackedScene" uid="uid://dk25g6wltb3wt" path="res://items/columnClearMenuItem.tscn" id="9_6h1wh"]
 [ext_resource type="AudioStream" uid="uid://dmmbmva2nuyxj" path="res://sounds/backgroundMusic.mp3" id="10_n2yux"]
 [ext_resource type="Script" uid="uid://qcwyh4jkjsk1" path="res://scripts/player_data.gd" id="11_qllts"]
 [ext_resource type="PackedScene" uid="uid://c12jrn0err337" path="res://otherScenes/game_over.tscn" id="12_dpxor"]
@@ -21,12 +24,6 @@ width = 1920
 height = 1080
 fill_from = Vector2(0.5, 0)
 fill_to = Vector2(0.5, 1)
-
-[sub_resource type="Gradient" id="Gradient_ipwre"]
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_yf1k1"]
-gradient = SubResource("Gradient_ipwre")
-fill_to = Vector2(0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2ti2u"]
 bg_color = Color(0.225, 0, 0.45, 0.788235)
@@ -61,6 +58,16 @@ offset_right = 2.0
 offset_bottom = 561.0
 grow_horizontal = 0
 color = Color(0.1944, 0.40986, 0.81, 0.180392)
+
+[node name="ColorRect" type="ColorRect" parent="Board/Background"]
+visible = false
+z_index = 10
+layout_mode = 0
+offset_top = 657.0
+offset_right = 40.0
+offset_bottom = 672.0
+scale = Vector2(8.04, 26)
+color = Color(0.631606, 0.708469, 0.938088, 0.643137)
 
 [node name="TurnTextPanel" type="Panel" parent="Board/Background"]
 z_index = 1
@@ -142,72 +149,37 @@ offset_right = 321.0
 offset_bottom = 661.0
 theme_override_styles/panel = ExtResource("2_f6vu8")
 
-[node name="item_removeNibble" type="Button" parent="Board/Background/ItemsPanel" groups=["itemButtons"]]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 50.0
-offset_top = -93.5
-offset_right = 114.0
-offset_bottom = -29.5
-grow_vertical = 2
-theme = ExtResource("5_f6vu8")
-theme_type_variation = &"ItemButton"
-toggle_mode = true
-text = "
-1"
-icon = SubResource("GradientTexture2D_yf1k1")
-alignment = 2
-icon_alignment = 1
+[node name="rowClear" parent="Board/Background/ItemsPanel" node_paths=PackedStringArray("gameManager") instance=ExtResource("5_6h1wh")]
+offset_left = 76.0
+offset_top = 293.0
+offset_right = 76.0
+offset_bottom = 293.0
+scale = Vector2(0.9, 0.890875)
+gameManager = NodePath("../../../Grid")
 
-[node name="item_clearRow" type="Button" parent="Board/Background/ItemsPanel" groups=["itemButtons"]]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 50.0
-offset_top = 81.5
-offset_right = 114.0
-offset_bottom = 145.5
-grow_vertical = 2
-theme = ExtResource("5_f6vu8")
-theme_type_variation = &"ItemButton"
-toggle_mode = true
-text = "2"
-icon_alignment = 1
+[node name="columnClear" parent="Board/Background/ItemsPanel" node_paths=PackedStringArray("gameManager") instance=ExtResource("9_6h1wh")]
+offset_left = 240.0
+offset_top = 294.0
+offset_right = 240.0
+offset_bottom = 294.0
+scale = Vector2(0.9, 0.9)
+gameManager = NodePath("../../../Grid")
 
-[node name="Item3" type="Button" parent="Board/Background/ItemsPanel" groups=["itemButtons"]]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 200.0
-offset_top = -93.5
-offset_right = 264.0
-offset_bottom = -29.5
-grow_vertical = 2
-theme = ExtResource("5_f6vu8")
-toggle_mode = true
-text = "3"
-flat = true
-icon_alignment = 1
+[node name="singleClear" parent="Board/Background/ItemsPanel" node_paths=PackedStringArray("gameManager") instance=ExtResource("7_ek7h3")]
+offset_left = 76.0
+offset_top = 149.0
+offset_right = 76.0
+offset_bottom = 149.0
+scale = Vector2(0.9, 0.9)
+gameManager = NodePath("../../../Grid")
 
-[node name="Item_clearColumn" type="Button" parent="Board/Background/ItemsPanel" groups=["itemButtons"]]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 200.0
-offset_top = 77.5
-offset_right = 272.0
-offset_bottom = 149.5
-grow_vertical = 2
-theme = ExtResource("5_f6vu8")
-theme_type_variation = &"ItemButton"
-toggle_mode = true
-text = "4"
-icon_alignment = 1
+[node name="typeClear" parent="Board/Background/ItemsPanel" node_paths=PackedStringArray("gameManager") instance=ExtResource("8_4v555")]
+offset_left = 238.0
+offset_top = 149.0
+offset_right = 238.0
+offset_bottom = 149.0
+scale = Vector2(0.9, 0.9)
+gameManager = NodePath("../../../Grid")
 
 [node name="TopBar" type="Panel" parent="Board/Background"]
 layout_mode = 0
@@ -259,7 +231,7 @@ z_as_relative = false
 tile_map_data = PackedByteArray("AAD+/wEAAAAAAAEAAAD+/wAAAAAAAAEAAAD//wAAAAAAAAEAAAD//wEAAAAAAAEAAAD//wIAAAAAAAEAAAD+/wIAAAAAAAEAAAD9/wAAAAAAAAEAAAD9/wEAAAAAAAEAAAD9/wIAAAAAAAEAAAD//wMAAAAAAAEAAAD+/wMAAAAAAAEAAAD9/wMAAAAAAAEAAAD9/wQAAAAAAAEAAAD+/wQAAAAAAAEAAAD//wQAAAAAAAAAAAD//wUAAAAAAAEAAAD+/wUAAAAAAAEAAAD9/wUAAAAAAAEAAAD9/wYAAAAAAAEAAAD+/wYAAAAAAAEAAAD//wYAAAAAAAEAAAD//wcAAAAAAAEAAAD+/wcAAAAAAAEAAAD9/wcAAAAAAAEAAAD9/wgAAAAAAAEAAAD+/wgAAAAAAAEAAAD//wgAAAAAAAEAAAAAAAgAAAAAAAEAAAABAAgAAAAAAAEAAAACAAgAAAAAAAAAAAADAAgAAAAAAAAAAAAEAAgAAAAAAAAAAAAFAAgAAAAAAAAAAAAGAAgAAAAAAAAAAAAHAAgAAAAAAAEAAAAIAAgAAAAAAAEAAAAJAAgAAAAAAAEAAAAKAAgAAAAAAAEAAAALAAgAAAAAAAEAAAAMAAgAAAAAAAEAAAAMAAQAAAAAAAEAAAAMAAMAAAAAAAEAAAALAAMAAAAAAAEAAAAKAAMAAAAAAAEAAAAKAAIAAAAAAAEAAAALAAIAAAAAAAEAAAAMAAIAAAAAAAEAAAAMAAEAAAAAAAEAAAALAAEAAAAAAAEAAAAKAAEAAAAAAAEAAAAKAAAAAAAAAAEAAAALAAAAAAAAAAEAAAAMAAAAAAAAAAEAAAAMAP//AAAAAAEAAAALAP//AAAAAAEAAAAKAP//AAAAAAEAAAAIAP//AAAAAAEAAAAHAP//AAAAAAEAAAAGAP//AAAAAAEAAAAFAP//AAAAAAEAAAAEAP//AAAAAAEAAAADAP//AAAAAAEAAAACAP//AAAAAAEAAAABAP//AAAAAAEAAAD/////AAAAAAEAAAD+////AAAAAAEAAAD9////AAAAAAEAAAD9//7/AAABAAAAAAD+//7/AAABAAAAAAD///7/AAABAAAAAAAAAP7/AAABAAAAAAABAP7/AAABAAAAAAACAP7/AAABAAAAAAADAP7/AAABAAAAAAAEAP7/AAABAAAAAAAFAP7/AAABAAAAAAAGAP7/AAABAAAAAAAHAP7/AAABAAAAAAAIAP7/AAABAAAAAAAJAP7/AAABAAAAAAAKAP7/AAABAAAAAAALAP7/AAABAAAAAAAMAP7/AAABAAAAAAAKAAYAAAAAAAAAAAALAAYAAAAAAAAAAAALAAcAAAAAAAEAAAAMAAcAAAAAAAEAAAAMAAYAAAAAAAAAAAAMAAUAAAAAAAEAAAALAAUAAAAAAAEAAAALAAQAAAAAAAEAAAAKAAQAAAAAAAEAAAAKAAUAAAAAAAEAAAAKAAcAAAAAAAEAAAAJAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAHAAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAFAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAADAAAAAAAAAAAAAAACAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAAcAAAAAAAAAAAABAAcAAAAAAAAAAAAGAAcAAAAAAAAAAAAHAAcAAAAAAAAAAAAIAAcAAAAAAAAAAAAJAAcAAAAAAAAAAAAFAAcAAAAAAAAAAAAEAAcAAAAAAAAAAAADAAcAAAAAAAAAAAACAAcAAAAAAAAAAAACAAYAAAAAAAAAAAADAAYAAAAAAAAAAAAEAAYAAAAAAAAAAAAFAAYAAAAAAAAAAAAGAAYAAAAAAAAAAAAIAAYAAAAAAAAAAAAIAAUAAAAAAAAAAAAHAAUAAAAAAAAAAAAGAAUAAAAAAAAAAAAFAAUAAAAAAAAAAAAEAAUAAAAAAAAAAAABAAYAAAAAAAAAAAAHAAYAAAAAAAAAAAAJAAYAAAAAAAAAAAAJAAUAAAAAAAAAAAAGAAQAAAAAAAAAAAAFAAQAAAAAAAAAAAAEAAQAAAAAAAAAAAADAAQAAAAAAAAAAAACAAQAAAAAAAAAAAABAAQAAAAAAAAAAAABAAUAAAAAAAAAAAACAAUAAAAAAAAAAAADAAUAAAAAAAAAAAAJAAQAAAAAAAAAAAAIAAQAAAAAAAAAAAAIAAMAAAAAAAAAAAAHAAMAAAAAAAAAAAAGAAMAAAAAAAAAAAAFAAMAAAAAAAAAAAAEAAIAAAAAAAAAAAADAAIAAAAAAAAAAAACAAIAAAAAAAAAAAABAAIAAAAAAAAAAAABAAMAAAAAAAAAAAACAAMAAAAAAAAAAAADAAMAAAAAAAAAAAAEAAMAAAAAAAAAAAAJAAMAAAAAAAAAAAAIAAIAAAAAAAAAAAAHAAIAAAAAAAAAAAAGAAIAAAAAAAAAAAAFAAIAAAAAAAAAAAAHAAQAAAAAAAAAAAAHAAEAAAAAAAAAAAAGAAEAAAAAAAAAAAAFAAEAAAAAAAAAAAAEAAEAAAAAAAAAAAADAAEAAAAAAAAAAAAJAAIAAAAAAAAAAAAJAAEAAAAAAAAAAAAIAAEAAAAAAAAAAAACAAEAAAAAAAAAAAABAAEAAAAAAAAAAAAJAP//AAAAAAEAAAD8////AAAAAAEAAAAAAP//AAAAAAEAAAA=")
 tile_set = ExtResource("6_6h1wh")
 
-[node name="Grid" type="Node2D" parent="Board"]
+[node name="Grid" type="Node2D" parent="Board" groups=["boardController"]]
 position = Vector2(-1, 0)
 script = ExtResource("7_v8iff")
 width = 10
@@ -314,9 +286,6 @@ scale = Vector2(0.266898, 0.266898)
 sprite_frames = ExtResource("13_x7biu")
 animation = &"PigeonIdle"
 
-[connection signal="toggled" from="Board/Background/ItemsPanel/item_removeNibble" to="Board/Grid" method="_on_item_remove_nibble_toggled"]
-[connection signal="pressed" from="Board/Background/ItemsPanel/item_clearRow" to="Board/Grid" method="_on_item_clear_row_pressed"]
-[connection signal="pressed" from="Board/Background/ItemsPanel/Item_clearColumn" to="Board/Grid" method="_on_item_clear_column_pressed"]
 [connection signal="clearScore" from="Board/Grid" to="Board/Grid/PlayerData" method="_on_grid_clear_score"]
 [connection signal="clearScore" from="Board/Grid" to="Board/GameOver" method="_on_grid_clear_score"]
 [connection signal="validTiles" from="Board/Grid" to="Board/TileMaps" method="_on_grid_valid_tiles"]

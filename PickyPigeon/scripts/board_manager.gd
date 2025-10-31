@@ -19,8 +19,7 @@ signal clearScore(rating: int)
 # state machine
 enum {wait, move, item, gameOver}
 var state
-var currentItem
-
+var recentItem: String
 
 # how much nibble should drop from
 @export var yNibbleOffset: int
@@ -347,11 +346,6 @@ func endLevel():
 	elif goalsComplete >= objectiveItems.size()/2.00:
 		emit_signal("clearScore", 2)
 
-#func saveScore(rating: int) -> Dictionary[String,int]:
-	#var scoreEntry: Dictionary[String, int] = {get_tree().get_current_scene().get_name(): rating}
-	#return scoreEntry
-
-
 
 func waitTimer(seconds: float):
 	await get_tree().create_timer(seconds).timeout
@@ -394,63 +388,61 @@ func _process(delta: float) -> void:
 	elif turnRemaining == 0 && state == move:
 			endLevel() # TODO
 	elif state == item:
-		itemMouseInput()
+		itemMouseInput(recentItem)
 
-
+"""
 # Signal receivers for the different level items 
 
-func _on_item_remove_nibble_toggled(toggled_on: bool) -> void:
-	itemTrigger(1)
-
-func _on_item_clear_row_pressed() -> void:
-	itemTrigger(2)
-
-func _on_item_clear_column_pressed() -> void:
-	itemTrigger(4)
+#func _on_item_remove_nibble_toggled(toggled_on: bool) -> void:
+		#itemTrigger(1)
+#func _on_item_clear_row_pressed() -> void:
+	#itemTrigger(2)
+#
+#func _on_item_clear_column_pressed() -> void:
+	#itemTrigger(4)
 
 ## Makes sure the button is displaying correctly and updates what currentItem is in use
-func itemTrigger(whatItem: int):
-	if state == move:
-		state = item
-		currentItem = whatItem
-	# if button is pressed again without doing action, cancel
-	elif state == item:
-		state = move
-	elif state == wait:
-		updateItemButtonsDisplay()
-
+#func itemTrigger(whatItem: int):
+	#if state == move:
+		#state = item
+		#currentItem = whatItem
+	## if button is pressed again without doing action, cancel
+	#elif state == item:
+		#state = move
+	#elif state == wait:
+		#updateItemButtonsDisplay()
+"""
 # Gets input when in the item state, and calling the correct function for each item
-func itemMouseInput():
+func itemMouseInput(currentItem: String):
+	state = item
+	recentItem = currentItem
 	if Input.is_action_just_pressed("click"):
 		if isInGrid(pixelToGrid(get_global_mouse_position().x, get_global_mouse_position().y)):
 			first_click = pixelToGrid(get_global_mouse_position().x, get_global_mouse_position().y)
-		# Call the function for the item being used, the indivudual buttons have functions that set the current item value
 			match currentItem:
-				1:
+				"singleClear":
 					destroySingularNibble(first_click)
-				2:
+				"rowClear":
 					clearRow(first_click)
-				3:
-					pass
-				4:
+				"columnClear":
 					clearColumn(first_click)
+				"typeClear":
+					clearAllOfType(first_click)
 				_:
-					print("Item select error")
+					print("Item select error in board Manager")
 		else:
 			updateItemButtonsDisplay()
+			state = move
 
 # Destroys a singular nibble at given grid position
 func destroySingularNibble(gridPosition: Vector2):
 	if boardNibbles[gridPosition.x][gridPosition.y] != null:
 		updateObjectives(gridPosition)	
-		boardNibbles[gridPosition.x][gridPosition.y].queue_free()
-		boardNibbles[gridPosition.x][gridPosition.y] = null	
-		updateMenus()
-		$CollapseTimer.start()
-		updateItemButtonsDisplay()
-		state = wait
-
-
+		boardNibbles[gridPosition.x][gridPosition.y].matched = true
+		boardNibbles[gridPosition.x][gridPosition.y].dim()
+		$DestroyTimer.start()	
+		boardUpdate()
+# clears the row of given grid position
 func clearRow(gridPosition: Vector2):
 	if boardNibbles[gridPosition.x][gridPosition.y] != null:
 		for i in width:
@@ -458,12 +450,11 @@ func clearRow(gridPosition: Vector2):
 				if boardNibbles[i][gridPosition.y] != null:
 					boardNibbles[i][gridPosition.y].matched = true
 					updateObjectives(Vector2(i, gridPosition.y))	
-				destroyMatched()
-		updateMenus()
-		$CollapseTimer.start()
-		updateItemButtonsDisplay()
-		state = wait
+					boardNibbles[i][gridPosition.y].dim()
+				$DestroyTimer.start()
+				boardUpdate()
 
+# clears the column of given grid position
 func clearColumn(gridPosition: Vector2):
 	if boardNibbles[gridPosition.x][gridPosition.y] != null:
 		for i in width:
@@ -471,14 +462,30 @@ func clearColumn(gridPosition: Vector2):
 				if boardNibbles[gridPosition.x][j] != null:
 					boardNibbles[gridPosition.x][j].matched = true
 					updateObjectives(Vector2(gridPosition.x, j))
-				destroyMatched()
-		updateMenus()
-		$CollapseTimer.start()
-		updateItemButtonsDisplay()
-		state = wait
+					boardNibbles[gridPosition.x][j].dim()
+				$DestroyTimer.start()
+				boardUpdate()
+# clears all of the nibbleType specified by given grid position
+func clearAllOfType(gridPosition: Vector2):
+	if boardNibbles[gridPosition.x][gridPosition.y] != null:
+		var typeSelected = boardNibbles[gridPosition.x][gridPosition.y].nibbleType
+		for i in width:
+			for j in height:
+				if typeSelected != null && boardNibbles[i][j] != null:
+					if typeSelected == boardNibbles[i][j].nibbleType:
+						print("here!")
+						boardNibbles[i][j].matched = true
+						boardNibbles[i][j].dim()
+						$DestroyTimer.start()
+						boardUpdate()
 
+# update board, usually needed after removing nibbles with items
+func boardUpdate():
+	updateMenus()
+	$CollapseTimer.start()
+	updateItemButtonsDisplay()
+	state = wait
 # Untoggles all buttons in itemButtons after an action
 func updateItemButtonsDisplay():
-	# TODO - implement limited number of items
 	for i in get_tree().get_nodes_in_group("itemButtons"):
-		i.button_pressed = false
+		i.itemButton.button_pressed = false

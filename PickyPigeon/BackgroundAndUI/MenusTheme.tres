@@ -68,7 +68,7 @@ shadow_size = 10
 shadow_offset = Vector2(2, 2)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2d33e"]
-bg_color = Color(0.155247, 0.0522, 0.29, 0.0352941)
+bg_color = Color(0.156863, 0.0509804, 0.290196, 0)
 
 [resource]
 default_font = ExtResource("1_bbvdp")
@@ -78,6 +78,7 @@ Button/colors/font_focus_color = Color(0.352941, 0.211765, 1, 1)
 Button/colors/font_hover_color = Color(0.354833, 0.21, 1, 1)
 Button/colors/font_outline_color = Color(0.160784, 0.160784, 1, 1)
 Button/colors/font_pressed_color = Color(0.77, 0.7815, 1, 1)
+Button/constants/icon_max_width = 128
 Button/constants/outline_size = 1
 Button/styles/focus = SubResource("StyleBoxFlat_1opvy")
 Button/styles/hover = SubResource("StyleBoxFlat_5adxy")

@@ -14,14 +14,10 @@ func _ready() -> void:
 	levelsGroup = $"Control/LevelSelect"
 	logoGroup.visible = true
 	levelsGroup.visible = false
-	
+	$Control/LevelSelect/HScrollBar/LevelList.max_columns = levels.size() + 1
+	# generate an item in the list for each level
 	for i in levels.size():
-		#levelIcon.gradient = randomIconColor(i)
-		$"Control/LevelSelect/LevelList".add_item("Level " + str(i + 1), randomIconColor(i), true)
-		print($"Control/LevelSelect/LevelList".get_item_icon(i))
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta: float) -> void:
+		$"Control/LevelSelect/HScrollBar/LevelList".add_item("Level " + str(i + 1), randomIconColor(i), true)
 
 # Generate a random circle icon for each level
 # Color is random from the seed it is called with, but is the same on each run of the game so that it looks conistent
@@ -64,4 +60,5 @@ func tweenDone():
 
 
 func _on_level_list_item_clicked(index: int, at_position: Vector2, mouse_button_index: int) -> void:
-	get_tree().change_scene_to_packed(levels[index])
+	if levels[index] != null:
+		get_tree().change_scene_to_packed(levels[index])

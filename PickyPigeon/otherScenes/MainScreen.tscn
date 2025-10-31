@@ -1,15 +1,13 @@
-[gd_scene load_steps=11 format=3 uid="uid://7mryyx5le04p"]
+[gd_scene load_steps=12 format=3 uid="uid://7mryyx5le04p"]
 
 [ext_resource type="Script" uid="uid://bpcrfs265rvrx" path="res://scripts/MainMenuControl.gd" id="1_453mu"]
 [ext_resource type="Texture2D" uid="uid://v86r38v3w6ah" path="res://BackgroundAndUI/Icons/levelIconBase.tres" id="2_a8wb5"]
 [ext_resource type="Texture2D" uid="uid://bv7mfj1lllire" path="res://BackgroundAndUI/Icons/PickyPigeonLogo.png" id="2_ih8ls"]
-[ext_resource type="PackedScene" uid="uid://dcc5gll3m8e6n" path="res://BaseLevel.tscn" id="3_b26h7"]
+[ext_resource type="PackedScene" uid="uid://6ilflmip7y3w" path="res://Levels/levelOne.tscn" id="3_4pfr5"]
 [ext_resource type="FontFile" uid="uid://c6lb8h4ou5gfa" path="res://BackgroundAndUI/Rubik_Doodle_Shadow_Font/RubikDoodleShadow-Regular.ttf" id="3_ih8ls"]
 [ext_resource type="Theme" uid="uid://de2n0oa8q8kvm" path="res://BackgroundAndUI/FontTheme.tres" id="4_7pmop"]
 [ext_resource type="Theme" uid="uid://cadxfbgyxkbvv" path="res://BackgroundAndUI/MenusTheme.tres" id="4_drlny"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ih8ls"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
+[ext_resource type="PackedScene" uid="uid://duulu4wwtgtus" path="res://Levels/levelTwo.tscn" id="4_v30kg"]
 
 [sub_resource type="Gradient" id="Gradient_453mu"]
 colors = PackedColorArray(0.6138, 0.462, 0.66, 1, 0.285075, 0.1701, 0.63, 1)
@@ -22,12 +20,15 @@ fill = 1
 fill_from = Vector2(0.457, 0.07)
 fill_to = Vector2(0, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ih8ls"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
 [node name="Node3D" type="Node3D"]
 
 [node name="Node2D" type="Node2D" parent="."]
 script = ExtResource("1_453mu")
 levelIcon = ExtResource("2_a8wb5")
-levels = Array[PackedScene]([ExtResource("3_b26h7"), null, null])
+levels = Array[PackedScene]([ExtResource("3_4pfr5"), ExtResource("4_v30kg"), null, null, null, null, null, null, null, null, null, null, null, null, null])
 
 [node name="Control" type="Control" parent="Node2D"]
 layout_mode = 3
@@ -42,40 +43,45 @@ grow_vertical = 2
 [node name="LevelSelect" type="Control" parent="Node2D/Control"]
 modulate = Color(1, 1, 1, 0)
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 1914.0
+offset_bottom = 1078.0
 
-[node name="LevelList" type="ItemList" parent="Node2D/Control/LevelSelect"]
+[node name="Background" type="TextureRect" parent="Node2D/Control/LevelSelect"]
+z_index = -1930
+z_as_relative = false
+layout_mode = 0
+offset_right = 1924.0
+offset_bottom = 1096.0
+texture = SubResource("GradientTexture2D_7pmop")
+
+[node name="HScrollBar" type="HScrollBar" parent="Node2D/Control/LevelSelect"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="LevelList" type="ItemList" parent="Node2D/Control/LevelSelect/HScrollBar"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 162.0
-offset_top = 258.0
-offset_right = 1718.0
-offset_bottom = 782.0
+offset_left = 947.0
+offset_top = 400.0
+offset_right = 1914.0
+offset_bottom = 676.0
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset = Vector2(483, 138)
 theme = ExtResource("4_drlny")
-auto_width = true
 auto_height = true
+wraparound_items = false
 max_columns = 3
+same_column_width = true
 icon_mode = 0
 
-[node name="Panel" type="Panel" parent="Node2D/Control/LevelSelect"]
-visible = false
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = 920.0
-offset_right = 960.0
-offset_bottom = 40.0
-grow_horizontal = 2
-
 [node name="Logo" type="Control" parent="Node2D/Control"]
+visible = false
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
@@ -127,5 +133,5 @@ texture = SubResource("GradientTexture2D_7pmop")
 one_shot = true
 autostart = true
 
-[connection signal="item_clicked" from="Node2D/Control/LevelSelect/LevelList" to="Node2D" method="_on_level_list_item_clicked"]
+[connection signal="item_clicked" from="Node2D/Control/LevelSelect/HScrollBar/LevelList" to="Node2D" method="_on_level_list_item_clicked"]
 [connection signal="timeout" from="Node2D/Startup" to="Node2D" method="_on_startup_timeout"]

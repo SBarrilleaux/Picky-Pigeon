@@ -1,0 +1,69 @@
+[gd_scene load_steps=4 format=3 uid="uid://dbhrdgs0qgq60"]
+
+[ext_resource type="Theme" uid="uid://cadxfbgyxkbvv" path="res://BackgroundAndUI/MenusTheme.tres" id="1_vd8qe"]
+
+[sub_resource type="GDScript" id="GDScript_bp1wp"]
+script/source = "extends Control
+
+var itemButton: Button
+@export var itemType: String
+@export var gameManager: Node2D
+
+signal itemUse(itemType: String)
+
+var uses: int
+var lastState: bool = false
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	itemButton = $ItemButton
+	# Button data should have been loaded from the PlayerData node.
+
+func _on_item_button_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		if gameManager != null:
+			if gameManager.state == 1 && uses > 0:
+				gameManager.itemMouseInput(itemType)
+				uses -= 1
+				updateText()
+			else:
+				itemButton.button_pressed = false
+func updateText():
+	itemButton.text = \"\\n\" + str(uses)
+func saveButton() -> String:
+	var buttonData: String
+	buttonData = itemType + \":\" + str(uses)
+		#saveFile.store_line(str(playerSaveStats.keys()[i],\":\",playerSaveStats.values()[i],\"\\r\").replace(\" \",\"\"))
+	return buttonData
+
+func loadButton(data: Dictionary[String, int]):
+	if data.has(itemType):
+		uses = data[itemType]
+		print(uses)
+	else:
+		print(\"no such item saved:\")
+		uses = 1
+	updateText()
+"
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_vd8qe"]
+size = Vector2(64, 64)
+
+[node name="Item" type="Control" groups=["itemButtons"]]
+layout_mode = 3
+anchors_preset = 0
+script = SubResource("GDScript_bp1wp")
+
+[node name="ItemButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_vd8qe")
+toggle_mode = true
+icon = SubResource("PlaceholderTexture2D_vd8qe")
+alignment = 2
+icon_alignment = 1
+
+[connection signal="toggled" from="ItemButton" to="." method="_on_item_button_toggled"]
