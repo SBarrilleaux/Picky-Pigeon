@@ -1,11 +1,14 @@
-[gd_scene load_steps=6 format=4 uid="uid://c12jrn0err337"]
+[gd_scene load_steps=9 format=4 uid="uid://c12jrn0err337"]
 
-[ext_resource type="Theme" uid="uid://de2n0oa8q8kvm" path="res://BackgroundAndUI/FontTheme.tres" id="1_y26ei"]
-[ext_resource type="Script" uid="uid://doo4ojpeud6pk" path="res://game_over.gd" id="1_yxx3c"]
-[ext_resource type="Texture2D" uid="uid://dtwqv0vqix6pi" path="res://BackgroundAndUI/BackgroundTiles.png" id="2_ccer4"]
+[ext_resource type="Script" uid="uid://doo4ojpeud6pk" path="res://scripts/game_over.gd" id="1_ge8rm"]
+[ext_resource type="Texture2D" uid="uid://50wbqgnhj5x4" path="res://BackgroundAndUI/Icons/clearIconV2.png" id="2_m7q7l"]
+[ext_resource type="Texture2D" uid="uid://bdl25n4cj1mpc" path="res://BackgroundAndUI/Icons/failIcon.png" id="3_e1xbs"]
+[ext_resource type="Texture2D" uid="uid://dtwqv0vqix6pi" path="res://BackgroundAndUI/BackgroundTiles.png" id="5_3ednb"]
+[ext_resource type="Texture2D" uid="uid://rbqiydrcqfow" path="res://BackgroundAndUI/gameOverMenu.png" id="6_p27gk"]
+[ext_resource type="Theme" uid="uid://de2n0oa8q8kvm" path="res://BackgroundAndUI/FontTheme.tres" id="7_gjykw"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8u835"]
-texture = ExtResource("2_ccer4")
+texture = ExtResource("5_3ednb")
 texture_region_size = Vector2i(256, 256)
 0:0/0 = 0
 1:0/0 = 0
@@ -35,7 +38,12 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_yxx3c")
+script = ExtResource("1_ge8rm")
+clearIconTexture = ExtResource("2_m7q7l")
+lossIconTexture = ExtResource("3_e1xbs")
+scoreStartPoint = Vector2(610, 310)
+scoreHorizontalOffset = 250.0
+mainMenuScenePath = "uid://7mryyx5le04p"
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 visible = false
@@ -53,6 +61,7 @@ offset_bottom = 255.0
 color = Color(0.439092, 0.451971, 0.606878, 0.427451)
 
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -70,6 +79,7 @@ pivot_offset = Vector2(20, 20)
 color = Color(0.629398, 0.566889, 0.936926, 1)
 
 [node name="ColorRect2" type="ColorRect" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -87,6 +97,7 @@ pivot_offset = Vector2(20, 20)
 color = Color(0.303373, 0.2562, 0.61, 1)
 
 [node name="ColorRect3" type="ColorRect" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -103,6 +114,24 @@ scale = Vector2(23.4, 5.908)
 pivot_offset = Vector2(20, 20)
 color = Color(0.217281, 0.124908, 0.442945, 1)
 
+[node name="TextureRect" type="TextureRect" parent="."]
+z_index = -20
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -512.0
+offset_top = -644.05
+offset_right = 512.0
+offset_bottom = 379.95
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.33, 1.32)
+pivot_offset = Vector2(512, 512)
+texture = ExtResource("6_p27gk")
+
 [node name="Restart" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = 8
@@ -116,7 +145,7 @@ offset_right = 317.0
 offset_bottom = 245.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_y26ei")
+theme = ExtResource("7_gjykw")
 text = "Restart"
 
 [node name="ReturnToMain" type="Button" parent="."]
@@ -132,58 +161,8 @@ offset_right = -64.0
 offset_bottom = 245.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_y26ei")
+theme = ExtResource("7_gjykw")
 text = "Main Menu"
 
-[node name="Placeholder" type="ColorRect" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -220.0
-offset_top = -145.0
-offset_right = -180.0
-offset_bottom = -105.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(3.47, 3.47)
-pivot_offset = Vector2(20, 20)
-color = Color(0.621524, 0.621524, 0.621524, 1)
-
-[node name="Placeholder2" type="ColorRect" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -145.0
-offset_right = 20.0
-offset_bottom = -105.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(3.47, 3.47)
-pivot_offset = Vector2(20, 20)
-color = Color(0.257476, 0.257476, 0.257476, 1)
-
-[node name="Placeholder3" type="ColorRect" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 180.0
-offset_top = -145.0
-offset_right = 220.0
-offset_bottom = -105.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(3.47, 3.47)
-pivot_offset = Vector2(20, 20)
-color = Color(0.270222, 0.270222, 0.270222, 1)
-
 [connection signal="pressed" from="Restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="ReturnToMain" to="." method="_on_return_to_main_pressed"]

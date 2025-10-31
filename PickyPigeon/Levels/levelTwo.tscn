@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://duulu4wwtgtus"]
+
+[ext_resource type="PackedScene" uid="uid://dcc5gll3m8e6n" path="res://BaseLevel.tscn" id="1_ohe5a"]
+
+[node name="Node3D" instance=ExtResource("1_ohe5a")]
+
+[node name="Grid" parent="Board" index="2"]
+emptySpaces = PackedVector2Array(0, 5, 1, 5, 2, 5, 10, 5, 9, 5, 8, 5, 7, 5, 3, 2, 4, 2, 5, 2, 6, 2, 4, 1, 5, 1, 4, 3, 5, 3)
+objectiveItems = Array[String](["peanut", "popcorn"])
+objectiveGoalTotal = Array[int]([45, 20])
