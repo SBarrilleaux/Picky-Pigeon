@@ -3,6 +3,7 @@ extends Node
 var playerSaveStats: Dictionary[String,int]
 var currentScene
 var allButtonsToSave
+var coins: int
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# Get the current levels name
@@ -14,27 +15,52 @@ func _ready() -> void:
 		playerSaveStats = loadData()
 		for i in allButtonsToSave.size():
 			allButtonsToSave[i].loadButton(loadData())
-		
-	
+
 	print("Prior Best: ")
 	print(playerSaveStats.get(currentScene))
 	print(currentScene)
 
+# Reads the given folder to find out how many files are in it
+func getFileCount(path: String) -> Array:
+	var levelList = []
+	var dir = DirAccess.open(path)
+
+	if dir:
+		dir.list_dir_begin()
+		var fileName = dir.get_next()
+		while fileName != "":
+			# Exclude "." and ".." which represent the current and parent directories
+			if not fileName.begins_with("."):
+				# Check if it's a file (not a directory)
+				if not dir.current_is_dir():
+					levelList.append(fileName.substr(0, fileName.length() - 5))
+			fileName = dir.get_next()
+		dir.list_dir_end()
+	else:
+		print("Could not open directory: ", path)
+
+	return levelList
+
+
+
 func _on_grid_clear_score(rating: int) -> void:
 	#Add the current levels score to the dictionary if it is a new high score or no score exists
-	if playerSaveStats.get(currentScene) != null &&  rating > playerSaveStats.get(currentScene):
-		var scoreEntry: Dictionary[String, int] = {currentScene: rating}
-		playerSaveStats.assign(scoreEntry)
-	elif playerSaveStats.get(currentScene) == null:
-		var scoreEntry: Dictionary[String, int] = {currentScene: rating}
-		playerSaveStats.assign(scoreEntry)
+	if playerSaveStats.get(currentScene) != null:
+		if playerSaveStats[currentScene] < rating:
+			playerSaveStats[currentScene] = rating
 	saveData()
 
 func saveData():
 	var saveFile = FileAccess.open("user://savegame.save", FileAccess.WRITE)
 	# Save level Scores
-	for i in playerSaveStats.size():
-		saveFile.store_line(str(playerSaveStats.keys()[i],":",playerSaveStats.values()[i],"\r").replace(" ",""))
+	var allLevels = getFileCount("res://Levels/")
+	
+	for i in allLevels.size():
+		if playerSaveStats.has(allLevels[i]):
+			var foundKey = playerSaveStats[allLevels[i]]
+			saveFile.store_line(str(allLevels[i],":",foundKey,"\r").replace(" ",""))
+		else:
+			saveFile.store_line(str(allLevels[i],":",0,"\r").replace(" ",""))
 	
 	# TODO save item usages and coins
 	allButtonsToSave = get_tree().get_nodes_in_group("itemButtons")
