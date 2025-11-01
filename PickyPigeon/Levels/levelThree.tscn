@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://debp2wquq6qlb"]
+
+[ext_resource type="PackedScene" uid="uid://dcc5gll3m8e6n" path="res://BaseLevel.tscn" id="1_v4dfv"]
+
+[node name="Node3D" instance=ExtResource("1_v4dfv")]
+
+[node name="Grid" parent="Board" index="2"]
+unique_name_in_owner = true
+emptySpaces = PackedVector2Array(1, 3, 1, 4, 1, 5, 1, 6, 2, 3, 2, 4, 2, 5, 2, 6, 7, 3, 7, 4, 7, 5, 7, 6, 8, 3, 8, 4, 8, 5, 8, 6)
+objectiveItems = Array[String](["sunflower", "blueberry"])
+objectiveGoalTotal = Array[int]([50, 20])
+turnMax = 10

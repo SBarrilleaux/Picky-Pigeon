@@ -1,13 +1,28 @@
-[gd_scene load_steps=12 format=3 uid="uid://7mryyx5le04p"]
+[gd_scene load_steps=14 format=3 uid="uid://7mryyx5le04p"]
 
 [ext_resource type="Script" uid="uid://bpcrfs265rvrx" path="res://scripts/MainMenuControl.gd" id="1_453mu"]
 [ext_resource type="Texture2D" uid="uid://v86r38v3w6ah" path="res://BackgroundAndUI/Icons/levelIconBase.tres" id="2_a8wb5"]
 [ext_resource type="Texture2D" uid="uid://bv7mfj1lllire" path="res://BackgroundAndUI/Icons/PickyPigeonLogo.png" id="2_ih8ls"]
 [ext_resource type="PackedScene" uid="uid://6ilflmip7y3w" path="res://Levels/levelOne.tscn" id="3_4pfr5"]
-[ext_resource type="FontFile" uid="uid://c6lb8h4ou5gfa" path="res://BackgroundAndUI/Rubik_Doodle_Shadow_Font/RubikDoodleShadow-Regular.ttf" id="3_ih8ls"]
-[ext_resource type="Theme" uid="uid://de2n0oa8q8kvm" path="res://BackgroundAndUI/FontTheme.tres" id="4_7pmop"]
 [ext_resource type="Theme" uid="uid://cadxfbgyxkbvv" path="res://BackgroundAndUI/MenusTheme.tres" id="4_drlny"]
 [ext_resource type="PackedScene" uid="uid://duulu4wwtgtus" path="res://Levels/levelTwo.tscn" id="4_v30kg"]
+[ext_resource type="SpriteFrames" uid="uid://jigbls5352ls" path="res://pickyPigeon/pickyPigeonAnimations.tres" id="5_87488"]
+[ext_resource type="PackedScene" uid="uid://debp2wquq6qlb" path="res://Levels/levelThree.tscn" id="5_v30kg"]
+[ext_resource type="Script" uid="uid://qcwyh4jkjsk1" path="res://scripts/player_data.gd" id="9_v30kg"]
+
+[sub_resource type="Gradient" id="Gradient_87488"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0.599515, 0.665049)
+colors = PackedColorArray(0, 0, 0, 0.329412, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ke5ad"]
+gradient = SubResource("Gradient_87488")
+width = 128
+height = 128
+use_hdr = true
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0, 0)
 
 [sub_resource type="Gradient" id="Gradient_453mu"]
 colors = PackedColorArray(0.6138, 0.462, 0.66, 1, 0.285075, 0.1701, 0.63, 1)
@@ -20,17 +35,14 @@ fill = 1
 fill_from = Vector2(0.457, 0.07)
 fill_to = Vector2(0, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ih8ls"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
-
 [node name="Node3D" type="Node3D"]
 
 [node name="Node2D" type="Node2D" parent="."]
 script = ExtResource("1_453mu")
 levelIcon = ExtResource("2_a8wb5")
-levels = Array[PackedScene]([ExtResource("3_4pfr5"), ExtResource("4_v30kg"), null, null, null, null, null, null, null, null, null, null, null, null, null])
+levels = Array[PackedScene]([ExtResource("3_4pfr5"), ExtResource("4_v30kg"), ExtResource("5_v30kg"), null, null, null])
 
-[node name="Control" type="Control" parent="Node2D"]
+[node name="MainMenu" type="Control" parent="Node2D"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -40,26 +52,55 @@ offset_bottom = 1080.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="LevelSelect" type="Control" parent="Node2D/Control"]
-modulate = Color(1, 1, 1, 0)
+[node name="LevelSelect" type="Control" parent="Node2D/MainMenu"]
 anchors_preset = 0
 offset_right = 1914.0
 offset_bottom = 1078.0
 
-[node name="Background" type="TextureRect" parent="Node2D/Control/LevelSelect"]
+[node name="PickyPigeon" type="AnimatedSprite2D" parent="Node2D/MainMenu/LevelSelect"]
+unique_name_in_owner = true
+z_index = 1000
+position = Vector2(651, 563)
+scale = Vector2(0.935243, 0.935243)
+sprite_frames = ExtResource("5_87488")
+animation = &"PigeonOther"
+
+[node name="TextureRect" type="TextureRect" parent="Node2D/MainMenu/LevelSelect"]
+layout_mode = 0
+offset_left = 190.0
+offset_top = 879.0
+offset_right = 1059.0
+offset_bottom = 1100.0
+texture = SubResource("GradientTexture2D_ke5ad")
+
+[node name="CoinText" type="Label" parent="Node2D/MainMenu/LevelSelect"]
+z_index = -172
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -259.0
+offset_right = 6.0
+offset_bottom = 159.0
+grow_horizontal = 0
+theme = ExtResource("4_drlny")
+text = "Coins
+"
+
+[node name="Background" type="TextureRect" parent="Node2D/MainMenu/LevelSelect"]
 z_index = -1930
 z_as_relative = false
 layout_mode = 0
-offset_right = 1924.0
-offset_bottom = 1096.0
+offset_right = 1920.0
+offset_bottom = 1080.0
 texture = SubResource("GradientTexture2D_7pmop")
 
-[node name="HScrollBar" type="HScrollBar" parent="Node2D/Control/LevelSelect"]
+[node name="HScrollBar" type="HScrollBar" parent="Node2D/MainMenu/LevelSelect"]
 layout_mode = 0
 offset_right = 8.0
 offset_bottom = 8.0
 
-[node name="LevelList" type="ItemList" parent="Node2D/Control/LevelSelect/HScrollBar"]
+[node name="LevelList" type="ItemList" parent="Node2D/MainMenu/LevelSelect/HScrollBar"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -80,14 +121,17 @@ max_columns = 3
 same_column_width = true
 icon_mode = 0
 
-[node name="Logo" type="Control" parent="Node2D/Control"]
-visible = false
+[node name="Logo" type="Control" parent="Node2D/MainMenu/LevelSelect"]
+layout_mode = 3
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = -661.0
+offset_top = -255.0
+offset_right = -621.0
+offset_bottom = -215.0
+scale = Vector2(0.52, 0.52)
 pivot_offset = Vector2(960, 540)
 
-[node name="MainIcon" type="TextureRect" parent="Node2D/Control/Logo"]
+[node name="MainIcon" type="TextureRect" parent="Node2D/MainMenu/LevelSelect/Logo"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -100,38 +144,81 @@ scale = Vector2(0.52, 0.52)
 pivot_offset = Vector2(1025, 0)
 texture = ExtResource("2_ih8ls")
 
-[node name="LogoText" type="TextEdit" parent="Node2D/Control/Logo"]
+[node name="MainIcon2" type="TextureRect" parent="Node2D/MainMenu/LevelSelect/Logo"]
+modulate = Color(0.63128, 0.3744, 0.78, 0.635294)
+z_index = -90
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 578.05
-offset_top = 453.0
-offset_right = 1378.05
-offset_bottom = 653.0
+offset_left = -86.9231
+offset_top = 40.0
+offset_right = 1961.08
+offset_bottom = 2088.0
 grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("4_7pmop")
-theme_override_colors/font_outline_color = Color(0.16, 0.16, 1, 1)
-theme_override_colors/font_color = Color(0.15, 1, 0.759167, 1)
-theme_override_constants/outline_size = 10
-theme_override_fonts/font = ExtResource("3_ih8ls")
-theme_override_font_sizes/font_size = 100
-theme_override_styles/normal = SubResource("StyleBoxFlat_ih8ls")
-text = "  Picky  Pigeon"
+scale = Vector2(0.52, 0.52)
+pivot_offset = Vector2(1025, 0)
+texture = ExtResource("2_ih8ls")
 
-[node name="Background" type="TextureRect" parent="Node2D/Control/Logo"]
+[node name="Label" type="Label" parent="Node2D/MainMenu/LevelSelect/Logo"]
+layout_mode = 0
+offset_left = 554.0
+offset_top = 461.0
+offset_right = 1365.0
+offset_bottom = 604.0
+theme = ExtResource("4_drlny")
+theme_override_colors/font_color = Color(0.6534, 0.96195, 0.99, 1)
+theme_override_colors/font_shadow_color = Color(0.465663, 0.3234, 0.98, 1)
+theme_override_constants/shadow_outline_size = 20
+theme_override_font_sizes/font_size = 120
+text = "Picky Pigeon"
+
+[node name="Logo" type="Control" parent="Node2D/MainMenu"]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+pivot_offset = Vector2(960, 540)
+
+[node name="MainIcon" type="TextureRect" parent="Node2D/MainMenu/Logo"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -84.0
+offset_right = 1964.0
+offset_bottom = 2048.0
+grow_horizontal = 2
+scale = Vector2(0.52, 0.52)
+pivot_offset = Vector2(1025, 0)
+texture = ExtResource("2_ih8ls")
+
+[node name="Background" type="TextureRect" parent="Node2D/MainMenu/Logo"]
 z_index = -1930
 layout_mode = 0
 offset_right = 1924.0
 offset_bottom = 1096.0
 texture = SubResource("GradientTexture2D_7pmop")
 
+[node name="Label" type="Label" parent="Node2D/MainMenu/Logo"]
+layout_mode = 0
+offset_left = 554.0
+offset_top = 461.0
+offset_right = 1365.0
+offset_bottom = 604.0
+theme = ExtResource("4_drlny")
+theme_override_colors/font_color = Color(0.6534, 0.96195, 0.99, 1)
+theme_override_colors/font_shadow_color = Color(0.465663, 0.3234, 0.98, 1)
+theme_override_constants/shadow_outline_size = 20
+theme_override_font_sizes/font_size = 120
+text = "Picky Pigeon"
+
 [node name="Startup" type="Timer" parent="Node2D"]
 one_shot = true
 autostart = true
 
-[connection signal="item_clicked" from="Node2D/Control/LevelSelect/HScrollBar/LevelList" to="Node2D" method="_on_level_list_item_clicked"]
+[node name="PlayerData" type="Node" parent="Node2D"]
+script = ExtResource("9_v30kg")
+
+[connection signal="item_clicked" from="Node2D/MainMenu/LevelSelect/HScrollBar/LevelList" to="Node2D" method="_on_level_list_item_clicked"]
 [connection signal="timeout" from="Node2D/Startup" to="Node2D" method="_on_startup_timeout"]

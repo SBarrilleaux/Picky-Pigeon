@@ -319,7 +319,7 @@ func _on_refill_timer_timeout() -> void:
 func updateMenus():
 	# update text for turns remaining
 	turnText.text = "Turns \n Remaining \n" + str(turnRemaining)
-
+	%CoinsText.text = "Coins\n" + str($PlayerData.coins)
 	# update objectives to current amounts			
 	for i in objectiveItems.size():
 		%ObjectivesList.set_item_text(i, str(objectiveGoalTotal[i]))

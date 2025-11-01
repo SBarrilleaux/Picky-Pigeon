@@ -3,7 +3,7 @@ extends Node
 var playerSaveStats: Dictionary[String,int]
 var currentScene
 var allButtonsToSave
-var coins: int
+var coins: int =  200
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# Get the current levels name
@@ -44,7 +44,7 @@ func getFileCount(path: String) -> Array:
 
 
 func _on_grid_clear_score(rating: int) -> void:
-	#Add the current levels score to the dictionary if it is a new high score or no score exists
+	#Add the current levels score to the dictionary if it is a new high score
 	if playerSaveStats.get(currentScene) != null:
 		if playerSaveStats[currentScene] < rating:
 			playerSaveStats[currentScene] = rating
@@ -52,21 +52,30 @@ func _on_grid_clear_score(rating: int) -> void:
 
 func saveData():
 	var saveFile = FileAccess.open("user://savegame.save", FileAccess.WRITE)
-	# Save level Scores
-	var allLevels = getFileCount("res://Levels/")
+	if saveFile:
+		print("Saving")
+		# Save level Scores
+		var allLevels = getFileCount("res://Levels/")
+		
+		for i in allLevels.size():
+			if playerSaveStats.has(allLevels[i]):
+				var foundKey = playerSaveStats[allLevels[i]]
+				saveFile.store_line(str(allLevels[i],":",foundKey,"\r").replace(" ",""))
+				
+			else:
+				# If the level has no entry, set it to a score of 0
+				saveFile.store_line(str(allLevels[i],":",0,"\r").replace(" ",""))
+		
+		# save item uses
+		allButtonsToSave = get_tree().get_nodes_in_group("itemButtons")
+		for i in allButtonsToSave.size():
+			saveFile.store_line(allButtonsToSave[i].saveButton())
+		# save coins
+		saveFile.store_line(str("coins",":",coins,"\r").replace(" ",""))
+
+		saveFile.close()
 	
-	for i in allLevels.size():
-		if playerSaveStats.has(allLevels[i]):
-			var foundKey = playerSaveStats[allLevels[i]]
-			saveFile.store_line(str(allLevels[i],":",foundKey,"\r").replace(" ",""))
-		else:
-			saveFile.store_line(str(allLevels[i],":",0,"\r").replace(" ",""))
 	
-	# TODO save item usages and coins
-	allButtonsToSave = get_tree().get_nodes_in_group("itemButtons")
-	for i in allButtonsToSave.size():
-		saveFile.store_line(allButtonsToSave[i].saveButton())
-	saveFile.close()
 # Loads data into a dictionary of string: int to return
 func loadData():
 	var saveFile = FileAccess.open("user://savegame.save", FileAccess.READ)
@@ -87,3 +96,10 @@ func loadData():
 			content[key] = value
 		saveFile.close()
 		return content
+
+func useCoins(coinCost: int) -> bool:
+	if (coins - coinCost) > 0:
+		coins -= coinCost
+		print(coins)
+		return true
+	return false

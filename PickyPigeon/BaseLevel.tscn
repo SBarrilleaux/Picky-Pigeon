@@ -108,8 +108,7 @@ offset_bottom = 1042.0
 grow_horizontal = 0
 theme_override_styles/panel = ExtResource("2_f6vu8")
 
-[node name="ItemsText2" type="Label" parent="Board/Background/Objectives"]
-unique_name_in_owner = true
+[node name="ObjectivesText" type="Label" parent="Board/Background/Objectives"]
 z_index = 1
 layout_mode = 1
 anchors_preset = 1
@@ -123,6 +122,24 @@ theme_override_colors/font_shadow_color = Color(0.16256, 0.606715, 1, 1)
 theme_override_fonts/font = ExtResource("4_icov6")
 theme_override_font_sizes/font_size = 50
 text = "Objectives"
+horizontal_alignment = 1
+
+[node name="CoinsText" type="Label" parent="Board/Background/Objectives"]
+unique_name_in_owner = true
+z_index = 1
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -186.0
+offset_right = 328.0
+grow_vertical = 0
+theme = ExtResource("3_moi6l")
+theme_override_colors/font_shadow_color = Color(0.16256, 0.606715, 1, 1)
+theme_override_fonts/font = ExtResource("4_icov6")
+theme_override_font_sizes/font_size = 50
+text = "Coins
+___"
 horizontal_alignment = 1
 
 [node name="ItemsText" type="Label" parent="Board/Background"]
@@ -270,7 +287,7 @@ volume_db = -8.336
 stream = ExtResource("10_n2yux")
 autoplay = true
 
-[node name="PlayerData" type="Node" parent="Board/Grid"]
+[node name="PlayerData" type="Node" parent="Board/Grid" groups=["playerDataGroup"]]
 script = ExtResource("11_qllts")
 
 [node name="GameOver" parent="Board" instance=ExtResource("12_dpxor")]

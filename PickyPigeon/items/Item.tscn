@@ -7,12 +7,14 @@ script/source = "extends Control
 
 var itemButton: Button
 @export var itemType: String
+@export var itemCost: int
 # Get a reference to the board manager / grid in a level scene to figure out the game state
 @export var gameManager: Node2D
-
 var uses: int
 var lastState: bool = false
-
+# references for purchasing more items uses
+var purchaseMenu
+var costText: Label
 func setUse(value: int):
 	
 	uses -= abs(value)
@@ -21,6 +23,10 @@ func setUse(value: int):
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	itemButton = $ItemButton
+	purchaseMenu = $buyItemMenu
+	costText = $buyItemMenu/OutOfItemText/CostText
+	purchaseMenu.visible = false
+	costText.text = \"Buy for \" + str(itemCost) + \" Coins?\"
 	# Button data should have been loaded from the PlayerData node.
 
 # Triggers whenver button is pressed
@@ -30,8 +36,10 @@ func _on_item_button_toggled(toggled_on: bool) -> void:
 			if gameManager.state == 1 && uses > 0:
 				gameManager.itemMouseInput(itemType)
 				updateText()
-			else:
-				itemButton.button_pressed = false
+			elif gameManager.state == 1 && uses == 0:
+				purchaseMenu.visible = true
+			#else:
+				#itemButton.button_pressed = false
 func updateText():
 	itemButton.text = \"\\n\" + str(uses)
 func saveButton() -> String:
@@ -47,6 +55,22 @@ func loadButton(data: Dictionary[String, int]):
 		print(\"no such item saved:\")
 		uses = 1
 	updateText()
+
+
+func _on_buy_button_pressed() -> void:
+	if get_tree().has_group(\"playerDataGroup\"):
+		var playerDataNode = get_tree().get_nodes_in_group(\"playerDataGroup\")
+		if playerDataNode[0].useCoins(itemCost):
+			uses += 1
+			updateText()
+			if %Grid != null:
+				%Grid.updateMenus()
+			$ItemButton.button_pressed = false
+	purchaseMenu.visible = false
+
+
+func _on_cancel_button_pressed() -> void:
+	purchaseMenu.visible = false
 "
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_vd8qe"]
@@ -70,4 +94,58 @@ icon = SubResource("PlaceholderTexture2D_vd8qe")
 alignment = 2
 icon_alignment = 1
 
+[node name="buyItemMenu" type="Panel" parent="."]
+visible = false
+z_index = 200
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 8.0
+offset_top = -261.0
+offset_right = 508.0
+offset_bottom = -61.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(250, 100)
+theme = ExtResource("1_vd8qe")
+
+[node name="OutOfItemText" type="Label" parent="buyItemMenu"]
+z_index = 4096
+layout_mode = 0
+offset_left = 104.0
+offset_top = -2.0
+offset_right = 413.0
+offset_bottom = 58.0
+theme = ExtResource("1_vd8qe")
+text = "Out of item!"
+
+[node name="BuyButton" type="Button" parent="buyItemMenu/OutOfItemText"]
+layout_mode = 0
+offset_left = 234.0
+offset_top = 120.0
+offset_right = 344.0
+offset_bottom = 188.0
+text = "Buy"
+
+[node name="CancelButton" type="Button" parent="buyItemMenu/OutOfItemText"]
+layout_mode = 0
+offset_left = -68.0
+offset_top = 119.0
+offset_right = 120.0
+offset_bottom = 187.0
+text = "Cancel"
+
+[node name="CostText" type="Label" parent="buyItemMenu/OutOfItemText"]
+layout_mode = 0
+offset_left = -73.0
+offset_top = 53.0
+offset_right = 390.0
+offset_bottom = 113.0
+text = "Buy for __ Coins?"
+
 [connection signal="toggled" from="ItemButton" to="." method="_on_item_button_toggled"]
+[connection signal="pressed" from="buyItemMenu/OutOfItemText/BuyButton" to="." method="_on_buy_button_pressed"]
+[connection signal="pressed" from="buyItemMenu/OutOfItemText/CancelButton" to="." method="_on_cancel_button_pressed"]
