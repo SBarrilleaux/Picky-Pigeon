@@ -4,7 +4,6 @@
 
 [node name="obstacle" type="Node2D"]
 script = ExtResource("1_5ddo1")
-health = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = 50

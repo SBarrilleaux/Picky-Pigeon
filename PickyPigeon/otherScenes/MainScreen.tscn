@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://7mryyx5le04p"]
+[gd_scene load_steps=15 format=3 uid="uid://7mryyx5le04p"]
 
 [ext_resource type="Script" uid="uid://bpcrfs265rvrx" path="res://scripts/MainMenuControl.gd" id="1_453mu"]
 [ext_resource type="Texture2D" uid="uid://v86r38v3w6ah" path="res://BackgroundAndUI/Icons/levelIconBase.tres" id="2_a8wb5"]
@@ -9,6 +9,7 @@
 [ext_resource type="SpriteFrames" uid="uid://jigbls5352ls" path="res://pickyPigeon/pickyPigeonAnimations.tres" id="5_87488"]
 [ext_resource type="PackedScene" uid="uid://debp2wquq6qlb" path="res://Levels/levelThree.tscn" id="5_v30kg"]
 [ext_resource type="Script" uid="uid://qcwyh4jkjsk1" path="res://scripts/player_data.gd" id="9_v30kg"]
+[ext_resource type="AudioStream" uid="uid://ct0wfqc35btio" path="res://sounds/mainMenuMusic.mp3" id="10_87488"]
 
 [sub_resource type="Gradient" id="Gradient_87488"]
 interpolation_mode = 2
@@ -220,6 +221,11 @@ autostart = true
 
 [node name="PlayerData" type="Node" parent="Node2D"]
 script = ExtResource("9_v30kg")
+
+[node name="BackgroundMusic" type="AudioStreamPlayer2D" parent="Node2D"]
+stream = ExtResource("10_87488")
+volume_db = -0.17
+autoplay = true
 
 [connection signal="item_clicked" from="Node2D/MainMenu/LevelSelect/HScrollBar/LevelList" to="Node2D" method="_on_level_list_item_clicked"]
 [connection signal="timeout" from="Node2D/Startup" to="Node2D" method="_on_startup_timeout"]

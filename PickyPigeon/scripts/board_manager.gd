@@ -78,6 +78,10 @@ func getState():
 func restictedSpace(place: Vector2) -> bool:
 	# check empty
 	return isInArray(emptySpaces, place)
+	
+	
+func restrictedMove(place: Vector2):
+	return isInArray(obstacleSpaces, place)
 # checks whether something exists in an array
 func isInArray(array, item) -> bool:
 	for i in array.size():
@@ -89,8 +93,8 @@ func spawnObstacles(gridPosition: Vector2, type: String):
 		if possibleObstacles.has(type):
 			var current = possibleObstacles[type].instantiate()
 			add_child(current)
-			current.set_position(gridToPixel(gridPosition.x, -gridPosition.y))
-			boardObstacles[gridPosition.x][-gridPosition.y] = current
+			current.set_position(gridToPixel(gridPosition.x, gridPosition.y))
+			boardObstacles[gridPosition.x][gridPosition.y] = current
 
 func make2dArray():
 	var array = []
@@ -179,20 +183,20 @@ func swapNibble(column, row, direction: Vector2):
 	var secondNibble = boardNibbles[column + direction.x][row + direction.y]
 	
 	if firstNibble != null && secondNibble != null:
-		storeInfo(firstNibble, secondNibble, Vector2(column,row), direction)
-		# Swaps the pieces in the grid
-		state = wait
-		boardNibbles[column][row] = secondNibble
-		boardNibbles[column + direction.x][row + direction.y] = firstNibble
-		# Swaps the pieces actual visual position
-		firstNibble.move(gridToPixel(column + direction.x, row + direction.y))
-		secondNibble.move(gridToPixel(column, row))
-		
-		$Sounds/MoveSound.play(0)
-		if !moveChecked:
-			findMatches()
-			turnRemaining -= 1
-		updateMenus()
+		if !restrictedMove(Vector2(column, row)) &&  !restrictedMove(Vector2(column, row) + direction):
+			storeInfo(firstNibble, secondNibble, Vector2(column,row), direction)
+			# Swaps the pieces in the grid
+			state = wait
+			boardNibbles[column][row] = secondNibble
+			boardNibbles[column + direction.x][row + direction.y] = firstNibble
+			# Swaps the pieces actual visual position
+			firstNibble.move(gridToPixel(column + direction.x, row + direction.y))
+			secondNibble.move(gridToPixel(column, row))
+			$Sounds/MoveSound.play(0)
+			if !moveChecked:
+				findMatches()
+				turnRemaining -= 1
+			updateMenus()
 
 # Store the nibbles to be matched in case swap back is needed
 func storeInfo(firstNibble,secondNibble, place, direction):
@@ -237,7 +241,9 @@ func findMatches():
 							matchAndDim(boardNibbles[i - 1][j])
 							matchAndDim(boardNibbles[i][j])
 							matchAndDim(boardNibbles[i + 1][j])
-							
+							addToArray(Vector2(i,j),currentMatches)
+							addToArray(Vector2(i - 1,j),currentMatches)
+							addToArray(Vector2(i + 1,j),currentMatches)
 				# Check Vertical		
 				if j > 0 && j < height - 1:
 					if isNibbleNull(Vector2(i, j - 1)) && isNibbleNull(Vector2(i, j + 1)):
@@ -245,7 +251,9 @@ func findMatches():
 							matchAndDim(boardNibbles[i][j - 1])
 							matchAndDim(boardNibbles[i][j])
 							matchAndDim(boardNibbles[i][j + 1])
-					
+							addToArray(Vector2(i,j),currentMatches)
+							addToArray(Vector2(i,j - 1),currentMatches)
+							addToArray(Vector2(i,j + 1),currentMatches)
 	$DestroyTimer.start()
 
 func isNibbleNull(gridPosition) -> bool:
@@ -266,6 +274,7 @@ func destroyMatched():
 	var wasMatched = false
 	for i in width:
 		for j in height:
+			# Look for matched nibbles and remove them
 			if boardNibbles[i][j] != null:
 				if boardNibbles[i][j].matched:
 					damageObstacle(Vector2(i,j))
@@ -299,7 +308,7 @@ func collapseColumns():
 		for j in height:
 			if boardNibbles[i][j] == null && !restictedSpace(Vector2(i,j)):
 				for k in range(j + 1, height):
-					if boardNibbles[i][k] != null:
+					if boardNibbles[i][k] != null && !restrictedMove(Vector2(i,k)):
 						boardNibbles[i][k].move(gridToPixel(i,j))
 						boardNibbles[i][j] = boardNibbles[i][k]
 						boardNibbles[i][k] = null

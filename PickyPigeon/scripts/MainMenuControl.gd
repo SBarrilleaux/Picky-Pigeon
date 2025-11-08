@@ -24,8 +24,7 @@ func _ready() -> void:
 	$MainMenu/LevelSelect/CoinText.text = "Coins \n" + str(playerInfo.coins)
 	
 	$MainMenu/LevelSelect/PickyPigeon.play("PigeonOther")
-
-
+	$BackgroundMusic.play()
 # Generate a random circle icon for each level
 # Color is random from the seed it is called with, but is the same on each run of the game so that it looks conistent
 func randomIconColor(seed: int) -> GradientTexture2D:
