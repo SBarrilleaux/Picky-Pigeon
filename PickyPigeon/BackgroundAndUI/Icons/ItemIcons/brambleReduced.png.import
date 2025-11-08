@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://rbqiydrcqfow"
-path="res://.godot/imported/gameOverMenu.png-8a9aaa33dbc13aebc24fb9dbc5f6342d.ctex"
+uid="uid://b7pr4ffti43ef"
+path="res://.godot/imported/brambleReduced.png-24d9fccc54bb05d3ba2511833d35deb5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://BackgroundAndUI/gameOverMenu.png"
-dest_files=["res://.godot/imported/gameOverMenu.png-8a9aaa33dbc13aebc24fb9dbc5f6342d.ctex"]
+source_file="res://BackgroundAndUI/Icons/ItemIcons/brambleReduced.png"
+dest_files=["res://.godot/imported/brambleReduced.png-24d9fccc54bb05d3ba2511833d35deb5.ctex"]
 
 [params]
 

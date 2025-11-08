@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bpcrfs265rvrx" path="res://scripts/MainMenuControl.gd" id="1_453mu"]
 [ext_resource type="Texture2D" uid="uid://v86r38v3w6ah" path="res://BackgroundAndUI/Icons/levelIconBase.tres" id="2_a8wb5"]
-[ext_resource type="Texture2D" uid="uid://bv7mfj1lllire" path="res://BackgroundAndUI/Icons/PickyPigeonLogo.png" id="2_ih8ls"]
+[ext_resource type="Texture2D" uid="uid://bv7mfj1lllire" path="res://BackgroundAndUI/Icons/MenuIcons/PickyPigeonLogo.png" id="2_ih8ls"]
 [ext_resource type="PackedScene" uid="uid://6ilflmip7y3w" path="res://Levels/levelOne.tscn" id="3_4pfr5"]
 [ext_resource type="Theme" uid="uid://cadxfbgyxkbvv" path="res://BackgroundAndUI/MenusTheme.tres" id="4_drlny"]
 [ext_resource type="PackedScene" uid="uid://duulu4wwtgtus" path="res://Levels/levelTwo.tscn" id="4_v30kg"]
@@ -40,7 +40,7 @@ fill_to = Vector2(0, 1)
 [node name="Node2D" type="Node2D" parent="."]
 script = ExtResource("1_453mu")
 levelIcon = ExtResource("2_a8wb5")
-levels = Array[PackedScene]([ExtResource("3_4pfr5"), ExtResource("4_v30kg"), ExtResource("5_v30kg"), null, null, null])
+levels = Array[PackedScene]([ExtResource("3_4pfr5"), ExtResource("4_v30kg"), ExtResource("5_v30kg")])
 
 [node name="MainMenu" type="Control" parent="Node2D"]
 layout_mode = 3
@@ -115,6 +115,7 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(483, 138)
 theme = ExtResource("4_drlny")
+max_text_lines = 3
 auto_height = true
 wraparound_items = false
 max_columns = 3

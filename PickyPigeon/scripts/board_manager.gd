@@ -7,9 +7,13 @@ extends Node2D
 @export var yStart: int
 @export var offset: int
 
-# Board customizations
+# Board customizations / Obstacles
 ## Locations on board which nibbles can't land on
 @export var emptySpaces: PackedVector2Array
+@export var obstacleSpaces: PackedVector2Array
+var possibleObstacles = { "bramble": preload("res://BoardItems&Obstacles/bramble.tscn") }
+var boardObstacles = []
+
 ## custom signal used to send all currently used board spaces to the tilsetlayer.
 ## This allows background tiles to automatically be placed to match the board spaces
 signal validTiles(boardSpace: Vector2)
@@ -32,6 +36,7 @@ var possibleNibbles = [
 ]
 # the board / nibbles on the board
 var boardNibbles = []
+var currentMatches = []
 
 # Level Objectives
 ## Should contain the names of types of nibbles to be cleared
@@ -46,6 +51,7 @@ var lastPlace = Vector2.ZERO
 var lastDirection = Vector2.ZERO
 var moveChecked = false
 
+# Max turns and the current number of turns left
 @export var turnMax: int = 0
 var turnRemaining: int = 0
 
@@ -58,13 +64,33 @@ var controlling = false
 
 var turnText = ""
 
+func damageObstacle(gridPosition: Vector2):
+	var currentObstacle = boardObstacles[gridPosition.x][gridPosition.y]
+	if currentObstacle != null:
+		currentObstacle.takeDamage(1)
+		if currentObstacle.getHealth() == 0:
+			currentObstacle.queue_free()
+			currentObstacle = null
+		
+func getState():
+	return state
 # check if a tile isn't factored into nibble movements
-func restictedMovement(place: Vector2):
+func restictedSpace(place: Vector2) -> bool:
 	# check empty
-	for i in emptySpaces.size():
-		if emptySpaces[i] == place:
+	return isInArray(emptySpaces, place)
+# checks whether something exists in an array
+func isInArray(array, item) -> bool:
+	for i in array.size():
+		if array[i] == item:
 			return true
 	return false
+# spawns bramble obstacles at place established in brambleSpaces array
+func spawnObstacles(gridPosition: Vector2, type: String):
+		if possibleObstacles.has(type):
+			var current = possibleObstacles[type].instantiate()
+			add_child(current)
+			current.set_position(gridToPixel(gridPosition.x, -gridPosition.y))
+			boardObstacles[gridPosition.x][-gridPosition.y] = current
 
 func make2dArray():
 	var array = []
@@ -79,7 +105,7 @@ func make2dArray():
 func spawnNibbles():
 	for i in width:
 		for j in height:
-			if !restictedMovement(Vector2(i,j)):
+			if !restictedSpace(Vector2(i,j)):
 				# choose random nibble type to spawn
 				var rand = floor(randf_range(0,possibleNibbles.size()))
 				
@@ -199,34 +225,42 @@ func touchDifference(gridOne, gridTwo):
 			swapNibble(gridOne.x, gridOne.y, Vector2(0,-1))
 
 # Handles finding matches on the board during gameplay
-# TODO refactor later
 func findMatches():
-	for column in width:
-		for row in height:
-			if boardNibbles[column][row] != null:
-				var currentColor = boardNibbles[column][row].nibbleType
-				if column > 0 && column < width - 1:
-					if boardNibbles[column - 1][row] != null && boardNibbles[column + 1][row] != null:
-						if boardNibbles[column - 1][row].nibbleType == currentColor && boardNibbles[column + 1][row].nibbleType == currentColor:
-							boardNibbles[column - 1][row].matched = true
-							boardNibbles[column - 1][row].dim()
-							boardNibbles[column][row].matched = true
-							boardNibbles[column][row].dim()
-							boardNibbles[column + 1][row].matched = true
-							boardNibbles[column + 1][row].dim()
+	for i in width:
+		for j in height:
+			if isNibbleNull(Vector2(i,j)):
+				var currentColor = boardNibbles[i][j].nibbleType
+				# Check horizontal
+				if i > 0 && i < width - 1:
+					if isNibbleNull(Vector2(i - 1, j)) && isNibbleNull(Vector2(i + 1, j)):
+						if boardNibbles[i - 1][j].nibbleType == currentColor && boardNibbles[i + 1][j].nibbleType == currentColor:
+							matchAndDim(boardNibbles[i - 1][j])
+							matchAndDim(boardNibbles[i][j])
+							matchAndDim(boardNibbles[i + 1][j])
 							
-							
-				if row > 0 && row < height - 1:
-					if boardNibbles[column][row - 1] != null && boardNibbles[column][row + 1] != null:
-						if boardNibbles[column][row - 1].nibbleType == currentColor && boardNibbles[column][row + 1].nibbleType == currentColor:
-							boardNibbles[column][row - 1].matched = true
-							boardNibbles[column][row - 1].dim()
-							boardNibbles[column][row].matched = true
-							boardNibbles[column][row].dim()
-							boardNibbles[column][row + 1].matched = true
-							boardNibbles[column][row + 1].dim()
+				# Check Vertical		
+				if j > 0 && j < height - 1:
+					if isNibbleNull(Vector2(i, j - 1)) && isNibbleNull(Vector2(i, j + 1)):
+						if boardNibbles[i][j - 1].nibbleType == currentColor && boardNibbles[i][j + 1].nibbleType == currentColor:
+							matchAndDim(boardNibbles[i][j - 1])
+							matchAndDim(boardNibbles[i][j])
+							matchAndDim(boardNibbles[i][j + 1])
 					
 	$DestroyTimer.start()
+
+func isNibbleNull(gridPosition) -> bool:
+	if boardNibbles[gridPosition.x][gridPosition.y] != null:
+		return true
+	return false
+
+func matchAndDim(item):
+	item.matched = true
+	item.dim()
+
+func addToArray(value, arrayToAdd: Array):
+	if !arrayToAdd.has(value):
+		arrayToAdd.append(value)
+	
 
 func destroyMatched():
 	var wasMatched = false
@@ -234,13 +268,12 @@ func destroyMatched():
 		for j in height:
 			if boardNibbles[i][j] != null:
 				if boardNibbles[i][j].matched:
+					damageObstacle(Vector2(i,j))
 					updateObjectives(Vector2(i,j))
 					wasMatched = true
 					boardNibbles[i][j].queue_free()
 					boardNibbles[i][j] = null				
 					updateMenus()
-					
-					
 	moveChecked = true
 	
 	if wasMatched:
@@ -248,6 +281,7 @@ func destroyMatched():
 		$CollapseTimer.start()
 	else:
 		swapBack()
+	currentMatches.clear()
 ## Check if match is part of any collection objectives and subtract if so and don't go below 0
 func updateObjectives(gridPosition: Vector2):
 	if boardNibbles[gridPosition.x][gridPosition.y] != null:
@@ -263,7 +297,7 @@ func updateObjectives(gridPosition: Vector2):
 func collapseColumns():
 	for i in width:
 		for j in height:
-			if boardNibbles[i][j] == null && !restictedMovement(Vector2(i,j)):
+			if boardNibbles[i][j] == null && !restictedSpace(Vector2(i,j)):
 				for k in range(j + 1, height):
 					if boardNibbles[i][k] != null:
 						boardNibbles[i][k].move(gridToPixel(i,j))
@@ -275,7 +309,7 @@ func collapseColumns():
 func refillColumns():
 	for i in width:
 		for j in height:
-			if boardNibbles[i][j] == null && !restictedMovement(Vector2(i,j)):
+			if boardNibbles[i][j] == null && !restictedSpace(Vector2(i,j)):
 				# choose random nibble type to spawn
 				var rand = floor(randf_range(0,possibleNibbles.size()))
 		
@@ -357,10 +391,12 @@ func _ready() -> void:
 	randomize()
 	# intial board setup
 	boardNibbles = make2dArray()
+	boardObstacles = make2dArray()
 	spawnNibbles()
 	turnRemaining = turnMax
 	turnText = %TurnTextLabel
-	
+	for i in obstacleSpaces.size():
+		spawnObstacles(obstacleSpaces[i], "bramble")
 	# Add current level objectives to the list on the right side of screen
 	for i in objectiveItems.size():
 		while objectiveItems.size() < objectiveGoalTotal.size():
@@ -373,7 +409,7 @@ func _ready() -> void:
 	# Sends what tiles aren't restricted and should have background tiles placed for them as a signal.
 	for i in width:
 		for j in height:
-			if boardNibbles[i][j] != null && !restictedMovement(Vector2(i,j)):
+			if boardNibbles[i][j] != null && !restictedSpace(Vector2(i,j)):
 				validTiles.emit(pixelToGrid(boardNibbles[i][j].position.x,boardNibbles[i][j].position.y))
 	
 	updateMenus()

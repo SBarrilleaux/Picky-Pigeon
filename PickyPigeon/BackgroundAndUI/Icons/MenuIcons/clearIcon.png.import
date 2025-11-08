@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bdl25n4cj1mpc"
-path="res://.godot/imported/failIcon.png-5afc243144c9d12120bdd847f1dc6e7b.ctex"
+uid="uid://bf0qfcx1gq0b2"
+path="res://.godot/imported/clearIcon.png-78965d9b65dc59227c601cb3f8f68e55.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://BackgroundAndUI/Icons/failIcon.png"
-dest_files=["res://.godot/imported/failIcon.png-5afc243144c9d12120bdd847f1dc6e7b.ctex"]
+source_file="res://BackgroundAndUI/Icons/MenuIcons/clearIcon.png"
+dest_files=["res://.godot/imported/clearIcon.png-78965d9b65dc59227c601cb3f8f68e55.ctex"]
 
 [params]
 

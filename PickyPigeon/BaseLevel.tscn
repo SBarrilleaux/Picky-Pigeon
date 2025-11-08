@@ -1,18 +1,18 @@
 [gd_scene load_steps=20 format=4 uid="uid://dcc5gll3m8e6n"]
 
-[ext_resource type="Gradient" uid="uid://bsqdnytxyj05o" path="res://BackgroundAndUI/gradient_placeholder.tres" id="1_e5w5x"]
+[ext_resource type="Gradient" uid="uid://bsqdnytxyj05o" path="res://BackgroundAndUI/Icons/gradient_placeholder.tres" id="1_e5w5x"]
 [ext_resource type="StyleBox" uid="uid://odlv7kym1cy4" path="res://BackgroundAndUI/backgroundPanels.tres" id="2_f6vu8"]
 [ext_resource type="Theme" uid="uid://de2n0oa8q8kvm" path="res://BackgroundAndUI/FontTheme.tres" id="3_moi6l"]
 [ext_resource type="FontFile" uid="uid://c6lb8h4ou5gfa" path="res://BackgroundAndUI/Rubik_Doodle_Shadow_Font/RubikDoodleShadow-Regular.ttf" id="4_icov6"]
-[ext_resource type="PackedScene" uid="uid://brho8cm01rtcm" path="res://items/rowClearMenuItem.tscn" id="5_6h1wh"]
+[ext_resource type="PackedScene" uid="uid://brho8cm01rtcm" path="res://MenuItems/rowClearMenuItem.tscn" id="5_6h1wh"]
 [ext_resource type="Script" uid="uid://c7yn3ws1vic0f" path="res://scripts/backgroundTileManager.gd" id="5_fpy1w"]
 [ext_resource type="TileSet" uid="uid://dsg25f2us8oo6" path="res://BackgroundAndUI/baseTiles.tres" id="6_6h1wh"]
-[ext_resource type="PackedScene" uid="uid://bspviwtq0o2n5" path="res://items/singleClearMenuItem.tscn" id="7_ek7h3"]
+[ext_resource type="PackedScene" uid="uid://bspviwtq0o2n5" path="res://MenuItems/singleClearMenuItem.tscn" id="7_ek7h3"]
 [ext_resource type="Script" uid="uid://du5rertq388rh" path="res://scripts/board_manager.gd" id="7_v8iff"]
-[ext_resource type="PackedScene" uid="uid://baymklqleycpa" path="res://items/typeClearMenuItem.tscn" id="8_4v555"]
+[ext_resource type="PackedScene" uid="uid://baymklqleycpa" path="res://MenuItems/typeClearMenuItem.tscn" id="8_4v555"]
 [ext_resource type="AudioStream" uid="uid://lfx6yt7mo4bg" path="res://sounds/soundEffectSwoosh.mp3" id="8_ek7h3"]
 [ext_resource type="AudioStream" uid="uid://wrw0c818p312" path="res://sounds/soundEffectsPop.mp3" id="9_4v555"]
-[ext_resource type="PackedScene" uid="uid://dk25g6wltb3wt" path="res://items/columnClearMenuItem.tscn" id="9_6h1wh"]
+[ext_resource type="PackedScene" uid="uid://dk25g6wltb3wt" path="res://MenuItems/columnClearMenuItem.tscn" id="9_6h1wh"]
 [ext_resource type="AudioStream" uid="uid://dmmbmva2nuyxj" path="res://sounds/backgroundMusic.mp3" id="10_n2yux"]
 [ext_resource type="Script" uid="uid://qcwyh4jkjsk1" path="res://scripts/player_data.gd" id="11_qllts"]
 [ext_resource type="PackedScene" uid="uid://c12jrn0err337" path="res://otherScenes/game_over.tscn" id="12_dpxor"]
@@ -249,6 +249,7 @@ tile_map_data = PackedByteArray("AAD+/wEAAAAAAAEAAAD+/wAAAAAAAAEAAAD//wAAAAAAAAE
 tile_set = ExtResource("6_6h1wh")
 
 [node name="Grid" type="Node2D" parent="Board" groups=["boardController"]]
+unique_name_in_owner = true
 position = Vector2(-1, 0)
 script = ExtResource("7_v8iff")
 width = 10
@@ -257,6 +258,8 @@ xStart = 385
 yStart = 980
 offset = 128
 emptySpaces = PackedVector2Array(5, 3, 5, 4, 4, 4, 4, 3, 6, 5, 3, 5, 6, 2, 3, 2)
+obstacleSpaces = PackedVector2Array(1, 0)
+yNibbleOffset = 1
 objectiveItems = Array[String](["sunflower", "popcorn", "blueberry"])
 objectiveGoalTotal = Array[int]([20, 30, 10])
 turnMax = 15

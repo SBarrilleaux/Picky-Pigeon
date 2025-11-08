@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bjyqle3gbpo37"]
+
+[ext_resource type="PackedScene" uid="uid://8vtfjhvil173" path="res://BoardItems&Obstacles/obstacle.tscn" id="1_yjyhi"]
+[ext_resource type="Texture2D" uid="uid://b7ryoladwhsji" path="res://BackgroundAndUI/Icons/ItemIcons/brambleFull.png" id="2_prqvq"]
+
+[node name="bramble" instance=ExtResource("1_yjyhi")]
+
+[node name="Sprite2D" parent="." index="0"]
+scale = Vector2(0.12, 0.12)
+texture = ExtResource("2_prqvq")

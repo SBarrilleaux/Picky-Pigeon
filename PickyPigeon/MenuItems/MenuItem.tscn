@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dbhrdgs0qgq60"]
 
-[ext_resource type="Theme" uid="uid://cadxfbgyxkbvv" path="res://BackgroundAndUI/MenusTheme.tres" id="1_vd8qe"]
+[ext_resource type="Theme" uid="uid://cadxfbgyxkbvv" path="res://BackgroundAndUI/MenusTheme.tres" id="1_omv78"]
 
 [sub_resource type="GDScript" id="GDScript_bp1wp"]
 script/source = "extends Control
@@ -15,6 +15,7 @@ var lastState: bool = false
 # references for purchasing more items uses
 var purchaseMenu
 var costText: Label
+# Subtracts from item uses, and then updates text to reflect the change.
 func setUse(value: int):
 	
 	uses -= abs(value)
@@ -33,21 +34,26 @@ func _ready() -> void:
 func _on_item_button_toggled(toggled_on: bool) -> void:
 	if toggled_on:
 		if gameManager != null:
-			if gameManager.state == 1 && uses > 0:
+			# make sure that the game is in the move state when the item is used, and that item still has used
+			if gameManager.getState() == 1  && uses > 0:
 				gameManager.itemMouseInput(itemType)
 				updateText()
+			# Let player buy another item if they are out of the item
 			elif gameManager.state == 1 && uses == 0:
 				purchaseMenu.visible = true
-			#else:
-				#itemButton.button_pressed = false
+			else:
+				itemButton.button_pressed = false
+
 func updateText():
 	itemButton.text = \"\\n\" + str(uses)
+
+# Saves the button info and sends it as a string, so that it can be stored in file then loaded into dictionary.
 func saveButton() -> String:
 	var buttonData: String
 	buttonData = itemType + \":\" + str(uses)
 		#saveFile.store_line(str(playerSaveStats.keys()[i],\":\",playerSaveStats.values()[i],\"\\r\").replace(\" \",\"\"))
 	return buttonData
-
+# Loads data from the dictionary, based on the itemType name as the key it is looking for
 func loadButton(data: Dictionary[String, int]):
 	if data.has(itemType):
 		uses = data[itemType]
@@ -56,7 +62,7 @@ func loadButton(data: Dictionary[String, int]):
 		uses = 1
 	updateText()
 
-
+# Handles purchasing item uses and calls both board manager and playerData.
 func _on_buy_button_pressed() -> void:
 	if get_tree().has_group(\"playerDataGroup\"):
 		var playerDataNode = get_tree().get_nodes_in_group(\"playerDataGroup\")
@@ -88,7 +94,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_vd8qe")
+theme = ExtResource("1_omv78")
 toggle_mode = true
 icon = SubResource("PlaceholderTexture2D_vd8qe")
 alignment = 2
@@ -110,7 +116,7 @@ offset_bottom = -61.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(250, 100)
-theme = ExtResource("1_vd8qe")
+theme = ExtResource("1_omv78")
 
 [node name="OutOfItemText" type="Label" parent="buyItemMenu"]
 z_index = 4096
@@ -119,7 +125,7 @@ offset_left = 104.0
 offset_top = -2.0
 offset_right = 413.0
 offset_bottom = 58.0
-theme = ExtResource("1_vd8qe")
+theme = ExtResource("1_omv78")
 text = "Out of item!"
 
 [node name="BuyButton" type="Button" parent="buyItemMenu/OutOfItemText"]

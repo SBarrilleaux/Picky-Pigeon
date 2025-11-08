@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://baymklqleycpa"]
 
-[ext_resource type="PackedScene" uid="uid://dbhrdgs0qgq60" path="res://items/Item.tscn" id="1_pu3gx"]
+[ext_resource type="PackedScene" uid="uid://dbhrdgs0qgq60" path="res://MenuItems/MenuItem.tscn" id="1_pu3gx"]
 
 [sub_resource type="Gradient" id="Gradient_pu3gx"]
 interpolation_mode = 1
@@ -20,4 +20,5 @@ itemType = "typeClear"
 itemCost = 20
 
 [node name="ItemButton" parent="." index="0"]
+tooltip_text = "Clear All of Type"
 icon = SubResource("GradientTexture2D_84w3v")

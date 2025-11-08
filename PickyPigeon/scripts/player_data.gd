@@ -3,7 +3,8 @@ extends Node
 var playerSaveStats: Dictionary[String,int]
 var currentScene
 var allButtonsToSave
-var coins: int =  200
+var coins: int
+var clearAwardValues: Array[int] = [0,5, 15, 30]
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# Get the current levels name
@@ -15,6 +16,7 @@ func _ready() -> void:
 		playerSaveStats = loadData()
 		for i in allButtonsToSave.size():
 			allButtonsToSave[i].loadButton(loadData())
+		coins = playerSaveStats["coins"]
 
 	print("Prior Best: ")
 	print(playerSaveStats.get(currentScene))
@@ -22,10 +24,10 @@ func _ready() -> void:
 
 # Reads the given folder to find out how many files are in it
 func getFileCount(path: String) -> Array:
+	
 	var levelList = []
 	var dir = DirAccess.open(path)
-
-	if dir:
+	if dir != null:
 		dir.list_dir_begin()
 		var fileName = dir.get_next()
 		while fileName != "":
@@ -37,8 +39,7 @@ func getFileCount(path: String) -> Array:
 			fileName = dir.get_next()
 		dir.list_dir_end()
 	else:
-		print("Could not open directory: ", path)
-
+		print("Null directory", path)
 	return levelList
 
 
@@ -48,12 +49,19 @@ func _on_grid_clear_score(rating: int) -> void:
 	if playerSaveStats.get(currentScene) != null:
 		if playerSaveStats[currentScene] < rating:
 			playerSaveStats[currentScene] = rating
+			
+	match rating:
+		1:
+			coins += clearAwardValues[1]
+		2:
+			coins += clearAwardValues[2]
+		3:
+			coins += clearAwardValues[3]
 	saveData()
 
 func saveData():
 	var saveFile = FileAccess.open("user://savegame.save", FileAccess.WRITE)
 	if saveFile:
-		print("Saving")
 		# Save level Scores
 		var allLevels = getFileCount("res://Levels/")
 		
@@ -61,13 +69,12 @@ func saveData():
 			if playerSaveStats.has(allLevels[i]):
 				var foundKey = playerSaveStats[allLevels[i]]
 				saveFile.store_line(str(allLevels[i],":",foundKey,"\r").replace(" ",""))
-				
+
 			else:
 				# If the level has no entry, set it to a score of 0
 				saveFile.store_line(str(allLevels[i],":",0,"\r").replace(" ",""))
 		
 		# save item uses
-		allButtonsToSave = get_tree().get_nodes_in_group("itemButtons")
 		for i in allButtonsToSave.size():
 			saveFile.store_line(allButtonsToSave[i].saveButton())
 		# save coins
@@ -96,7 +103,7 @@ func loadData():
 			content[key] = value
 		saveFile.close()
 		return content
-
+# Subtracts the provided amount from the current amount of coins
 func useCoins(coinCost: int) -> bool:
 	if (coins - coinCost) > 0:
 		coins -= coinCost

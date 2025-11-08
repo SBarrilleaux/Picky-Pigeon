@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bv7mfj1lllire"
-path="res://.godot/imported/PickyPigeonLogo.png-892d2fcedbb491606ba92478616dd41d.ctex"
+uid="uid://c6innwwsps8uo"
+path="res://.godot/imported/rowClearIconV2.png-56662f22ef7b7d1baaf64c2ff37f43fd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://BackgroundAndUI/Icons/PickyPigeonLogo.png"
-dest_files=["res://.godot/imported/PickyPigeonLogo.png-892d2fcedbb491606ba92478616dd41d.ctex"]
+source_file="res://BackgroundAndUI/Icons/ItemIcons/rowClearIconV2.png"
+dest_files=["res://.godot/imported/rowClearIconV2.png-56662f22ef7b7d1baaf64c2ff37f43fd.ctex"]
 
 [params]
 

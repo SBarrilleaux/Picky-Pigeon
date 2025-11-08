@@ -69,6 +69,17 @@ shadow_offset = Vector2(2, 2)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2d33e"]
 bg_color = Color(0.156863, 0.0509804, 0.290196, 0)
+draw_center = false
+border_width_top = 43
+border_width_bottom = 33
+border_color = Color(0, 0, 0, 0)
+border_blend = true
+corner_radius_top_left = 70
+corner_radius_top_right = 70
+corner_radius_bottom_right = 70
+corner_radius_bottom_left = 70
+expand_margin_top = 30.0
+expand_margin_bottom = 40.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gboxu"]
 bg_color = Color(0.164706, 0.0901961, 0.282353, 1)

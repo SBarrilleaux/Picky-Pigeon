@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c5r3c5lskx1tt"
-path="res://.godot/imported/columnClearIcon.png-cd017865cf326a6d430769341162afe3.ctex"
+uid="uid://cvmai61ywlrsr"
+path="res://.godot/imported/rowClearIcon.png-e2e09ad297a2d7bacead747560cd3165.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://BackgroundAndUI/Icons/columnClearIcon.png"
-dest_files=["res://.godot/imported/columnClearIcon.png-cd017865cf326a6d430769341162afe3.ctex"]
+source_file="res://BackgroundAndUI/Icons/ItemIcons/rowClearIcon.png"
+dest_files=["res://.godot/imported/rowClearIcon.png-e2e09ad297a2d7bacead747560cd3165.ctex"]
 
 [params]
 
