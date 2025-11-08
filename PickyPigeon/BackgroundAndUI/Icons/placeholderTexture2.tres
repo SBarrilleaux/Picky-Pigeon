@@ -1,9 +1,9 @@
-[gd_resource type="GradientTexture2D" load_steps=2 format=3 uid="uid://v86r38v3w6ah"]
+[gd_resource type="GradientTexture2D" load_steps=2 format=3 uid="uid://c3yiq5gg7ttwl"]
 
 [sub_resource type="Gradient" id="Gradient_js5u3"]
 interpolation_mode = 1
 offsets = PackedFloat32Array(0.357477, 0.511682)
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+colors = PackedColorArray(1, 0.17, 0.17, 1, 1, 1, 1, 0)
 
 [resource]
 gradient = SubResource("Gradient_js5u3")

@@ -34,6 +34,9 @@ var possibleNibbles = [
 	preload("res://Nibbles/NibbleScenes/nibble_sunflower.tscn"),
 	preload("res://Nibbles/NibbleScenes/nibble_peanut.tscn")
 ]
+
+var boardItemTypes = ["colBomb","rowBomb","typeBomb","bigBomb"]
+
 # the board / nibbles on the board
 var boardNibbles = []
 var currentMatches = []
@@ -193,11 +196,34 @@ func swapNibble(column, row, direction: Vector2):
 			firstNibble.move(gridToPixel(column + direction.x, row + direction.y))
 			secondNibble.move(gridToPixel(column, row))
 			$Sounds/MoveSound.play(0)
+			
+			# check if nibble is a bomb of some type
+			for i in boardItemTypes.size():
+				if firstNibble.nibbleType == boardItemTypes[i]:
+					firstNibble.matched = true
+					boardItemUse(boardItemTypes[i], Vector2(column,row) + direction, secondNibble.nibbleType)
+				if secondNibble.nibbleType == boardItemTypes[i]:
+					secondNibble.matched = true
+					boardItemUse(boardItemTypes[i], Vector2(column, row), firstNibble.nibbleType)
+			
 			if !moveChecked:
 				findMatches()
 				turnRemaining -= 1
 			updateMenus()
 
+# calls the type of item action, with nibble type if needed for that item
+func boardItemUse(itemType, place, nibbleType = null):
+	match itemType:
+		"bigBomb":
+			# TODO Implement
+			#clearArea(place)
+			pass
+		"colBomb":
+			clearColumn(place)
+		"rowBomb":
+			clearRow(place)
+		"typeBomb":
+			clearAllOfType(place,nibbleType)
 # Store the nibbles to be matched in case swap back is needed
 func storeInfo(firstNibble,secondNibble, place, direction):
 	nibbleOne = firstNibble
@@ -269,8 +295,63 @@ func addToArray(value, arrayToAdd: Array):
 	if !arrayToAdd.has(value):
 		arrayToAdd.append(value)
 	
+# Checks if any matches should generate a bomb / board item
+func findBoardItems():
+	# iterate through matched items
+	for i in currentMatches.size():
+		var currentCol = currentMatches[i].x
+		var currentRow = currentMatches[i].y
+		var currentType = boardNibbles[currentCol][currentRow].nibbleType
+		var colMatchedCount = 0
+		var rowMatchedCount = 0
+		# check for col row and color
+		for j in currentMatches.size():
+			var checkCol = currentMatches[j].x
+			var checkRow = currentMatches[j].y
+			var checkType = boardNibbles[currentCol][currentRow].nibbleType
+			
+			if checkCol == currentCol && checkType == currentType:
+				colMatchedCount += 1
+			if checkRow == currentRow && checkType == currentType:
+				rowMatchedCount += 1
+		# Call functions to make bombs, and then return from loop
+		if colMatchedCount > 4 || rowMatchedCount > 4:
+			makeItem("typeBomb", currentType)
+			return
+		if colMatchedCount == 3 && rowMatchedCount == 3:
+			makeItem("bigBomb", currentType)
+			return
+		if colMatchedCount == 4:
+			makeItem("colBomb", currentType)
+			return
+		if rowMatchedCount == 4:
+			makeItem("rowBomb", currentType)
+			return
+# makes a nibble into bomb
+func makeItem(bombType, nibbleType):
+	for i in currentMatches.size():
+		var currentCol = currentMatches[i].x
+		var currentRow = currentMatches[i].y
+		# checks nibbles and makes bomb
+		if boardNibbles[currentCol][currentRow] == nibbleOne && nibbleOne.nibbleType == nibbleType:
+			nibbleOne.matched = false
+			changeToBomb(bombType, nibbleOne)
+		elif boardNibbles[currentCol][currentRow] == nibbleTwo && nibbleTwo.nibbleType == nibbleType:
+			nibbleTwo.matched = false
+			changeToBomb(bombType, nibbleTwo)
 
+func changeToBomb(bombType, nibble):
+	match bombType:
+		"bigBomb":
+			nibble.makeBigBomb()
+		"colBomb":
+			nibble.makeColBomb()
+		"rowBomb":
+			nibble.makeRowBomb()
+		"typeBomb":
+			nibble.makeTypeBomb()
 func destroyMatched():
+	findBoardItems()
 	var wasMatched = false
 	for i in width:
 		for j in height:
@@ -343,6 +424,7 @@ func afterRefill():
 		for j in height:
 			if boardNibbles[i][j] != null:
 				if matchAt(i,j, boardNibbles[i][j].nibbleType):
+					findBoardItems()
 					findMatches()
 					$DestroyTimer.start()
 					return
@@ -492,7 +574,7 @@ func clearColumn(gridPosition: Vector2):
 				boardUpdate()
 				
 # clears all of the nibbleType specified by given grid position
-func clearAllOfType(gridPosition: Vector2):
+func clearAllOfType(gridPosition: Vector2, nibbleType = null):
 	if boardNibbles[gridPosition.x][gridPosition.y] != null:
 		var typeSelected = boardNibbles[gridPosition.x][gridPosition.y].nibbleType
 		for i in width:
@@ -503,7 +585,13 @@ func clearAllOfType(gridPosition: Vector2):
 						boardNibbles[i][j].dim()
 						$DestroyTimer.start()
 						boardUpdate()
-
+				# looks for optional argument type, if not being called directly from nibble
+				if nibbleType != null && boardNibbles[i][j] != null:
+					if nibbleType == boardNibbles[i][j].nibbleType:
+						boardNibbles[i][j].matched = true
+						boardNibbles[i][j].dim()
+						$DestroyTimer.start()
+						boardUpdate()
 func updateItemUses():
 	for i in get_tree().get_nodes_in_group("itemButtons"):
 		if i.itemType == recentItem:
