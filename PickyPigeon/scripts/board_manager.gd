@@ -74,6 +74,8 @@ func damageObstacle(gridPosition: Vector2):
 		if currentObstacle.getHealth() == 0:
 			currentObstacle.queue_free()
 			currentObstacle = null
+			# remove obstacle from obstacle spaces by setting it to value off-board since null cannot be assigned
+			obstacleSpaces[obstacleSpaces.find(gridPosition)] = Vector2(-1,-1)
 		
 func getState():
 	return state
@@ -131,7 +133,7 @@ func spawnNibbles():
 				boardNibbles[i][j] = newNibble # change to new array if this isnt
 
 
-# searches board for matches
+# searches board for matches at startup
 func matchAt(column,row, nibbleType):
 	
 	if column > 1:
@@ -424,7 +426,6 @@ func afterRefill():
 		for j in height:
 			if boardNibbles[i][j] != null:
 				if matchAt(i,j, boardNibbles[i][j].nibbleType):
-					findBoardItems()
 					findMatches()
 					$DestroyTimer.start()
 					return
@@ -543,7 +544,7 @@ func itemMouseInput(currentItem: String):
 # Destroys a singular nibble at given grid position
 func destroySingularNibble(gridPosition: Vector2):
 	if boardNibbles[gridPosition.x][gridPosition.y] != null:
-		updateObjectives(gridPosition)	
+		updateObjectives(gridPosition)
 		boardNibbles[gridPosition.x][gridPosition.y].matched = true
 		boardNibbles[gridPosition.x][gridPosition.y].dim()
 		$DestroyTimer.start()	
@@ -554,9 +555,9 @@ func clearRow(gridPosition: Vector2):
 		for i in width:
 			for j in height:
 				if boardNibbles[i][gridPosition.y] != null:
-					boardNibbles[i][gridPosition.y].matched = true
-					updateObjectives(Vector2(i, gridPosition.y))	
-					boardNibbles[i][gridPosition.y].dim()
+					#boardNibbles[i][gridPosition.y].matched = true
+					#boardNibbles[i][gridPosition.y].dim()
+					matchAndDim(boardNibbles[i][gridPosition.y])
 				$DestroyTimer.start()
 				boardUpdate()
 				
@@ -567,9 +568,7 @@ func clearColumn(gridPosition: Vector2):
 		for i in width:
 			for j in height:
 				if boardNibbles[gridPosition.x][j] != null:
-					boardNibbles[gridPosition.x][j].matched = true
-					updateObjectives(Vector2(gridPosition.x, j))
-					boardNibbles[gridPosition.x][j].dim()
+					matchAndDim(boardNibbles[gridPosition.x][j])
 				$DestroyTimer.start()
 				boardUpdate()
 				
@@ -581,15 +580,13 @@ func clearAllOfType(gridPosition: Vector2, nibbleType = null):
 			for j in height:
 				if typeSelected != null && boardNibbles[i][j] != null:
 					if typeSelected == boardNibbles[i][j].nibbleType:
-						boardNibbles[i][j].matched = true
-						boardNibbles[i][j].dim()
+						matchAndDim(boardNibbles[i][j])
 						$DestroyTimer.start()
 						boardUpdate()
 				# looks for optional argument type, if not being called directly from nibble
 				if nibbleType != null && boardNibbles[i][j] != null:
 					if nibbleType == boardNibbles[i][j].nibbleType:
-						boardNibbles[i][j].matched = true
-						boardNibbles[i][j].dim()
+						matchAndDim(boardNibbles[i][j])
 						$DestroyTimer.start()
 						boardUpdate()
 func updateItemUses():
