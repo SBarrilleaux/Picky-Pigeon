@@ -4,6 +4,7 @@ extends Node2D
 @export var maxHealth: int
 # Organize from full sprite as start of array, and damage variants incrementing
 @export var stateSprites: Array[Texture2D]
+@export var nibbleType: String
 
 var health: int
 

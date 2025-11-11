@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://7mryyx5le04p"]
+[gd_scene load_steps=16 format=3 uid="uid://7mryyx5le04p"]
 
 [ext_resource type="Script" uid="uid://bpcrfs265rvrx" path="res://scripts/MainMenuControl.gd" id="1_453mu"]
 [ext_resource type="Texture2D" uid="uid://c3yiq5gg7ttwl" path="res://BackgroundAndUI/Icons/placeholderTexture2.tres" id="2_87488"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://duulu4wwtgtus" path="res://Levels/levelTwo.tscn" id="4_v30kg"]
 [ext_resource type="SpriteFrames" uid="uid://jigbls5352ls" path="res://pickyPigeon/pickyPigeonAnimations.tres" id="5_87488"]
 [ext_resource type="PackedScene" uid="uid://debp2wquq6qlb" path="res://Levels/levelThree.tscn" id="5_v30kg"]
+[ext_resource type="PackedScene" uid="uid://dfk05wkfs7750" path="res://Levels/levelFour.tscn" id="6_ke5ad"]
 [ext_resource type="Script" uid="uid://qcwyh4jkjsk1" path="res://scripts/player_data.gd" id="9_v30kg"]
 [ext_resource type="AudioStream" uid="uid://ct0wfqc35btio" path="res://sounds/mainMenuMusic.mp3" id="10_87488"]
 
@@ -41,7 +42,7 @@ fill_to = Vector2(0, 1)
 [node name="Node2D" type="Node2D" parent="."]
 script = ExtResource("1_453mu")
 levelIcon = ExtResource("2_87488")
-levels = Array[PackedScene]([ExtResource("3_4pfr5"), ExtResource("4_v30kg"), ExtResource("5_v30kg")])
+levels = Array[PackedScene]([ExtResource("3_4pfr5"), ExtResource("4_v30kg"), ExtResource("5_v30kg"), ExtResource("6_ke5ad")])
 
 [node name="MainMenu" type="Control" parent="Node2D"]
 layout_mode = 3
@@ -176,7 +177,6 @@ theme_override_font_sizes/font_size = 120
 text = "Picky Pigeon"
 
 [node name="Logo" type="Control" parent="Node2D/MainMenu"]
-visible = false
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
@@ -214,6 +214,21 @@ theme_override_colors/font_shadow_color = Color(0.465663, 0.3234, 0.98, 1)
 theme_override_constants/shadow_outline_size = 20
 theme_override_font_sizes/font_size = 120
 text = "Picky Pigeon"
+
+[node name="Label" type="Label" parent="Node2D/MainMenu/Logo/Label"]
+offset_left = -39.0
+offset_top = 369.0
+offset_right = 908.0
+offset_bottom = 512.0
+theme = ExtResource("4_drlny")
+theme_override_colors/font_color = Color(0.6534, 0.96195, 0.99, 1)
+theme_override_colors/font_shadow_color = Color(0.465663, 0.3234, 0.98, 1)
+theme_override_constants/shadow_outline_size = 14
+theme_override_font_sizes/font_size = 40
+text = "All code, art, and sounds
+by
+Sasha Barrilleaux"
+horizontal_alignment = 1
 
 [node name="Startup" type="Timer" parent="Node2D"]
 one_shot = true

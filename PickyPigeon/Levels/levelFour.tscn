@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://dfk05wkfs7750"]
+
+[ext_resource type="PackedScene" uid="uid://dcc5gll3m8e6n" path="res://BaseLevel.tscn" id="1_guehw"]
+
+[node name="Node3D" instance=ExtResource("1_guehw")]
+
+[node name="Grid" parent="Board" index="2"]
+emptySpaces = PackedVector2Array(4, 0, 5, 0, 6, 0, 4, 1, 5, 1, 6, 1, 4, 2, 5, 2, 6, 2)
+obstacleSpaces = PackedVector2Array(5, 3, 6, 3, 8, 3, 9, 3, 0, 3, 1, 3, 2, 3, 4, 3, 7, 6, 9, 6, 0, 6, 2, 6, 1, 5, 8, 5)
+objectiveItems = Array[String](["sunflower", "blueberry", "bramble"])
+objectiveGoalTotal = Array[int]([40, 30, 10])

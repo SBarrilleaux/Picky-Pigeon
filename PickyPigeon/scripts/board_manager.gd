@@ -1,3 +1,4 @@
+# The core script of the game, handles the game board logic, game states, and input
 extends Node2D
 
 # Board Grid Height and Width
@@ -67,16 +68,60 @@ var controlling = false
 
 var turnText = ""
 
-func damageObstacle(gridPosition: Vector2):
-	var currentObstacle = boardObstacles[gridPosition.x][gridPosition.y]
-	if currentObstacle != null:
-		currentObstacle.takeDamage(1)
-		if currentObstacle.getHealth() == 0:
-			currentObstacle.queue_free()
-			currentObstacle = null
-			# remove obstacle from obstacle spaces by setting it to value off-board since null cannot be assigned
-			obstacleSpaces[obstacleSpaces.find(gridPosition)] = Vector2(-1,-1)
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	state = move
+	# seeds the random generation
+	randomize()
+	# intial board setup
+	boardNibbles = make2dArray()
+	boardObstacles = make2dArray()
+	spawnNibbles()
+	turnRemaining = turnMax
+	turnText = %TurnTextLabel
+	for i in obstacleSpaces.size():
+		spawnObstacles(obstacleSpaces[i], "bramble")
+	# Add current level objectives to the list on the right side of screen
+	for i in objectiveItems.size():
+		var iconTexture
+		if ResourceLoader.exists("res://Nibbles/NibbleArt/nibble_" + objectiveItems[i] + ".png"):
+			iconTexture = load("res://Nibbles/NibbleArt/nibble_" + objectiveItems[i] + ".png")
+			if iconTexture != null:
+				%ObjectivesList.add_item(str(objectiveGoalTotal[i]),iconTexture,false)
+		# try loading an obstacle art if the item objective was empty
+		elif ResourceLoader.exists("res://BoardItems&Obstacles/obstacleArt/" + objectiveItems[i] + "full.png"):
+				iconTexture = load("res://BoardItems&Obstacles/obstacleArt/" + objectiveItems[i] + "full.png")
+				if iconTexture != null:
+					%ObjectivesList.add_item(str(objectiveGoalTotal[i]),iconTexture,false)
 		
+	# Sends what tiles aren't restricted and should have background tiles placed for them as a signal.
+	for i in width:
+		for j in height:
+			if boardNibbles[i][j] != null && !restictedSpace(Vector2(i,j)):
+				validTiles.emit(pixelToGrid(boardNibbles[i][j].position.x,boardNibbles[i][j].position.y))
+	
+	updateMenus()
+	# Start pickyPigeon's idle
+	%PickyPigeon.play("PigeonIdle", 1.0, false)
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	if turnRemaining > 0 && state == move:
+		mouseInput()
+	elif turnRemaining == 0 && state == move:
+			endLevel()
+	elif state == item:
+		itemMouseInput(recentItem)
+
+func make2dArray():
+	var array = []
+	for i in width:
+		array.append([])
+		for j in height:
+			array[i].append(null)
+	return array
+	
 func getState():
 	return state
 # check if a tile isn't factored into nibble movements
@@ -84,7 +129,7 @@ func restictedSpace(place: Vector2) -> bool:
 	# check empty
 	return isInArray(emptySpaces, place)
 	
-	
+
 func restrictedMove(place: Vector2):
 	return isInArray(obstacleSpaces, place)
 # checks whether something exists in an array
@@ -100,14 +145,16 @@ func spawnObstacles(gridPosition: Vector2, type: String):
 			add_child(current)
 			current.set_position(gridToPixel(gridPosition.x, gridPosition.y))
 			boardObstacles[gridPosition.x][gridPosition.y] = current
-
-func make2dArray():
-	var array = []
-	for i in width:
-		array.append([])
-		for j in height:
-			array[i].append(null)
-	return array
+			
+func damageObstacle(gridPosition: Vector2):
+	var currentObstacle = boardObstacles[gridPosition.x][gridPosition.y]
+	if currentObstacle != null:
+		currentObstacle.takeDamage(1)
+		if currentObstacle.getHealth() == 0:
+			currentObstacle.queue_free()
+			currentObstacle = null
+			# remove obstacle from obstacle spaces by setting it to value off-board since null cannot be assigned
+			obstacleSpaces[obstacleSpaces.find(gridPosition)] = Vector2(-1,-1)
 
 # chooses a random piece and spawns it on the board
 # uses pixelToGrid
@@ -131,7 +178,6 @@ func spawnNibbles():
 				add_child(newNibble) # new nodes need to be parented
 				newNibble.set_position(gridToPixel(i,j))
 				boardNibbles[i][j] = newNibble # change to new array if this isnt
-
 
 # searches board for matches at startup
 func matchAt(column,row, nibbleType):
@@ -289,9 +335,9 @@ func isNibbleNull(gridPosition) -> bool:
 		return true
 	return false
 
-func matchAndDim(item):
-	item.matched = true
-	item.dim()
+func matchAndDim(currentNibble):
+	currentNibble.matched = true
+	currentNibble.dim()
 
 func addToArray(value, arrayToAdd: Array):
 	if !arrayToAdd.has(value):
@@ -352,6 +398,8 @@ func changeToBomb(bombType, nibble):
 			nibble.makeRowBomb()
 		"typeBomb":
 			nibble.makeTypeBomb()
+
+
 func destroyMatched():
 	findBoardItems()
 	var wasMatched = false
@@ -374,17 +422,7 @@ func destroyMatched():
 	else:
 		swapBack()
 	currentMatches.clear()
-## Check if match is part of any collection objectives and subtract if so and don't go below 0
-func updateObjectives(gridPosition: Vector2):
-	if boardNibbles[gridPosition.x][gridPosition.y] != null:
-		if objectiveItems.has(boardNibbles[gridPosition.x][gridPosition.y].nibbleType):
-			var itemIndex = objectiveItems.find(boardNibbles[gridPosition.x][gridPosition.y].nibbleType)
-			if objectiveGoalTotal[itemIndex] > 0:
-				objectiveGoalTotal[itemIndex] -= 1
-			elif objectiveGoalTotal[itemIndex] <= 0:
-				objectiveGoalTotal[itemIndex] = 0
-
-
+	
 # Makes nibbles "fall" by searching above to the height for a moveable nibble
 func collapseColumns():
 	for i in width:
@@ -450,7 +488,34 @@ func updateMenus():
 	for i in objectiveItems.size():
 		%ObjectivesList.set_item_text(i, str(objectiveGoalTotal[i]))
 
-
+## Check if match is part of any collection objectives and subtract if so and don't go below 0
+func updateObjectives(gridPosition: Vector2):
+	# check if the given nibble is part of objective
+	if boardNibbles[gridPosition.x][gridPosition.y] != null:
+		if objectiveItems.has(boardNibbles[gridPosition.x][gridPosition.y].nibbleType):
+			var itemIndex = objectiveItems.find(boardNibbles[gridPosition.x][gridPosition.y].nibbleType)
+			if objectiveGoalTotal[itemIndex] > 0:
+				objectiveGoalTotal[itemIndex] -= 1
+			elif objectiveGoalTotal[itemIndex] <= 0:
+				objectiveGoalTotal[itemIndex] = 0
+	# check if the given nibble is an obstacle objective, and that obstacle is at 0 health
+	if boardObstacles[gridPosition.x][gridPosition.y] != null:
+		if objectiveItems.has(boardObstacles[gridPosition.x][gridPosition.y].nibbleType):
+			if boardObstacles[gridPosition.x][gridPosition.y].getHealth() == 0:
+				var itemIndex = objectiveItems.find(boardObstacles[gridPosition.x][gridPosition.y].nibbleType)
+				if objectiveGoalTotal[itemIndex] > 0:
+					objectiveGoalTotal[itemIndex] -= 1
+				elif objectiveGoalTotal[itemIndex] <= 0:
+					objectiveGoalTotal[itemIndex] = 0
+	
+	# End level when all objectives are met
+	var count = 0
+	for i in objectiveGoalTotal.size():
+		if objectiveGoalTotal[i] == 0:
+			count += 1
+	if count == objectiveGoalTotal.size() && state != gameOver && turnRemaining != 0:
+		endLevel()
+		
 func endLevel():
 	state = gameOver
 	await waitTimer(1)
@@ -471,51 +536,8 @@ func endLevel():
 	elif goalsComplete >= objectiveItems.size()/2.00:
 		emit_signal("clearScore", 2)
 
-
 func waitTimer(seconds: float):
 	await get_tree().create_timer(seconds).timeout
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	state = move
-	# seeds the random generation
-	randomize()
-	# intial board setup
-	boardNibbles = make2dArray()
-	boardObstacles = make2dArray()
-	spawnNibbles()
-	turnRemaining = turnMax
-	turnText = %TurnTextLabel
-	for i in obstacleSpaces.size():
-		spawnObstacles(obstacleSpaces[i], "bramble")
-	# Add current level objectives to the list on the right side of screen
-	for i in objectiveItems.size():
-		while objectiveItems.size() < objectiveGoalTotal.size():
-			objectiveGoalTotal.pop_back()
-			
-		var iconTexture = load("res://Nibbles/NibbleArt/nibble_" + objectiveItems[i] + ".png")
-		if iconTexture != null:
-			%ObjectivesList.add_item(str(objectiveGoalTotal[i]),iconTexture,false)
-		
-	# Sends what tiles aren't restricted and should have background tiles placed for them as a signal.
-	for i in width:
-		for j in height:
-			if boardNibbles[i][j] != null && !restictedSpace(Vector2(i,j)):
-				validTiles.emit(pixelToGrid(boardNibbles[i][j].position.x,boardNibbles[i][j].position.y))
-	
-	updateMenus()
-	# Start pickyPigeon's idle
-	%PickyPigeon.play("PigeonIdle", 1.0, false)
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	if turnRemaining > 0 && state == move:
-		mouseInput()
-	elif turnRemaining == 0 && state == move:
-			endLevel() # TODO
-	elif state == item:
-		itemMouseInput(recentItem)
 
 # Gets input when in the item state, and calling the correct function for each item
 func itemMouseInput(currentItem: String):
@@ -545,8 +567,7 @@ func itemMouseInput(currentItem: String):
 func destroySingularNibble(gridPosition: Vector2):
 	if boardNibbles[gridPosition.x][gridPosition.y] != null:
 		updateObjectives(gridPosition)
-		boardNibbles[gridPosition.x][gridPosition.y].matched = true
-		boardNibbles[gridPosition.x][gridPosition.y].dim()
+		matchAndDim(boardNibbles[gridPosition.x][gridPosition.y])
 		$DestroyTimer.start()	
 		boardUpdate()
 # clears the row of given grid position
@@ -560,7 +581,7 @@ func clearRow(gridPosition: Vector2):
 					matchAndDim(boardNibbles[i][gridPosition.y])
 				$DestroyTimer.start()
 				boardUpdate()
-				
+
 
 # clears the column of given grid position
 func clearColumn(gridPosition: Vector2):
@@ -589,6 +610,7 @@ func clearAllOfType(gridPosition: Vector2, nibbleType = null):
 						matchAndDim(boardNibbles[i][j])
 						$DestroyTimer.start()
 						boardUpdate()
+
 func updateItemUses():
 	for i in get_tree().get_nodes_in_group("itemButtons"):
 		if i.itemType == recentItem:
