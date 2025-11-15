@@ -125,12 +125,13 @@ func make2dArray():
 	
 func getState():
 	return state
-# check if a tile isn't factored into nibble movements
+## check if a tile isn't factored into nibble movements
 func restictedSpace(place: Vector2) -> bool:
 	# check empty
 	return isInArray(emptySpaces, place)
 
 func restrictedMove(place: Vector2):
+
 	return isInArray(obstacleSpaces, place)
 # checks whether something exists in an array
 func isInArray(array, itemFound) -> bool:
@@ -151,7 +152,7 @@ func spawnObstacles(gridPosition: Vector2, type: String):
 			add_child(current)
 			current.set_position(gridToPixel(gridPosition.x, gridPosition.y))
 			boardObstacles[gridPosition.x][gridPosition.y] = current
-			
+
 func damageObstacle(gridPosition: Vector2):
 	var currentObstacle = boardObstacles[gridPosition.x][gridPosition.y]
 	if currentObstacle != null:
@@ -185,7 +186,7 @@ func spawnNibbles():
 				newNibble.set_position(gridToPixel(i,j))
 				boardNibbles[i][j] = newNibble # change to new array if this isnt
 
-# searches board for matches at startup
+## searches board for matches at startup
 func matchAt(column,row, nibbleType):
 	
 	if column > 1:
@@ -332,6 +333,7 @@ func findMatches():
 							addToArray(Vector2(i,j),currentMatches)
 							addToArray(Vector2(i,j - 1),currentMatches)
 							addToArray(Vector2(i,j + 1),currentMatches)
+	findBoardItems()
 	$DestroyTimer.start()
 
 
@@ -403,7 +405,6 @@ func changeToBomb(bombType, nibble):
 
 # Finds and destroys all objects with their matched value set to true
 func destroyMatched():
-	findBoardItems()
 	var wasMatched = false
 	for i in width:
 		for j in height:
@@ -470,10 +471,12 @@ func refillColumns():
 func afterRefill():
 	for i in width:
 		for j in height:
-			if boardNibbles[i][j] != null:
+			#if boardNibbles[i][j] != null:
+				#findMatches()
+				#$DestroyTimer.start()
+				#return
 				if matchAt(i,j, boardNibbles[i][j].nibbleType):
 					findMatches()
-					findBoardItems()
 					$DestroyTimer.start()
 					return
 	state = move
@@ -597,21 +600,20 @@ func clearColumn(gridPosition: Vector2):
 
 # clears all of the nibbleType specified by given grid position
 func clearAllOfType(gridPosition: Vector2, nibbleMatchType = null):
+	var randomNibble = possibleNibbles[randi_range(0, possibleNibbles.size() - 1)].instantiate()
+	var randomNibbleType = randomNibble.nibbleType
+	randomNibble.queue_free()
 	if boardNibbles[gridPosition.x][gridPosition.y] != null:
 		var typeSelected = boardNibbles[gridPosition.x][gridPosition.y].nibbleType
 		for i in width:
 			for j in height:
-				if typeSelected != null && boardNibbles[i][j] != null:
+				if boardNibbles[i][j] != null:
 					if typeSelected == boardNibbles[i][j].nibbleType:
 						matchAndDim(boardNibbles[i][j])
 						$DestroyTimer.start()
 					# handles being called from board items instead of menu item
-					elif typeSelected == "typeBomb":
-						if nibbleMatchType == null:
-							var randomTypeNibble = possibleNibbles[randi_range(0, possibleNibbles.size() - 1)].instantiate()
-							typeSelected = randomTypeNibble.nibbleType
-							randomTypeNibble.queue_free()
-						if typeSelected == boardNibbles[i][j].nibbleType:
+					if nibbleMatchType != null:
+						if nibbleMatchType == boardNibbles[i][j].nibbleType:
 							matchAndDim(boardNibbles[i][j])
 							$DestroyTimer.start()
 
