@@ -12,8 +12,8 @@ func _ready() -> void:
 	logoGroup = $MainMenu/Logo
 	startupTimer = $Startup
 	levelsGroup = $"MainMenu/LevelSelect"
-	levelsGroup.modulate = Color(0,0,0,0)
 	playerInfo = $PlayerData
+	levelsGroup.modulate = Color(0,0,0,0)
 	logoGroup.visible = true
 	levelsGroup.visible = false
 	$MainMenu/LevelSelect/HScrollBar/LevelList.max_columns = levels.size() + 1

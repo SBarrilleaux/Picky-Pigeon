@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://becx7u1oqnv4w"]
+
+[ext_resource type="PackedScene" uid="uid://dcc5gll3m8e6n" path="res://BaseLevel.tscn" id="1_so77d"]
+
+[node name="Node3D" instance=ExtResource("1_so77d")]
+
+[node name="Grid" parent="Board" index="2"]
+emptySpaces = PackedVector2Array()
+objectiveItems = Array[String](["sunflower", "popcorn", "blueberry", "peanut"])
+objectiveGoalTotal = Array[int]([9999, 9999, 9999, 9999])
+turnMax = 9999
