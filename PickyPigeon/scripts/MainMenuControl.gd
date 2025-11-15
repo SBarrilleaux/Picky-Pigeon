@@ -3,22 +3,28 @@ extends Node2D
 # Groups for controlling visibility
 var logoGroup
 var levelsGroup
-
+var playerInfo
 var startupTimer
 @export var levelIcon: GradientTexture2D
 @export var levels: Array[PackedScene]
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	logoGroup = $Control/Logo
+	logoGroup = $MainMenu/Logo
 	startupTimer = $Startup
-	levelsGroup = $"Control/LevelSelect"
+	levelsGroup = $"MainMenu/LevelSelect"
+	playerInfo = $PlayerData
+	levelsGroup.modulate = Color(0,0,0,0)
 	logoGroup.visible = true
 	levelsGroup.visible = false
-	$Control/LevelSelect/HScrollBar/LevelList.max_columns = levels.size() + 1
+	$MainMenu/LevelSelect/HScrollBar/LevelList.max_columns = levels.size() + 1
 	# generate an item in the list for each level
 	for i in levels.size():
-		$"Control/LevelSelect/HScrollBar/LevelList".add_item("Level " + str(i + 1), randomIconColor(i), true)
-
+		$"MainMenu/LevelSelect/HScrollBar/LevelList".add_item("Level " + str(i + 1), randomIconColor(i), true)
+		#$"MainMenu/LevelSelect/HScrollBar/LevelList".tooltip_text = 
+	$MainMenu/LevelSelect/CoinText.text = "Coins \n" + str(playerInfo.coins)
+	
+	$MainMenu/LevelSelect/PickyPigeon.play("PigeonOther")
+	$BackgroundMusic.play()
 # Generate a random circle icon for each level
 # Color is random from the seed it is called with, but is the same on each run of the game so that it looks conistent
 func randomIconColor(seed: int) -> GradientTexture2D:

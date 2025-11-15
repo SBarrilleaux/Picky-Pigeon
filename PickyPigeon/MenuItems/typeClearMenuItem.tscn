@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://baymklqleycpa"]
+
+[ext_resource type="PackedScene" uid="uid://dbhrdgs0qgq60" path="res://MenuItems/MenuItem.tscn" id="1_pu3gx"]
+
+[sub_resource type="Gradient" id="Gradient_pu3gx"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0.0339806, 0.337379, 0.385922, 0.507282, 0.987864)
+colors = PackedColorArray(0, 0, 0, 1, 0.817022, 0.469209, 0.164337, 1, 0.783831, 0.543263, 0.510623, 1, 0.619608, 0.619608, 0.619608, 0, 0.619608, 0.619608, 0.619608, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_84w3v"]
+gradient = SubResource("Gradient_pu3gx")
+width = 1024
+height = 1024
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0, 0)
+
+[node name="Item" instance=ExtResource("1_pu3gx")]
+itemType = "typeClear"
+itemCost = 20
+
+[node name="ItemButton" parent="." index="0"]
+tooltip_text = "Clear All of Type"
+icon = SubResource("GradientTexture2D_84w3v")

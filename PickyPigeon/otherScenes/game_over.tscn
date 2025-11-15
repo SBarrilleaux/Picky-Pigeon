@@ -1,10 +1,10 @@
 [gd_scene load_steps=9 format=4 uid="uid://c12jrn0err337"]
 
 [ext_resource type="Script" uid="uid://doo4ojpeud6pk" path="res://scripts/game_over.gd" id="1_ge8rm"]
-[ext_resource type="Texture2D" uid="uid://50wbqgnhj5x4" path="res://BackgroundAndUI/Icons/clearIconV2.png" id="2_m7q7l"]
-[ext_resource type="Texture2D" uid="uid://bdl25n4cj1mpc" path="res://BackgroundAndUI/Icons/failIcon.png" id="3_e1xbs"]
+[ext_resource type="Texture2D" uid="uid://50wbqgnhj5x4" path="res://BackgroundAndUI/Icons/MenuIcons/clearIconV2.png" id="2_m7q7l"]
+[ext_resource type="Texture2D" uid="uid://bdl25n4cj1mpc" path="res://BackgroundAndUI/Icons/MenuIcons/failIcon.png" id="3_e1xbs"]
 [ext_resource type="Texture2D" uid="uid://dtwqv0vqix6pi" path="res://BackgroundAndUI/BackgroundTiles.png" id="5_3ednb"]
-[ext_resource type="Texture2D" uid="uid://rbqiydrcqfow" path="res://BackgroundAndUI/gameOverMenu.png" id="6_p27gk"]
+[ext_resource type="Texture2D" uid="uid://rbqiydrcqfow" path="res://BackgroundAndUI/Icons/MenuIcons/gameOverMenu.png" id="6_p27gk"]
 [ext_resource type="Theme" uid="uid://de2n0oa8q8kvm" path="res://BackgroundAndUI/FontTheme.tres" id="7_gjykw"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8u835"]

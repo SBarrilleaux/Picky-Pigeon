@@ -12,7 +12,7 @@ scale = Vector2(0.1, 0.1)
 texture = ExtResource("2_qood8")
 offset = Vector2(5.44, 0)
 
-[node name="Sprite2D2" type="Sprite2D" parent="." index="1"]
+[node name="Outline" parent="." index="1"]
 self_modulate = Color(0, 0, 0, 1)
 scale = Vector2(0.102, 0.102)
 texture = ExtResource("2_qood8")

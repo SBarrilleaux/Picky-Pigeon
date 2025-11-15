@@ -28,6 +28,11 @@ project/assembly_name="AnotherTest"
 [global_group]
 
 itemButtons=""
+playerDataGroup=""
+
+[gui]
+
+theme/custom="uid://cadxfbgyxkbvv"
 
 [input]
 

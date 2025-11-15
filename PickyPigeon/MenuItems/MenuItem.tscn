@@ -1,0 +1,80 @@
+[gd_scene load_steps=4 format=3 uid="uid://dbhrdgs0qgq60"]
+
+[ext_resource type="Script" uid="uid://c6775pv2o8ylp" path="res://scripts/MenuItem.gd" id="1_arrr5"]
+[ext_resource type="Theme" uid="uid://cadxfbgyxkbvv" path="res://BackgroundAndUI/MenusTheme.tres" id="1_omv78"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_vd8qe"]
+size = Vector2(64, 64)
+
+[node name="Item" type="Control" groups=["itemButtons"]]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_arrr5")
+
+[node name="ItemButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_omv78")
+toggle_mode = true
+icon = SubResource("PlaceholderTexture2D_vd8qe")
+alignment = 2
+icon_alignment = 1
+
+[node name="buyItemMenu" type="Panel" parent="."]
+z_index = 200
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 8.0
+offset_top = -261.0
+offset_right = 508.0
+offset_bottom = -61.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(250, 100)
+theme = ExtResource("1_omv78")
+
+[node name="OutOfItemText" type="Label" parent="buyItemMenu"]
+z_index = 4096
+layout_mode = 0
+offset_left = 104.0
+offset_top = -2.0
+offset_right = 413.0
+offset_bottom = 58.0
+theme = ExtResource("1_omv78")
+text = "Out of item!"
+
+[node name="BuyButton" type="Button" parent="buyItemMenu/OutOfItemText"]
+layout_mode = 0
+offset_left = 234.0
+offset_top = 120.0
+offset_right = 344.0
+offset_bottom = 188.0
+text = "Buy"
+
+[node name="CancelButton" type="Button" parent="buyItemMenu/OutOfItemText"]
+layout_mode = 0
+offset_left = -68.0
+offset_top = 119.0
+offset_right = 120.0
+offset_bottom = 187.0
+text = "Cancel"
+
+[node name="CostText" type="Label" parent="buyItemMenu/OutOfItemText"]
+layout_mode = 0
+offset_left = -73.0
+offset_top = 53.0
+offset_right = 390.0
+offset_bottom = 113.0
+text = "Buy for __ Coins?"
+
+[connection signal="toggled" from="ItemButton" to="." method="_on_item_button_toggled"]
+[connection signal="pressed" from="buyItemMenu/OutOfItemText/BuyButton" to="." method="_on_buy_button_pressed"]
+[connection signal="pressed" from="buyItemMenu/OutOfItemText/CancelButton" to="." method="_on_cancel_button_pressed"]
