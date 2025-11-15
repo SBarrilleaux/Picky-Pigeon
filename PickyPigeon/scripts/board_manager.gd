@@ -597,26 +597,23 @@ func clearColumn(gridPosition: Vector2):
 
 # clears all of the nibbleType specified by given grid position
 func clearAllOfType(gridPosition: Vector2, nibbleMatchType = null):
-	# Select a random type of nibble to clear if none specified
-	if nibbleMatchType == null:
-		var randomTypeNibble = possibleNibbles[randi_range(0, possibleNibbles.size() - 1)].instantiate()
-		nibbleMatchType = randomTypeNibble.nibbleType
-		randomTypeNibble.queue_free()
-
 	if boardNibbles[gridPosition.x][gridPosition.y] != null:
 		var typeSelected = boardNibbles[gridPosition.x][gridPosition.y].nibbleType
 		for i in width:
 			for j in height:
-				# triggers when type bomb is from menuItems
 				if typeSelected != null && boardNibbles[i][j] != null:
 					if typeSelected == boardNibbles[i][j].nibbleType:
 						matchAndDim(boardNibbles[i][j])
 						$DestroyTimer.start()
-				# triggers when type bomb is from boardItems
-				elif nibbleMatchType != null && boardNibbles[i][j] != null:
-					if nibbleMatchType == boardNibbles[i][j].nibbleType:
-						matchAndDim(boardNibbles[i][j])
-						$DestroyTimer.start()
+					# handles being called from board items instead of menu item
+					elif typeSelected == "typeBomb":
+						if nibbleMatchType == null:
+							var randomTypeNibble = possibleNibbles[randi_range(0, possibleNibbles.size() - 1)].instantiate()
+							typeSelected = randomTypeNibble.nibbleType
+							randomTypeNibble.queue_free()
+						if typeSelected == boardNibbles[i][j].nibbleType:
+							matchAndDim(boardNibbles[i][j])
+							$DestroyTimer.start()
 
 # clears a circular area around a given nibble, within a radius which is 2 by default.
 func clearArea(gridPosition: Vector2, radius: int = 2):
