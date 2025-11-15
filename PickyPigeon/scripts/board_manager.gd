@@ -267,7 +267,7 @@ func swapNibble(column, row, direction: Vector2):
 			updateMenus()
 
 # calls the type of item action, with nibble type if needed for that item
-func boardItemUse(itemType, place, nibbleType = null):
+func boardItemUse(itemType, place: Vector2, nibbleType = null):
 	match itemType:
 		"bigBomb":
 			clearArea(place)
@@ -413,14 +413,20 @@ func destroyMatched():
 					damageObstacle(Vector2(i,j))
 					updateObjectives(Vector2(i,j))
 					wasMatched = true
-					boardNibbles[i][j].queue_free()
-					boardNibbles[i][j] = null				
-					updateMenus()
+					if !boardItemTypes.has(boardNibbles[i][j].nibbleType):
+						boardNibbles[i][j].queue_free()
+						boardNibbles[i][j] = null				
+						updateMenus()
+					else:
+						boardItemUse(boardNibbles[i][j].nibbleType,Vector2(i,j))
+						boardNibbles[i][j].queue_free()
+						boardNibbles[i][j] = null				
+						updateMenus()
 	moveChecked = true
 	# if anything was matched, play sound effect and collapse columns
 	if wasMatched:
 		$Sounds/DestroySound.play(0)
-		$CollapseTimer.start()
+		boardUpdate()
 	else:
 		swapBack()
 	currentMatches.clear()
@@ -570,7 +576,6 @@ func destroySingularNibble(gridPosition: Vector2):
 		updateObjectives(gridPosition)
 		matchAndDim(boardNibbles[gridPosition.x][gridPosition.y])
 		$DestroyTimer.start()	
-		boardUpdate()
 # clears the row of given grid position
 func clearRow(gridPosition: Vector2):
 	if boardNibbles[gridPosition.x][gridPosition.y] != null:
@@ -579,7 +584,6 @@ func clearRow(gridPosition: Vector2):
 				if boardNibbles[i][gridPosition.y] != null:
 					matchAndDim(boardNibbles[i][gridPosition.y])
 				$DestroyTimer.start()
-				boardUpdate()
 
 # clears the column of given grid position
 func clearColumn(gridPosition: Vector2):
@@ -589,7 +593,6 @@ func clearColumn(gridPosition: Vector2):
 				if boardNibbles[gridPosition.x][j] != null:
 					matchAndDim(boardNibbles[gridPosition.x][j])
 				$DestroyTimer.start()
-				boardUpdate()
 
 # clears all of the nibbleType specified by given grid position
 func clearAllOfType(gridPosition: Vector2, nibbleType = null):
@@ -601,13 +604,11 @@ func clearAllOfType(gridPosition: Vector2, nibbleType = null):
 					if typeSelected == boardNibbles[i][j].nibbleType:
 						matchAndDim(boardNibbles[i][j])
 						$DestroyTimer.start()
-						boardUpdate()
 				# looks for optional argument type, if not being called directly from nibble
 				if nibbleType != null && boardNibbles[i][j] != null:
 					if nibbleType == boardNibbles[i][j].nibbleType:
 						matchAndDim(boardNibbles[i][j])
 						$DestroyTimer.start()
-						boardUpdate()
 
 # clears a circular area around a given nibble, within a radius which is 2 by default.
 func clearArea(gridPosition: Vector2, radius: int = 2):
@@ -625,7 +626,6 @@ func clearArea(gridPosition: Vector2, radius: int = 2):
 						matchAndDim(boardNibbles[nibbleInRange.x][nibbleInRange.y])
 		# Destroy matched pieces
 		$DestroyTimer.start
-		boardUpdate()
 	
 func updateItemUses():
 	for i in get_tree().get_nodes_in_group("itemButtons"):

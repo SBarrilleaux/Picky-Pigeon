@@ -35,6 +35,7 @@ func move(target):
 func dim():
 	#var sprite = get_node("Sprite2D")
 	#currentScale = scale
+	$GPUParticles2D.restart()
 	sprite.modulate = Color(1.5,1.5,1.5, .5)
 	var tween: Tween = create_tween()
 	tween.tween_property(self,"scale",scale + effectScaleAmount, 0.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)

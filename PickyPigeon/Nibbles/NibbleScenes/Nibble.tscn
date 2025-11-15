@@ -1,10 +1,31 @@
-[gd_scene load_steps=6 format=3 uid="uid://c01i5gimr0eu3"]
+[gd_scene load_steps=9 format=3 uid="uid://c01i5gimr0eu3"]
 
 [ext_resource type="Script" uid="uid://dok47u4bfv5g6" path="res://scripts/nibble.gd" id="1_qnivr"]
 [ext_resource type="Texture2D" uid="uid://cvmai61ywlrsr" path="res://BackgroundAndUI/Icons/ItemIcons/rowClearIcon.png" id="2_2aymh"]
 [ext_resource type="Texture2D" uid="uid://c5r3c5lskx1tt" path="res://BackgroundAndUI/Icons/ItemIcons/columnClearIcon.png" id="3_ogmr1"]
 [ext_resource type="Texture2D" uid="uid://v86r38v3w6ah" path="res://BackgroundAndUI/Icons/levelIconBase.tres" id="4_im4e1"]
 [ext_resource type="Texture2D" uid="uid://c3yiq5gg7ttwl" path="res://BackgroundAndUI/Icons/placeholderTexture2.tres" id="5_g3rav"]
+
+[sub_resource type="Gradient" id="Gradient_2aymh"]
+offsets = PackedFloat32Array(0.150327, 0.503268, 0.594771)
+colors = PackedColorArray(0.36636, 0.3268, 0.43, 0.415686, 1, 1, 1, 0.407843, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ogmr1"]
+gradient = SubResource("Gradient_2aymh")
+width = 32
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0, 0)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_im4e1"]
+particle_flag_disable_z = true
+inherit_velocity_ratio = -3.4
+direction = Vector3(4.18, 1.9, 0.85)
+spread = 180.0
+initial_velocity_min = 322.05
+initial_velocity_max = 552.03
+turbulence_enabled = true
 
 [node name="Nibble" type="Node2D"]
 script = ExtResource("1_qnivr")
@@ -16,3 +37,15 @@ bigBomb = ExtResource("5_g3rav")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 
 [node name="Outline" type="Sprite2D" parent="."]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+z_index = 170
+emitting = false
+amount = 25
+texture = SubResource("GradientTexture2D_ogmr1")
+lifetime = 0.38
+one_shot = true
+explosiveness = 1.0
+trail_lifetime = 2.44
+trail_sections = 4
+process_material = SubResource("ParticleProcessMaterial_im4e1")
