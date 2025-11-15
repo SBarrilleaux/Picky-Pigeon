@@ -133,9 +133,9 @@ func restictedSpace(place: Vector2) -> bool:
 func restrictedMove(place: Vector2):
 	return isInArray(obstacleSpaces, place)
 # checks whether something exists in an array
-func isInArray(array, item) -> bool:
+func isInArray(array, itemFound) -> bool:
 	for i in array.size():
-		if array[i] == item:
+		if array[i] == itemFound:
 			return true
 	return false
 
@@ -473,6 +473,7 @@ func afterRefill():
 			if boardNibbles[i][j] != null:
 				if matchAt(i,j, boardNibbles[i][j].nibbleType):
 					findMatches()
+					findBoardItems()
 					$DestroyTimer.start()
 					return
 	state = move
@@ -595,18 +596,25 @@ func clearColumn(gridPosition: Vector2):
 				$DestroyTimer.start()
 
 # clears all of the nibbleType specified by given grid position
-func clearAllOfType(gridPosition: Vector2, nibbleType = null):
+func clearAllOfType(gridPosition: Vector2, nibbleMatchType = null):
+	# Select a random type of nibble to clear if none specified
+	if nibbleMatchType == null:
+		var randomTypeNibble = possibleNibbles[randi_range(0, possibleNibbles.size() - 1)].instantiate()
+		nibbleMatchType = randomTypeNibble.nibbleType
+		randomTypeNibble.queue_free()
+
 	if boardNibbles[gridPosition.x][gridPosition.y] != null:
 		var typeSelected = boardNibbles[gridPosition.x][gridPosition.y].nibbleType
 		for i in width:
 			for j in height:
+				# triggers when type bomb is from menuItems
 				if typeSelected != null && boardNibbles[i][j] != null:
 					if typeSelected == boardNibbles[i][j].nibbleType:
 						matchAndDim(boardNibbles[i][j])
 						$DestroyTimer.start()
-				# looks for optional argument type, if not being called directly from nibble
-				if nibbleType != null && boardNibbles[i][j] != null:
-					if nibbleType == boardNibbles[i][j].nibbleType:
+				# triggers when type bomb is from boardItems
+				elif nibbleMatchType != null && boardNibbles[i][j] != null:
+					if nibbleMatchType == boardNibbles[i][j].nibbleType:
 						matchAndDim(boardNibbles[i][j])
 						$DestroyTimer.start()
 
@@ -619,9 +627,8 @@ func clearArea(gridPosition: Vector2, radius: int = 2):
 				var spaceOffset= Vector2(i, j)
 				var nibbleInRange = gridPosition + spaceOffset
 
-				# Check if the tile is within the circular radius using squared distance
+				# Check if the space is within the circular radius using squared distance
 				if spaceOffset.length_squared() <= radius * radius:
-				# The tile is within the radius, so add it to the list
 					if isNibbleNull(nibbleInRange):
 						matchAndDim(boardNibbles[nibbleInRange.x][nibbleInRange.y])
 		# Destroy matched pieces
