@@ -22,7 +22,7 @@ signal validTiles(boardSpace: Vector2)
 ## Takes an int that should be 0-3 in score rating. 0 being fail and 3 being perfect.
 signal clearScore(rating: int)
 # state machine
-enum {wait, move, item, gameOver}
+enum gameState {wait, move, item, gameOver}
 var state
 var recentItem: String
 
@@ -40,6 +40,7 @@ var boardItemTypes = ["colBomb","rowBomb","typeBomb","bigBomb"]
 
 # the board / nibbles on the board
 var boardNibbles = []
+# used for finding items
 var currentMatches = []
 
 # Level Objectives
@@ -71,7 +72,7 @@ var turnText = ""
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	state = move
+	state = gameState.move
 	# seeds the random generation
 	randomize()
 	# intial board setup
@@ -108,11 +109,11 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if turnRemaining > 0 && state == move:
+	if turnRemaining > 0 && state == gameState.move:
 		mouseInput()
-	elif turnRemaining == 0 && state == move:
+	elif turnRemaining == 0 && state == gameState.move:
 			endLevel()
-	elif state == item:
+	elif state == gameState.item:
 		itemMouseInput(recentItem)
 
 func make2dArray():
@@ -125,6 +126,10 @@ func make2dArray():
 	
 func getState():
 	return state
+	
+func setState(value: int):
+	if value >= 0 && value < gameState.size():
+		state = value
 ## check if a tile isn't factored into nibble movements
 func restictedSpace(place: Vector2) -> bool:
 	# check empty
@@ -245,14 +250,14 @@ func swapNibble(column, row, direction: Vector2):
 		if !restrictedMove(Vector2(column, row)) &&  !restrictedMove(Vector2(column, row) + direction):
 			storeInfo(firstNibble, secondNibble, Vector2(column,row), direction)
 			# Swaps the pieces in the grid
-			state = wait
+			state = gameState.wait
 			boardNibbles[column][row] = secondNibble
 			boardNibbles[column + direction.x][row + direction.y] = firstNibble
 			# Swaps the pieces actual visual position
 			firstNibble.move(gridToPixel(column + direction.x, row + direction.y))
 			secondNibble.move(gridToPixel(column, row))
 			$Sounds/MoveSound.play(0)
-			
+
 			# check if nibble is a bomb of some type
 			for i in boardItemTypes.size():
 				if firstNibble.nibbleType == boardItemTypes[i]:
@@ -290,7 +295,7 @@ func swapBack():
 	if nibbleOne != null && nibbleTwo != null:
 		turnRemaining += 1
 		swapNibble(lastPlace.x,lastPlace.y, lastDirection)
-	state = move
+	state = gameState.move
 	moveChecked = false
 
 # Finds the direction to swap pieces in
@@ -338,8 +343,9 @@ func findMatches():
 
 
 func isNibbleNull(gridPosition) -> bool:
-	if boardNibbles[gridPosition.x][gridPosition.y] != null:
-		return true
+	if gridPosition.x < width && gridPosition.y < height: #Make sure that position isn't out of array bounds
+		if boardNibbles[gridPosition.x][gridPosition.y] != null:
+			return true
 	return false
 
 # Sets a nibble to matched for destruction and calls the nibbles destroy animation, dim()
@@ -471,15 +477,12 @@ func refillColumns():
 func afterRefill():
 	for i in width:
 		for j in height:
-			#if boardNibbles[i][j] != null:
-				#findMatches()
-				#$DestroyTimer.start()
-				#return
-				if matchAt(i,j, boardNibbles[i][j].nibbleType):
-					findMatches()
-					$DestroyTimer.start()
-					return
-	state = move
+			if (boardNibbles[i][j] != null):
+					if matchAt(i,j, boardNibbles[i][j].nibbleType):
+						findMatches()
+						$DestroyTimer.start()
+						return
+	state = gameState.move
 	moveChecked = false
 
 func _on_destroy_time_timeout() -> void:
@@ -525,11 +528,11 @@ func updateObjectives(gridPosition: Vector2):
 	for i in objectiveGoalTotal.size():
 		if objectiveGoalTotal[i] == 0:
 			count += 1
-	if count == objectiveGoalTotal.size() && state != gameOver && turnRemaining != 0:
+	if count == objectiveGoalTotal.size() && state != gameState.gameOver && turnRemaining != 0:
 		endLevel()
 		
 func endLevel():
-	state = gameOver
+	state = gameState.gameOver
 	await waitTimer(1)
 	get_parent().get_node("GameOver").visible = true
 	
@@ -553,7 +556,7 @@ func waitTimer(seconds: float):
 
 # Gets input when in the item state, and calling the correct function for each item
 func itemMouseInput(currentItem: String):
-	state = item
+	state = gameState.item
 	recentItem = currentItem
 	if Input.is_action_just_pressed("click"):
 		if isInGrid(pixelToGrid(get_global_mouse_position().x, get_global_mouse_position().y)):
@@ -572,7 +575,7 @@ func itemMouseInput(currentItem: String):
 			updateItemUses()
 		else:
 			updateItemButtonsDisplay()
-			state = move
+			state = gameState.move
 
 # Destroys a singular nibble at given grid position
 func destroySingularNibble(gridPosition: Vector2):
@@ -642,7 +645,7 @@ func boardUpdate():
 	updateMenus()
 	$CollapseTimer.start()
 	updateItemButtonsDisplay()
-	state = wait
+	state = gameState.wait
 # Untoggles all buttons in itemButtons after an action
 func updateItemButtonsDisplay():
 	for i in get_tree().get_nodes_in_group("itemButtons"):

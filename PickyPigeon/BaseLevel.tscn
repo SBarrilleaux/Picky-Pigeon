@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=4 uid="uid://dcc5gll3m8e6n"]
+[gd_scene load_steps=21 format=4 uid="uid://dcc5gll3m8e6n"]
 
 [ext_resource type="Gradient" uid="uid://bsqdnytxyj05o" path="res://BackgroundAndUI/Icons/gradient_placeholder.tres" id="1_e5w5x"]
 [ext_resource type="StyleBox" uid="uid://odlv7kym1cy4" path="res://BackgroundAndUI/backgroundPanels.tres" id="2_f6vu8"]
@@ -13,6 +13,7 @@
 [ext_resource type="AudioStream" uid="uid://lfx6yt7mo4bg" path="res://sounds/soundEffectSwoosh.mp3" id="8_ek7h3"]
 [ext_resource type="AudioStream" uid="uid://wrw0c818p312" path="res://sounds/soundEffectsPop.mp3" id="9_4v555"]
 [ext_resource type="PackedScene" uid="uid://dk25g6wltb3wt" path="res://MenuItems/columnClearMenuItem.tscn" id="9_6h1wh"]
+[ext_resource type="PackedScene" uid="uid://jtjcltyag8ve" path="res://otherScenes/pauseMenu.tscn" id="9_v8iff"]
 [ext_resource type="AudioStream" uid="uid://dmmbmva2nuyxj" path="res://sounds/backgroundMusic.mp3" id="10_n2yux"]
 [ext_resource type="Script" uid="uid://qcwyh4jkjsk1" path="res://scripts/player_data.gd" id="11_qllts"]
 [ext_resource type="PackedScene" uid="uid://c12jrn0err337" path="res://otherScenes/game_over.tscn" id="12_dpxor"]
@@ -277,15 +278,16 @@ one_shot = true
 
 [node name="Sounds" type="Node2D" parent="Board/Grid"]
 
-[node name="MoveSound" type="AudioStreamPlayer2D" parent="Board/Grid/Sounds"]
+[node name="MoveSound" type="AudioStreamPlayer2D" parent="Board/Grid/Sounds" groups=["soundEffect"]]
 stream = ExtResource("8_ek7h3")
 volume_db = 1.19
 
-[node name="DestroySound" type="AudioStreamPlayer2D" parent="Board/Grid/Sounds"]
+[node name="DestroySound" type="AudioStreamPlayer2D" parent="Board/Grid/Sounds" groups=["soundEffect"]]
 stream = ExtResource("9_4v555")
 volume_db = -8.336
+pitch_scale = 0.9
 
-[node name="BackgroundMusic" type="AudioStreamPlayer2D" parent="Board/Grid/Sounds"]
+[node name="BackgroundMusic" type="AudioStreamPlayer2D" parent="Board/Grid/Sounds" groups=["soundMusic"]]
 stream = ExtResource("10_n2yux")
 autoplay = true
 
@@ -295,6 +297,11 @@ script = ExtResource("11_qllts")
 [node name="GameOver" parent="Board" instance=ExtResource("12_dpxor")]
 visible = false
 z_index = 180
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="PauseMenu" parent="Board" instance=ExtResource("9_v8iff")]
+z_index = 140
 offset_right = 1920.0
 offset_bottom = 1080.0
 

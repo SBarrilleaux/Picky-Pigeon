@@ -5,6 +5,10 @@ var currentScene
 var allButtonsToSave
 var coins: int
 var clearAwardValues: Array[int] = [0,5, 15, 30]
+
+# config
+var playerSettings: Dictionary[String, Variant] = {"musicVolume":100, "effectsVolume":100}
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# Get the current levels name
@@ -17,11 +21,22 @@ func _ready() -> void:
 		for i in allButtonsToSave.size():
 			allButtonsToSave[i].loadButton(loadData())
 		coins = playerSaveStats["coins"]
+		for i in playerSettings:
+			if playerSaveStats.has(i):
+				playerSettings.set(i, playerSaveStats.get(i))
 
 	print("Prior Best: ")
 	print(playerSaveStats.get(currentScene))
-	print(currentScene)
 
+# Is used to update settings like volume
+func updateSetting(setting: String, value):
+	if playerSettings.has(setting):
+		playerSettings.set(setting,value)
+
+func getSetting(setting: String) -> Variant:
+	if playerSettings.has(setting):
+		return playerSettings[setting]
+	return null
 # Reads the given folder to find out how many files are in it
 func getFileCount(path: String) -> Array:
 	
@@ -42,8 +57,7 @@ func getFileCount(path: String) -> Array:
 		print("Null directory", path)
 	return levelList
 
-
-
+# Triggered on game over
 func _on_grid_clear_score(rating: int) -> void:
 	#Add the current levels score to the dictionary if it is a new high score
 	if playerSaveStats.get(currentScene) != null:
@@ -79,12 +93,22 @@ func saveData():
 			saveFile.store_line(allButtonsToSave[i].saveButton())
 		# save coins
 		saveFile.store_line(str("coins",":",coins,"\r").replace(" ",""))
+		
+		
+		# save preferences
+		for i in playerSettings:
+			saveFile.store_line(str(i,":",playerSettings[i],"\r").replace(" ",""))
+			
 
 		saveFile.close()
-	
+		
 	
 # Loads data into a dictionary of string: int to return
 func loadData():
+	# Load config
+	var config = ConfigFile.new()
+	
+	# Load save file
 	var saveFile = FileAccess.open("user://savegame.save", FileAccess.READ)
 	var content: Dictionary[String, int] = {}
 	if saveFile != null:
@@ -110,3 +134,8 @@ func useCoins(coinCost: int) -> bool:
 		print(coins)
 		return true
 	return false
+
+func _notification(what: int) -> void:
+	# save game before it closes
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		saveData()

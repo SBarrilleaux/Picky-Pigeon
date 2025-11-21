@@ -216,6 +216,7 @@ theme_override_font_sizes/font_size = 120
 text = "Picky Pigeon"
 
 [node name="Label" type="Label" parent="Node2D/MainMenu/Logo/Label"]
+layout_mode = 0
 offset_left = -39.0
 offset_top = 369.0
 offset_right = 908.0
