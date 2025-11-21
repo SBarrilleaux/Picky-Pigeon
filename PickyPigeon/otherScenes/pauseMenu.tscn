@@ -14,7 +14,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_iels5")
+mainMenuScenePath = "uid://7mryyx5le04p"
 
 [node name="Menu" type="TextureRect" parent="."]
 layout_mode = 1
@@ -137,6 +139,42 @@ grow_vertical = 2
 max_value = 30.0
 step = 10.0
 
+[node name="Exit" type="Button" parent="Menu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -367.0
+offset_top = 109.0
+offset_right = -32.0
+offset_bottom = 246.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+pivot_offset = Vector2(68, 68)
+theme_override_font_sizes/font_size = 100
+text = "Exit"
+
+[node name="Resume" type="Button" parent="Menu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 88.5
+offset_top = 109.0
+offset_right = 512.5
+offset_bottom = 246.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+pivot_offset = Vector2(68, 68)
+theme_override_font_sizes/font_size = 100
+text = "Resume"
+
 [node name="SettingsButton" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = 3
@@ -154,4 +192,6 @@ icon = ExtResource("3_h7h71")
 
 [connection signal="value_changed" from="Menu/MusicValueDisplay/MusicValueSlider" to="." method="_on_music_value_slider_value_changed"]
 [connection signal="value_changed" from="Menu/EffectsValueDisplay/EffectsValueSlider" to="." method="_on_effects_value_slider_value_changed"]
+[connection signal="pressed" from="Menu/Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="Menu/Resume" to="." method="_on_resume_pressed"]
 [connection signal="pressed" from="SettingsButton" to="." method="_on_settings_button_pressed"]

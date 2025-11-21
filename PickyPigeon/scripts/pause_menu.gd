@@ -6,8 +6,10 @@ var effectsVolumeDisplay: ProgressBar
 var effectsVolumeSlider: HSlider
 var playerNode
 var boardManagerNode
+## 0 would be the default pause menu for in levels, 1 is main menu version of the pause menu
+@export var menuVersion: int
 
-
+@export_file("*.tscn") var mainMenuScenePath: String
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	musicVolumeDisplay = $Menu/MusicValueDisplay
@@ -16,6 +18,9 @@ func _ready() -> void:
 	effectsVolumeSlider = $Menu/EffectsValueDisplay/EffectsValueSlider
 	$Menu.visible = false
 	
+	if menuVersion == null:
+		menuVersion = 0
+
 	playerNode = get_tree().get_first_node_in_group("playerDataGroup")
 	boardManagerNode = get_tree().get_nodes_in_group("boardController")
 	# make sure the player node has initialzed
@@ -67,3 +72,19 @@ func _on_settings_button_pressed() -> void:
 		get_tree().call_group("boardController", "setState", 0)
 	else:
 		get_tree().call_group("boardController", "setState",1)
+
+
+func _on_exit_pressed() -> void:
+	playerNode.saveData()
+	# if the menu is the main menu version, exit quits the games
+	if menuVersion == 1:
+		get_tree().quit()
+	else:
+		# return to main menu
+		get_tree().change_scene_to_file(mainMenuScenePath)
+
+
+func _on_resume_pressed() -> void:
+	# hide menu and set game back to move
+	$Menu.visible = false
+	get_tree().call_group("boardController", "setState",1)
