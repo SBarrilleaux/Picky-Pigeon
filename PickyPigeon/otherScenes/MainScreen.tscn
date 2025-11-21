@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://7mryyx5le04p"]
+[gd_scene load_steps=17 format=3 uid="uid://7mryyx5le04p"]
 
 [ext_resource type="Script" uid="uid://bpcrfs265rvrx" path="res://scripts/MainMenuControl.gd" id="1_453mu"]
 [ext_resource type="Texture2D" uid="uid://c3yiq5gg7ttwl" path="res://BackgroundAndUI/Icons/placeholderTexture2.tres" id="2_87488"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://dfk05wkfs7750" path="res://Levels/levelFour.tscn" id="6_ke5ad"]
 [ext_resource type="Script" uid="uid://qcwyh4jkjsk1" path="res://scripts/player_data.gd" id="9_v30kg"]
 [ext_resource type="AudioStream" uid="uid://ct0wfqc35btio" path="res://sounds/mainMenuMusic.mp3" id="10_87488"]
+[ext_resource type="PackedScene" uid="uid://jtjcltyag8ve" path="res://otherScenes/pauseMenu.tscn" id="10_f0j8w"]
 
 [sub_resource type="Gradient" id="Gradient_87488"]
 interpolation_mode = 2
@@ -176,7 +177,14 @@ theme_override_constants/shadow_outline_size = 20
 theme_override_font_sizes/font_size = 120
 text = "Picky Pigeon"
 
+[node name="PauseMenu" parent="Node2D/MainMenu/LevelSelect" instance=ExtResource("10_f0j8w")]
+layout_mode = 1
+offset_left = 607.0
+offset_top = 108.0
+menuVersion = 1
+
 [node name="Logo" type="Control" parent="Node2D/MainMenu"]
+visible = false
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
@@ -235,7 +243,7 @@ horizontal_alignment = 1
 one_shot = true
 autostart = true
 
-[node name="PlayerData" type="Node" parent="Node2D"]
+[node name="PlayerData" type="Node" parent="Node2D" groups=["playerDataGroup"]]
 script = ExtResource("9_v30kg")
 
 [node name="BackgroundMusic" type="AudioStreamPlayer2D" parent="Node2D"]
