@@ -29,6 +29,8 @@ project/assembly_name="AnotherTest"
 
 itemButtons=""
 playerDataGroup=""
+soundEffect=""
+soundMusic=""
 
 [gui]
 

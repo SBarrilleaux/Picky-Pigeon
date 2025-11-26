@@ -52,6 +52,7 @@ func saveButton() -> String:
 func loadButton(data: Dictionary[String, int]):
 	if data.has(itemType):
 		uses = data[itemType]
+
 	else:
 		print("no such item saved:")
 		uses = 1

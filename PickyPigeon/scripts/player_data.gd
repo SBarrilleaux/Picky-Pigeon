@@ -27,7 +27,7 @@ func _ready() -> void:
 
 	print("Prior Best: ")
 	print(playerSaveStats.get(currentScene))
-
+	
 # Is used to update settings like volume
 func updateSetting(setting: String, value):
 	if playerSettings.has(setting):

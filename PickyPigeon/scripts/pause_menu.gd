@@ -75,12 +75,13 @@ func _on_settings_button_pressed() -> void:
 
 
 func _on_exit_pressed() -> void:
-	playerNode.saveData()
 	# if the menu is the main menu version, exit quits the games
 	if menuVersion == 1:
+		# data doesn't need saved on main menu, so just exits
 		get_tree().quit(0)
 	else:
 		# return to main menu
+		playerNode.saveData()
 		get_tree().change_scene_to_file(mainMenuScenePath)
 
 

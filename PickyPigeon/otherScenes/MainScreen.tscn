@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://7mryyx5le04p"]
+[gd_scene load_steps=21 format=3 uid="uid://7mryyx5le04p"]
 
 [ext_resource type="Script" uid="uid://bpcrfs265rvrx" path="res://scripts/MainMenuControl.gd" id="1_453mu"]
 [ext_resource type="Texture2D" uid="uid://c3yiq5gg7ttwl" path="res://BackgroundAndUI/Icons/placeholderTexture2.tres" id="2_87488"]
@@ -9,9 +9,12 @@
 [ext_resource type="SpriteFrames" uid="uid://jigbls5352ls" path="res://pickyPigeon/pickyPigeonAnimations.tres" id="5_87488"]
 [ext_resource type="PackedScene" uid="uid://debp2wquq6qlb" path="res://Levels/levelThree.tscn" id="5_v30kg"]
 [ext_resource type="PackedScene" uid="uid://dfk05wkfs7750" path="res://Levels/levelFour.tscn" id="6_ke5ad"]
+[ext_resource type="Texture2D" uid="uid://17o03ypfsbl5" path="res://BackgroundAndUI/Icons/clearRatingMainMenuIcons/0Clear.png" id="9_7afv5"]
 [ext_resource type="Script" uid="uid://qcwyh4jkjsk1" path="res://scripts/player_data.gd" id="9_v30kg"]
+[ext_resource type="Texture2D" uid="uid://dsl26kqu0xl1" path="res://BackgroundAndUI/Icons/clearRatingMainMenuIcons/2Clear.png" id="10_1ojm8"]
 [ext_resource type="AudioStream" uid="uid://ct0wfqc35btio" path="res://sounds/mainMenuMusic.mp3" id="10_87488"]
 [ext_resource type="PackedScene" uid="uid://jtjcltyag8ve" path="res://otherScenes/pauseMenu.tscn" id="10_f0j8w"]
+[ext_resource type="Texture2D" uid="uid://cc2mfalyd4fyx" path="res://BackgroundAndUI/Icons/clearRatingMainMenuIcons/3Clear.png" id="11_1ojm8"]
 
 [sub_resource type="Gradient" id="Gradient_87488"]
 interpolation_mode = 2
@@ -37,6 +40,8 @@ height = 1080
 fill = 1
 fill_from = Vector2(0.457, 0.07)
 fill_to = Vector2(0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1ojm8"]
 
 [node name="Node3D" type="Node3D"]
 
@@ -102,6 +107,7 @@ texture = SubResource("GradientTexture2D_7pmop")
 layout_mode = 0
 offset_right = 8.0
 offset_bottom = 8.0
+theme_override_styles/scroll = SubResource("StyleBoxFlat_1ojm8")
 
 [node name="LevelList" type="ItemList" parent="Node2D/MainMenu/LevelSelect/HScrollBar"]
 layout_mode = 1
@@ -124,6 +130,38 @@ wraparound_items = false
 max_columns = 3
 same_column_width = true
 icon_mode = 0
+
+[node name="LevelRatings" type="ItemList" parent="Node2D/MainMenu/LevelSelect/HScrollBar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 947.0
+offset_top = 150.0
+offset_right = 1914.0
+offset_bottom = 494.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(483, 138)
+theme = ExtResource("4_drlny")
+max_text_lines = 3
+auto_height = true
+wraparound_items = false
+item_count = 4
+max_columns = 943
+same_column_width = true
+icon_mode = 0
+fixed_icon_size = Vector2i(256, 256)
+item_0/icon = ExtResource("9_7afv5")
+item_0/selectable = false
+item_1/icon = ExtResource("10_1ojm8")
+item_1/selectable = false
+item_2/icon = ExtResource("11_1ojm8")
+item_2/selectable = false
+item_3/icon = ExtResource("10_1ojm8")
+item_3/selectable = false
 
 [node name="Logo" type="Control" parent="Node2D/MainMenu/LevelSelect"]
 layout_mode = 3
@@ -178,6 +216,7 @@ theme_override_font_sizes/font_size = 120
 text = "Picky Pigeon"
 
 [node name="PauseMenu" parent="Node2D/MainMenu/LevelSelect" instance=ExtResource("10_f0j8w")]
+visible = false
 layout_mode = 1
 offset_left = 607.0
 offset_top = 108.0
@@ -234,7 +273,7 @@ theme_override_colors/font_color = Color(0.6534, 0.96195, 0.99, 1)
 theme_override_colors/font_shadow_color = Color(0.465663, 0.3234, 0.98, 1)
 theme_override_constants/shadow_outline_size = 14
 theme_override_font_sizes/font_size = 40
-text = "All code, art, and sounds
+text = "code, art, and sounds
 by
 Sasha Barrilleaux"
 horizontal_alignment = 1
@@ -246,10 +285,11 @@ autostart = true
 [node name="PlayerData" type="Node" parent="Node2D" groups=["playerDataGroup"]]
 script = ExtResource("9_v30kg")
 
-[node name="BackgroundMusic" type="AudioStreamPlayer2D" parent="Node2D"]
+[node name="BackgroundMusic" type="AudioStreamPlayer2D" parent="Node2D" groups=["soundMusic"]]
 stream = ExtResource("10_87488")
 volume_db = -0.17
 autoplay = true
 
 [connection signal="item_clicked" from="Node2D/MainMenu/LevelSelect/HScrollBar/LevelList" to="Node2D" method="_on_level_list_item_clicked"]
+[connection signal="item_clicked" from="Node2D/MainMenu/LevelSelect/HScrollBar/LevelRatings" to="Node2D" method="_on_level_list_item_clicked"]
 [connection signal="timeout" from="Node2D/Startup" to="Node2D" method="_on_startup_timeout"]

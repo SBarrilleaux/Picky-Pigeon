@@ -158,10 +158,12 @@ func spawnObstacles(gridPosition: Vector2, type: String):
 			current.set_position(gridToPixel(gridPosition.x, gridPosition.y))
 			boardObstacles[gridPosition.x][gridPosition.y] = current
 
+# if an obstacle exists at given board position, call its damage function, remove it from board if health is 0
 func damageObstacle(gridPosition: Vector2):
 	var currentObstacle = boardObstacles[gridPosition.x][gridPosition.y]
 	if currentObstacle != null:
 		currentObstacle.takeDamage(1)
+		
 		if currentObstacle.getHealth() == 0:
 			currentObstacle.queue_free()
 			currentObstacle = null
@@ -169,7 +171,6 @@ func damageObstacle(gridPosition: Vector2):
 			obstacleSpaces[obstacleSpaces.find(gridPosition)] = Vector2(-1,-1)
 
 # chooses a random piece and spawns it on the board
-# uses pixelToGrid
 func spawnNibbles():
 	for i in width:
 		for j in height:
@@ -189,9 +190,9 @@ func spawnNibbles():
 				# spawn the chosen nibble in the scene
 				add_child(newNibble) # new nodes need to be parented
 				newNibble.set_position(gridToPixel(i,j))
-				boardNibbles[i][j] = newNibble # change to new array if this isnt
+				boardNibbles[i][j] = newNibble
 
-## searches board for matches at startup
+## searches board for matches at startup to avoid board matching on start
 func matchAt(column,row, nibbleType):
 	
 	if column > 1:
@@ -220,7 +221,7 @@ func pixelToGrid(pixelX, pixelY):
 	return Vector2(newX, newY)
 
 
-# Checks if a position is a valid space on the board
+## Checks if a position is a valid space on the board
 func isInGrid(gridPosition):
 	if gridPosition.x >= 0 && gridPosition.x < width:
 		if gridPosition.y >= 0 && gridPosition.y < height:
@@ -240,6 +241,21 @@ func mouseInput():
 			final_click = pixelToGrid(get_global_mouse_position().x, get_global_mouse_position().y)
 			touchDifference(first_click, final_click)
 			controlling = false
+
+
+# Finds the direction to swap pieces in
+func touchDifference(gridOne, gridTwo):
+	var difference = gridTwo - gridOne
+	if abs(difference.x) > abs(difference.y):
+		if difference.x > 0:
+			swapNibble(gridOne.x, gridOne.y, Vector2(1,0))
+		elif difference.x < 0:
+			swapNibble(gridOne.x, gridOne.y, Vector2(-1,0))
+	elif abs(difference.y) > abs(difference.x):
+		if difference.y > 0:
+			swapNibble(gridOne.x, gridOne.y, Vector2(0,1))
+		elif difference.y < 0:
+			swapNibble(gridOne.x, gridOne.y, Vector2(0,-1))
 
 # Takes the position in the grid of a piece, and then direction to swap it
 func swapNibble(column, row, direction: Vector2):
@@ -272,17 +288,6 @@ func swapNibble(column, row, direction: Vector2):
 				turnRemaining -= 1
 			updateMenus()
 
-# calls the type of item action, with nibble type if needed for that item
-func boardItemUse(itemType, place: Vector2, nibbleType = null):
-	match itemType:
-		"bigBomb":
-			clearArea(place)
-		"colBomb":
-			clearColumn(place)
-		"rowBomb":
-			clearRow(place)
-		"typeBomb":
-			clearAllOfType(place,nibbleType)
 # Store the nibbles to be matched in case swap back is needed
 func storeInfo(firstNibble,secondNibble, place, direction):
 	nibbleOne = firstNibble
@@ -298,19 +303,18 @@ func swapBack():
 	state = gameState.move
 	moveChecked = false
 
-# Finds the direction to swap pieces in
-func touchDifference(gridOne, gridTwo):
-	var difference = gridTwo - gridOne
-	if abs(difference.x) > abs(difference.y):
-		if difference.x > 0:
-			swapNibble(gridOne.x, gridOne.y, Vector2(1,0))
-		elif difference.x < 0:
-			swapNibble(gridOne.x, gridOne.y, Vector2(-1,0))
-	elif abs(difference.y) > abs(difference.x):
-		if difference.y > 0:
-			swapNibble(gridOne.x, gridOne.y, Vector2(0,1))
-		elif difference.y < 0:
-			swapNibble(gridOne.x, gridOne.y, Vector2(0,-1))
+# calls the type of item action, with nibble type if needed for that item
+func boardItemUse(itemType, place: Vector2, nibbleType = null):
+	match itemType:
+		"bigBomb":
+			clearArea(place)
+		"colBomb":
+			clearColumn(place)
+		"rowBomb":
+			clearRow(place)
+		"typeBomb":
+			clearAllOfType(place,nibbleType)
+
 
 # Handles finding matches on the board during gameplay
 func findMatches():
@@ -411,6 +415,7 @@ func changeToBomb(bombType, nibble):
 
 # Finds and destroys all objects with their matched value set to true
 func destroyMatched():
+	findBoardItems()
 	var wasMatched = false
 	for i in width:
 		for j in height:
@@ -495,6 +500,9 @@ func _on_refill_timer_timeout() -> void:
 	refillColumns()
 	#findMatches()
 
+func waitTimer(seconds: float):
+	await get_tree().create_timer(seconds).timeout
+
 func updateMenus():
 	# update text for turns remaining
 	turnText.text = "Turns \n Remaining \n" + str(turnRemaining)
@@ -550,9 +558,6 @@ func endLevel():
 		emit_signal("clearScore", 1)
 	elif goalsComplete >= objectiveItems.size()/2.00:
 		emit_signal("clearScore", 2)
-
-func waitTimer(seconds: float):
-	await get_tree().create_timer(seconds).timeout
 
 # Gets input when in the item state, and calling the correct function for each item
 func itemMouseInput(currentItem: String):
