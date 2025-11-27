@@ -24,9 +24,6 @@ func _ready() -> void:
 		for i in playerSettings:
 			if playerSaveStats.has(i):
 				playerSettings.set(i, playerSaveStats.get(i))
-
-	print("Prior Best: ")
-	print(playerSaveStats.get(currentScene))
 	
 # Is used to update settings like volume
 func updateSetting(setting: String, value):
@@ -37,6 +34,11 @@ func getSetting(setting: String) -> Variant:
 	if playerSettings.has(setting):
 		return playerSettings[setting]
 	return null
+	
+func getLevelScore(levelName: String) -> int:
+	if playerSaveStats.has(levelName):
+		return playerSaveStats[levelName]
+	return 0
 # Reads the given folder to find out how many files are in it
 func getFileCount(path: String) -> Array:
 	
@@ -105,9 +107,6 @@ func saveData():
 	
 # Loads data into a dictionary of string: int to return
 func loadData():
-	# Load config
-	var config = ConfigFile.new()
-	
 	# Load save file
 	var saveFile = FileAccess.open("user://savegame.save", FileAccess.READ)
 	var content: Dictionary[String, int] = {}
@@ -131,7 +130,6 @@ func loadData():
 func useCoins(coinCost: int) -> bool:
 	if (coins - coinCost) > 0:
 		coins -= coinCost
-		print(coins)
 		return true
 	return false
 

@@ -1,5 +1,4 @@
 extends Control
-
 var musicVolumeDisplay: ProgressBar
 var musicVolumeSlider: HSlider
 var effectsVolumeDisplay: ProgressBar
@@ -40,10 +39,6 @@ func _ready() -> void:
 	get_tree().set_group("soundMusic", "volume_db", musicVolumeDisplay.value)
 	get_tree().set_group("soundEffect", "volume_db", effectsVolumeDisplay.value)
 	
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
 func _on_music_value_slider_value_changed(value: float) -> void:
 	# change visual slider bar
 	musicVolumeDisplay.value = musicVolumeSlider.value

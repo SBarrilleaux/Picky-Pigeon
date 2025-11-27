@@ -96,7 +96,7 @@ func _ready() -> void:
 				iconTexture = load("res://BoardItems&Obstacles/obstacleArt/" + objectiveItems[i] + "full.png")
 				if iconTexture != null:
 					%ObjectivesList.add_item(str(objectiveGoalTotal[i]),iconTexture,false)
-		
+
 	# Sends what tiles aren't restricted and should have background tiles placed for them as a signal.
 	for i in width:
 		for j in height:
@@ -108,7 +108,7 @@ func _ready() -> void:
 	%PickyPigeon.play("PigeonIdle", 1.0, false)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if turnRemaining > 0 && state == gameState.move:
 		mouseInput()
 	elif turnRemaining == 0 && state == gameState.move:
@@ -576,7 +576,7 @@ func itemMouseInput(currentItem: String):
 				"typeClear":
 					clearAllOfType(first_click)
 				_:
-					print("Item select error in board Manager")
+					print("Item select error in board Manager item menu")
 			updateItemUses()
 		else:
 			updateItemButtonsDisplay()
@@ -608,9 +608,6 @@ func clearColumn(gridPosition: Vector2):
 
 # clears all of the nibbleType specified by given grid position
 func clearAllOfType(gridPosition: Vector2, nibbleMatchType = null):
-	var randomNibble = possibleNibbles[randi_range(0, possibleNibbles.size() - 1)].instantiate()
-	var randomNibbleType = randomNibble.nibbleType
-	randomNibble.queue_free()
 	if boardNibbles[gridPosition.x][gridPosition.y] != null:
 		var typeSelected = boardNibbles[gridPosition.x][gridPosition.y].nibbleType
 		for i in width:
@@ -639,7 +636,7 @@ func clearArea(gridPosition: Vector2, radius: int = 2):
 					if isNibbleNull(nibbleInRange):
 						matchAndDim(boardNibbles[nibbleInRange.x][nibbleInRange.y])
 		# Destroy matched pieces
-		$DestroyTimer.start
+		$DestroyTimer.start()
 	
 func updateItemUses():
 	for i in get_tree().get_nodes_in_group("itemButtons"):

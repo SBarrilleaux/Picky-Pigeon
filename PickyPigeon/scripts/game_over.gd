@@ -11,6 +11,7 @@ var scoreIconsArray: Array[TextureRect]
 @export_file("*.tscn") var mainMenuScenePath: String
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	# Creates the icons for the rating visual
 	for i in 3:
 		var scoreIcon = TextureRect.new()
 		scoreIcon.texture = lossIconTexture
@@ -19,10 +20,6 @@ func _ready() -> void:
 		scoreIcon.scale = Vector2(.2,.2)
 		add_child(scoreIcon)
 		scoreIconsArray.append(scoreIcon)
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	
-	pass
 
 
 func _on_restart_pressed() -> void:
@@ -35,20 +32,13 @@ func _on_grid_clear_score(rating: int) -> void:
 		rating = 3
 	elif rating < 0:
 		rating = 0
-		
-		
-	if rating == 0:
-		#$ScoreIcons.add_item("Fail",null,false)
-		pass
+	
 	else:
 		for i in range(0,rating):
-			#$ScoreIcons.add_item(" ",iconTexture, false)
-			#scoreIcon.texture = clearIconTexture
+			# replace icons in clear visual based on score
 			scoreIconsArray[i].texture = clearIconTexture
 		
 
 
 func _on_return_to_main_pressed() -> void:
-	print(mainMenuScenePath)
 	get_tree().change_scene_to_file(mainMenuScenePath)
-	#get_tree().change_scene_to_packed(mainMenuScenePath)

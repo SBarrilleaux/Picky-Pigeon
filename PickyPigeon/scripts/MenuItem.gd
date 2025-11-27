@@ -40,7 +40,8 @@ func _on_item_button_toggled(toggled_on: bool) -> void:
 				itemButton.button_pressed = false
 
 func updateText():
-	itemButton.text = "\n" + str(uses)
+	if itemButton != null:
+		itemButton.text = "\n" + str(uses)
 
 # Saves the button info and sends it as a string, so that it can be stored in file then loaded into dictionary.
 func saveButton() -> String:
@@ -54,7 +55,7 @@ func loadButton(data: Dictionary[String, int]):
 		uses = data[itemType]
 
 	else:
-		print("no such item saved:")
+		print("no " + itemType +" item saved:")
 		uses = 1
 	updateText()
 
@@ -62,7 +63,7 @@ func loadButton(data: Dictionary[String, int]):
 func _on_buy_button_pressed() -> void:
 	if get_tree().has_group("playerDataGroup"):
 		var playerDataNode = get_tree().get_nodes_in_group("playerDataGroup")
-		if playerDataNode[0].useCoins(itemCost):
+		if playerDataNode[0] != null && playerDataNode[0].useCoins(itemCost):
 			uses += 1
 			updateText()
 			if %Grid != null:
