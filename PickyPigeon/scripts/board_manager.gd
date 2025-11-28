@@ -52,6 +52,7 @@ var currentMatches = []
 # Variables used for swapping back when a swap doesn't creeate a match
 var nibbleOne = null
 var nibbleTwo = null
+var nibbleForCollapse = null
 var lastPlace = Vector2.ZERO
 var lastDirection = Vector2.ZERO
 var moveChecked = false
@@ -360,32 +361,36 @@ func matchAndDim(currentNibble):
 
 # Checks if any matches should generate a bomb / board item
 func findBoardItems():
+	#TODO - the current problem is that if multiple areas are matched at once, it is counting them as part of the match for unrelated types
 	# iterate through matched items
 	for i in currentMatches.size():
 		# grid position and type of current matched nibbles
 		var currentCol = currentMatches[i].x
 		var currentRow = currentMatches[i].y
-		print("currentcol", currentCol)
-		print("currentrow", currentCol)
 		var currentType = boardNibbles[currentCol][currentRow].nibbleType
 		var colMatchedCount = 0
 		var rowMatchedCount = 0
-		# check for col row and color
+		# check for col row and color to get match counts
 		for j in currentMatches.size():
 			var checkCol = currentMatches[j].x
 			var checkRow = currentMatches[j].y
-			var checkType = boardNibbles[currentCol][currentRow].nibbleType
+			var checkType = boardNibbles[checkCol][checkRow].nibbleType
 			
 			if checkCol == currentCol && checkType == currentType:
 				colMatchedCount += 1
 			if checkRow == currentRow && checkType == currentType:
 				rowMatchedCount += 1
-		print(rowMatchedCount)
-		# Call functions to make bombs, and then return from loop
-		if colMatchedCount > 4 || rowMatchedCount > 4:
+			nibbleForCollapse = boardNibbles[checkCol][checkRow]
+		
+			# Make sure there a value for making items on collapse
+		# Call functions to make bombs based on match counts, and then return from loop
+		if colMatchedCount >= 5 || rowMatchedCount >= 5:
 			makeItem("typeBomb", currentType)
 			return
 		if colMatchedCount == 3 && rowMatchedCount == 3:
+			makeItem("bigBomb", currentType)
+			return
+		if colMatchedCount >= 3 && rowMatchedCount >= 3:
 			makeItem("bigBomb", currentType)
 			return
 		if colMatchedCount == 4:
@@ -395,7 +400,7 @@ func findBoardItems():
 			makeItem("rowBomb", currentType)
 			return
 # makes a nibble into bomb
-func makeItem(bombType, nibbleType):
+func makeItem(bombType: String, nibbleType: String):
 	for i in currentMatches.size():
 		var currentCol = currentMatches[i].x
 		var currentRow = currentMatches[i].y
@@ -403,9 +408,18 @@ func makeItem(bombType, nibbleType):
 		if boardNibbles[currentCol][currentRow] == nibbleOne && nibbleOne.nibbleType == nibbleType:
 			nibbleOne.matched = false
 			changeToBomb(bombType, nibbleOne)
+			return
 		elif boardNibbles[currentCol][currentRow] == nibbleTwo && nibbleTwo.nibbleType == nibbleType:
 			nibbleTwo.matched = false
 			changeToBomb(bombType, nibbleTwo)
+			return
+		elif boardNibbles[currentCol][currentRow] == nibbleForCollapse && nibbleForCollapse.nibbleType == nibbleType:
+			nibbleForCollapse.matched = false
+			changeToBomb(bombType, nibbleForCollapse)
+			return
+
+
+
 
 func changeToBomb(bombType, nibble):
 	match bombType:
@@ -421,7 +435,6 @@ func changeToBomb(bombType, nibble):
 # Finds and destroys all objects with their matched value set to true
 func destroyMatched():
 	findBoardItems()
-	print(currentMatches)
 	var wasMatched = false
 	for i in width:
 		for j in height:
@@ -615,6 +628,7 @@ func clearColumn(gridPosition: Vector2):
 
 # clears all of the nibbleType specified by given grid position
 func clearAllOfType(gridPosition: Vector2, nibbleMatchType = null):
+	#TODO Fix clear logic from clearing other type bombs
 	if boardNibbles[gridPosition.x][gridPosition.y] != null:
 		var typeSelected = boardNibbles[gridPosition.x][gridPosition.y].nibbleType
 		for i in width:

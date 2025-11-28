@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://dok47u4bfv5g6" path="res://scripts/nibble.gd" id="1_qnivr"]
 [ext_resource type="Texture2D" uid="uid://cvmai61ywlrsr" path="res://BackgroundAndUI/Icons/ItemIcons/rowClearIcon.png" id="2_2aymh"]
 [ext_resource type="Texture2D" uid="uid://c5r3c5lskx1tt" path="res://BackgroundAndUI/Icons/ItemIcons/columnClearIcon.png" id="3_ogmr1"]
-[ext_resource type="Texture2D" uid="uid://v86r38v3w6ah" path="res://BackgroundAndUI/Icons/levelIconBase.tres" id="4_im4e1"]
+[ext_resource type="Texture2D" uid="uid://wwrt2rbemno2" path="res://BackgroundAndUI/Icons/ItemIcons/typeClearIcon.tres" id="4_2aymh"]
 [ext_resource type="Texture2D" uid="uid://c3yiq5gg7ttwl" path="res://BackgroundAndUI/Icons/placeholderTexture2.tres" id="5_g3rav"]
 
 [sub_resource type="Gradient" id="Gradient_2aymh"]
@@ -31,7 +31,7 @@ turbulence_enabled = true
 script = ExtResource("1_qnivr")
 rowBomb = ExtResource("2_2aymh")
 colBomb = ExtResource("3_ogmr1")
-typeBomb = ExtResource("4_im4e1")
+typeBomb = ExtResource("4_2aymh")
 bigBomb = ExtResource("5_g3rav")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

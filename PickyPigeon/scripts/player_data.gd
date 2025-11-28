@@ -118,7 +118,8 @@ func loadData():
 			if value.is_valid_int():
 				value = int(value)
 			elif value.is_valid_float():
-				value = float(value)
+				#value = float(value)
+				value = int(value)
 			elif value.begins_with("["):
 				value = value.trim_prefix("[")
 				value = value.trim_suffix("]")

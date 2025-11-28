@@ -53,9 +53,9 @@ func _on_effects_value_slider_value_changed(value: float) -> void:
 	# change visual slider bar
 	effectsVolumeDisplay.value = effectsVolumeSlider.value
 	# save the volume preference, as an int
-	playerNode.updateSetting("effectsVolume", int(effectsVolumeDisplay.value))
+	playerNode.updateSetting("effectsVolume", int(effectsVolumeDisplay.value)*-.5)
 	# adjust volume in level
-	get_tree().set_group("soundEffect", "volume_db", toDecibel(effectsVolumeDisplay.value))
+	get_tree().set_group("soundEffect", "volume_db", toDecibel(effectsVolumeDisplay.value * .5))
 
 # Converts slider values to decibel equivalent
 func toDecibel(value: float) -> float:
