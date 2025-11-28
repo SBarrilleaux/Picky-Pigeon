@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://7mryyx5le04p"]
+[gd_scene load_steps=24 format=3 uid="uid://7mryyx5le04p"]
 
 [ext_resource type="Script" uid="uid://bpcrfs265rvrx" path="res://scripts/MainMenuControl.gd" id="1_453mu"]
 [ext_resource type="Texture2D" uid="uid://c3yiq5gg7ttwl" path="res://BackgroundAndUI/Icons/placeholderTexture2.tres" id="2_87488"]
@@ -9,6 +9,7 @@
 [ext_resource type="SpriteFrames" uid="uid://jigbls5352ls" path="res://pickyPigeon/pickyPigeonAnimations.tres" id="5_87488"]
 [ext_resource type="PackedScene" uid="uid://debp2wquq6qlb" path="res://Levels/levelThree.tscn" id="5_v30kg"]
 [ext_resource type="PackedScene" uid="uid://dfk05wkfs7750" path="res://Levels/levelFour.tscn" id="6_ke5ad"]
+[ext_resource type="PackedScene" uid="uid://crgkelrv43yg0" path="res://Levels/levelFive.tscn" id="7_pccyy"]
 [ext_resource type="Script" uid="uid://qcwyh4jkjsk1" path="res://scripts/player_data.gd" id="9_v30kg"]
 [ext_resource type="AudioStream" uid="uid://ct0wfqc35btio" path="res://sounds/mainMenuMusic.mp3" id="10_87488"]
 [ext_resource type="PackedScene" uid="uid://jtjcltyag8ve" path="res://otherScenes/pauseMenu.tscn" id="10_f0j8w"]
@@ -50,7 +51,7 @@ fill_to = Vector2(0, 1)
 [node name="Node2D" type="Node2D" parent="."]
 script = ExtResource("1_453mu")
 levelIcon = ExtResource("2_87488")
-levels = Array[PackedScene]([ExtResource("3_4pfr5"), ExtResource("4_v30kg"), ExtResource("5_v30kg"), ExtResource("6_ke5ad")])
+levels = Array[PackedScene]([ExtResource("3_4pfr5"), ExtResource("4_v30kg"), ExtResource("5_v30kg"), ExtResource("6_ke5ad"), ExtResource("7_pccyy")])
 
 [node name="MainMenu" type="Control" parent="Node2D"]
 layout_mode = 3

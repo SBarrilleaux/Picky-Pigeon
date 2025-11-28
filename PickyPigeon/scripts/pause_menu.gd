@@ -16,6 +16,7 @@ func _ready() -> void:
 	effectsVolumeDisplay = $Menu/EffectsValueDisplay
 	effectsVolumeSlider = $Menu/EffectsValueDisplay/EffectsValueSlider
 	$Menu.visible = false
+	$SettingsButton.visible = true
 	
 	if menuVersion == null:
 		menuVersion = 0

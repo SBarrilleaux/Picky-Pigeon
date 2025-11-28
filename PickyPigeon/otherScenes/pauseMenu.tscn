@@ -19,6 +19,7 @@ script = ExtResource("1_iels5")
 mainMenuScenePath = "uid://7mryyx5le04p"
 
 [node name="Menu" type="TextureRect" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

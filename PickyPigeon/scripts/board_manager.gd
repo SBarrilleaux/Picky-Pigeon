@@ -209,13 +209,13 @@ func matchAt(column,row, nibbleType):
 # grid space is relating to how pieces are stored on the board
 
 # grid positions to pixel
-func gridToPixel(column, row):
+func gridToPixel(column, row) -> Vector2:
 	var newX = xStart + offset * column
 	var newY = yStart + -offset * row
 	return Vector2(newX, newY)
 
 # pixel positions to grid
-func pixelToGrid(pixelX, pixelY):
+func pixelToGrid(pixelX, pixelY) -> Vector2:
 	var newX = round((pixelX - xStart) / offset)
 	var newY = round((pixelY - yStart) / -offset)
 	return Vector2(newX, newY)
@@ -356,13 +356,17 @@ func isNibbleNull(gridPosition) -> bool:
 func matchAndDim(currentNibble):
 	currentNibble.matched = true
 	currentNibble.dim()
+	#addToArray(pixelToGrid(currentNibble.position.x, currentNibble.position.y), currentMatches)
 
 # Checks if any matches should generate a bomb / board item
 func findBoardItems():
 	# iterate through matched items
 	for i in currentMatches.size():
+		# grid position and type of current matched nibbles
 		var currentCol = currentMatches[i].x
 		var currentRow = currentMatches[i].y
+		print("currentcol", currentCol)
+		print("currentrow", currentCol)
 		var currentType = boardNibbles[currentCol][currentRow].nibbleType
 		var colMatchedCount = 0
 		var rowMatchedCount = 0
@@ -376,6 +380,7 @@ func findBoardItems():
 				colMatchedCount += 1
 			if checkRow == currentRow && checkType == currentType:
 				rowMatchedCount += 1
+		print(rowMatchedCount)
 		# Call functions to make bombs, and then return from loop
 		if colMatchedCount > 4 || rowMatchedCount > 4:
 			makeItem("typeBomb", currentType)
@@ -416,6 +421,7 @@ func changeToBomb(bombType, nibble):
 # Finds and destroys all objects with their matched value set to true
 func destroyMatched():
 	findBoardItems()
+	print(currentMatches)
 	var wasMatched = false
 	for i in width:
 		for j in height:
@@ -538,7 +544,8 @@ func updateObjectives(gridPosition: Vector2):
 			count += 1
 	if count == objectiveGoalTotal.size() && state != gameState.gameOver && turnRemaining != 0:
 		endLevel()
-		
+
+# Handles game over
 func endLevel():
 	state = gameState.gameOver
 	await waitTimer(1)
@@ -652,3 +659,18 @@ func boardUpdate():
 func updateItemButtonsDisplay():
 	for i in get_tree().get_nodes_in_group("itemButtons"):
 		i.itemButton.button_pressed = false
+
+
+func _on_tile_maps_special_spaces(space: Variant, tileType: Variant) -> void:
+	# space needs to be offset due to difference between tilemaplayer positions and board grid postions, x lines up but y is off.
+	
+	var spaceOffsetForBoard = Vector2(space.x, space.y + height)
+	print(spaceOffsetForBoard)
+	if spaceOffsetForBoard.y > height - 1:
+		pass #spa
+	# Vector2(0,0) is an empty tile
+	if tileType == Vector2i(0,0):
+		emptySpaces.append(spaceOffsetForBoard)
+	# Vector2(1,0) is a brambleSpace
+	if tileType == Vector2i(1,0):
+		obstacleSpaces.append(spaceOffsetForBoard)
