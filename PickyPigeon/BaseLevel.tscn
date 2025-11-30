@@ -294,6 +294,7 @@ pitch_scale = 0.9
 [node name="BackgroundMusic" type="AudioStreamPlayer2D" parent="Board/Grid/Sounds" groups=["soundMusic"]]
 stream = ExtResource("10_n2yux")
 autoplay = true
+stream_paused = true
 
 [node name="PlayerData" type="Node" parent="Board/Grid" groups=["playerDataGroup"]]
 script = ExtResource("11_qllts")

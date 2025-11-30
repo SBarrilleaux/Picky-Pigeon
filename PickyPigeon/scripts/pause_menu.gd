@@ -26,17 +26,19 @@ func _ready() -> void:
 	# make sure the player node has initialzed
 	while playerNode == null:
 		playerNode = get_tree().get_first_node_in_group("playerDataGroup")
-		
+	
+	# Set slider displays
+	
 	musicVolumeDisplay.value = playerNode.getSetting("musicVolume")
 	if musicVolumeDisplay.value == null:
-		musicVolumeDisplay.value = 100
+		musicVolumeDisplay.value = musicVolumeDisplay.max_value
 	musicVolumeSlider.value =	musicVolumeDisplay.value
 
 	effectsVolumeDisplay.value = playerNode.getSetting("effectsVolume")
 	if effectsVolumeDisplay.value == null:
-		effectsVolumeDisplay.value = 100
+		effectsVolumeDisplay.value = effectsVolumeDisplay.max_value
 	effectsVolumeSlider.value = effectsVolumeDisplay.value
-	
+	# Set all related groups to have the correct volume
 	get_tree().set_group("soundMusic", "volume_db", musicVolumeDisplay.value)
 	get_tree().set_group("soundEffect", "volume_db", effectsVolumeDisplay.value)
 	
@@ -53,7 +55,7 @@ func _on_effects_value_slider_value_changed(value: float) -> void:
 	# change visual slider bar
 	effectsVolumeDisplay.value = effectsVolumeSlider.value
 	# save the volume preference, as an int
-	playerNode.updateSetting("effectsVolume", int(effectsVolumeDisplay.value)*-.5)
+	playerNode.updateSetting("effectsVolume", int(effectsVolumeDisplay.value))
 	# adjust volume in level
 	get_tree().set_group("soundEffect", "volume_db", toDecibel(effectsVolumeDisplay.value * .5))
 

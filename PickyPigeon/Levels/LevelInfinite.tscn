@@ -9,3 +9,6 @@ emptySpaces = PackedVector2Array()
 objectiveItems = Array[String](["sunflower", "popcorn", "blueberry", "peanut"])
 objectiveGoalTotal = Array[int]([9999, 9999, 9999, 9999])
 turnMax = 9999
+
+[node name="BackgroundMusic" parent="Board/Grid/Sounds" index="2"]
+stream_paused = false

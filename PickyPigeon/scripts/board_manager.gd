@@ -448,16 +448,17 @@ func destroyMatched():
 					wasMatched = true
 					if !boardItemTypes.has(boardNibbles[i][j].nibbleType):
 						boardNibbles[i][j].queue_free()
-						boardNibbles[i][j] = null				
+						boardNibbles[i][j] = null		
+						wasMatched = true		
 						updateMenus()
 					else:
 						# TypeBomb shouldn't be used when other items hit them
 						if boardNibbles[i][j].nibbleType != "typeBomb":
 							boardItemUse(boardNibbles[i][j].nibbleType,Vector2(i,j))
 							boardNibbles[i][j].queue_free()
-							boardNibbles[i][j] = null				
+							boardNibbles[i][j] = null	
+							wasMatched = true					
 							updateMenus()
-							
 	moveChecked = true
 	# if anything was matched, play sound effect and collapse columns
 	if wasMatched:
@@ -636,7 +637,7 @@ func clearAllOfType(gridPosition: Vector2, nibbleMatchType = null):
 	var randomType = randomNibble.nibbleType
 	randomNibble.queue_free()
 	if boardNibbles[gridPosition.x][gridPosition.y] != null:
-		var typeSelected = boardNibbles[gridPosition.x][gridPosition.y].nibbleType
+		#var typeSelected = boardNibbles[gridPosition.x][gridPosition.y].nibbleType
 		for i in width:
 			for j in height:
 				if boardNibbles[i][j] != null:
