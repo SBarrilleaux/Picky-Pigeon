@@ -355,14 +355,16 @@ func isNibbleNull(gridPosition) -> bool:
 
 # Sets a nibble to matched for destruction and calls the nibbles destroy animation, dim()
 func matchAndDim(currentNibble):
-	currentNibble.matched = true
-	currentNibble.dim()
-	#addToArray(pixelToGrid(currentNibble.position.x, currentNibble.position.y), currentMatches)
+	# Type bombs are handled seperately
+	if currentNibble.nibbleType != "typeBomb":
+		currentNibble.matched = true
+		currentNibble.dim()
 
 # Checks if any matches should generate a bomb / board item
 func findBoardItems():
 	#TODO - the current problem is that if multiple areas are matched at once, it is counting them as part of the match for unrelated types
 	# iterate through matched items
+	#TODO Maybe use a dictionary to keep track of different types?
 	for i in currentMatches.size():
 		# grid position and type of current matched nibbles
 		var currentCol = currentMatches[i].x
@@ -449,10 +451,13 @@ func destroyMatched():
 						boardNibbles[i][j] = null				
 						updateMenus()
 					else:
-						boardItemUse(boardNibbles[i][j].nibbleType,Vector2(i,j))
-						boardNibbles[i][j].queue_free()
-						boardNibbles[i][j] = null				
-						updateMenus()
+						# TypeBomb shouldn't be used when other items hit them
+						if boardNibbles[i][j].nibbleType != "typeBomb":
+							boardItemUse(boardNibbles[i][j].nibbleType,Vector2(i,j))
+							boardNibbles[i][j].queue_free()
+							boardNibbles[i][j] = null				
+							updateMenus()
+							
 	moveChecked = true
 	# if anything was matched, play sound effect and collapse columns
 	if wasMatched:
@@ -517,7 +522,6 @@ func _on_collapse_timer_timeout() -> void:
 
 func _on_refill_timer_timeout() -> void:
 	refillColumns()
-	#findMatches()
 
 func waitTimer(seconds: float):
 	await get_tree().create_timer(seconds).timeout
@@ -628,20 +632,28 @@ func clearColumn(gridPosition: Vector2):
 
 # clears all of the nibbleType specified by given grid position
 func clearAllOfType(gridPosition: Vector2, nibbleMatchType = null):
-	#TODO Fix clear logic from clearing other type bombs
+	var randomNibble = possibleNibbles[randi_range(0, possibleNibbles.size() - 1)].instantiate()
+	var randomType = randomNibble.nibbleType
+	randomNibble.queue_free()
 	if boardNibbles[gridPosition.x][gridPosition.y] != null:
 		var typeSelected = boardNibbles[gridPosition.x][gridPosition.y].nibbleType
 		for i in width:
 			for j in height:
 				if boardNibbles[i][j] != null:
-					if typeSelected == boardNibbles[i][j].nibbleType:
-						matchAndDim(boardNibbles[i][j])
-						$DestroyTimer.start()
-					# handles being called from board items instead of menu item
 					if nibbleMatchType != null:
 						if nibbleMatchType == boardNibbles[i][j].nibbleType:
 							matchAndDim(boardNibbles[i][j])
 							$DestroyTimer.start()
+					elif nibbleMatchType == null:
+						if randomType == boardNibbles[i][j].nibbleType:
+							matchAndDim(boardNibbles[i][j])
+							$DestroyTimer.start()
+							
+							
+		boardNibbles[gridPosition.x][gridPosition.y].queue_free()
+		boardNibbles[gridPosition.x][gridPosition.y]= null			
+					
+	
 
 # clears a circular area around a given nibble, within a radius which is 2 by default.
 func clearArea(gridPosition: Vector2, radius: int = 2):

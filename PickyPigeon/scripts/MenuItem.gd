@@ -36,6 +36,7 @@ func _on_item_button_toggled(toggled_on: bool) -> void:
 			# Let player buy another item if they are out of the item
 			elif gameManager.state == 1 && uses == 0:
 				purchaseMenu.visible = true
+				gameManager.setState(0)	
 			else:
 				itemButton.button_pressed = false
 
@@ -70,7 +71,9 @@ func _on_buy_button_pressed() -> void:
 				%Grid.updateMenus()
 			$ItemButton.button_pressed = false
 	purchaseMenu.visible = false
+	gameManager.setState(1)
 
 
 func _on_cancel_button_pressed() -> void:
 	purchaseMenu.visible = false
+	gameManager.setState(1)
