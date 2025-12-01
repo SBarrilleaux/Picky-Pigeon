@@ -637,11 +637,17 @@ func clearAllOfType(gridPosition: Vector2, nibbleMatchType = null):
 	var randomType = randomNibble.nibbleType
 	randomNibble.queue_free()
 	if boardNibbles[gridPosition.x][gridPosition.y] != null:
-		#var typeSelected = boardNibbles[gridPosition.x][gridPosition.y].nibbleType
+		var typeSelected = boardNibbles[first_click.x][first_click.y].nibbleType
 		for i in width:
 			for j in height:
 				if boardNibbles[i][j] != null:
-					if nibbleMatchType != null:
+					#if typeSelected == boardNibbles[i][j].nibbleType:
+						#matchAndDim(boardNibbles[i][j])
+						#$DestroyTimer.start()
+					if state == gameState.item && boardNibbles[i][j].nibbleType == nibbleMatchType:
+						matchAndDim(boardNibbles[i][j])
+						$DestroyTimer.start()
+					elif nibbleMatchType != null:
 						if nibbleMatchType == boardNibbles[i][j].nibbleType:
 							matchAndDim(boardNibbles[i][j])
 							$DestroyTimer.start()
@@ -690,11 +696,7 @@ func updateItemButtonsDisplay():
 
 func _on_tile_maps_special_spaces(space: Variant, tileType: Variant) -> void:
 	# space needs to be offset due to difference between tilemaplayer positions and board grid postions, x lines up but y is off.
-	
 	var spaceOffsetForBoard = Vector2(space.x, space.y + height)
-	print(spaceOffsetForBoard)
-	if spaceOffsetForBoard.y > height - 1:
-		pass #spa
 	# Vector2(0,0) is an empty tile
 	if tileType == Vector2i(0,0):
 		emptySpaces.append(spaceOffsetForBoard)

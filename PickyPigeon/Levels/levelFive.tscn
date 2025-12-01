@@ -5,11 +5,10 @@
 [node name="Node3D" instance=ExtResource("1_ycear")]
 
 [node name="SpecialSpaces" parent="Board/TileMaps" index="2"]
-scale = Vector2(1, -1)
 tile_map_data = PackedByteArray("AAAAAP//AAAAAAAAAAABAP7/AAAAAAAAAAACAP//AAAAAAAAAAADAP7/AAAAAAAAAAAEAP//AAAAAAAAAAAFAP7/AAAAAAAAAAAGAP//AAAAAAAAAAAHAP7/AAAAAAAAAAAIAP//AAAAAAAAAAAJAP7/AAAAAAAAAAAAAP7/AAABAAAAAAABAP//AAABAAAAAAACAP7/AAABAAAAAAADAP//AAABAAAAAAAEAP7/AAABAAAAAAAFAP//AAABAAAAAAAGAP7/AAABAAAAAAAHAP//AAABAAAAAAAIAP7/AAABAAAAAAAJAP//AAABAAAAAAA=")
 
 [node name="Grid" parent="Board" index="2"]
 emptySpaces = PackedVector2Array()
 objectiveItems = Array[String](["sunflower", "blueberry", "peanut", "bramble"])
 objectiveGoalTotal = Array[int]([20, 20, 20, 5])
-turnMax = 10
+turnMax = 20

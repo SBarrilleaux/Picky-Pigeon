@@ -251,6 +251,7 @@ tile_set = ExtResource("6_6h1wh")
 
 [node name="SpecialSpaces" type="TileMapLayer" parent="Board/TileMaps"]
 visible = false
+scale = Vector2(1, -1)
 tile_set = ExtResource("6_6h1wh")
 
 [node name="Grid" type="Node2D" parent="Board" groups=["boardController"]]
@@ -294,7 +295,6 @@ pitch_scale = 0.9
 [node name="BackgroundMusic" type="AudioStreamPlayer2D" parent="Board/Grid/Sounds" groups=["soundMusic"]]
 stream = ExtResource("10_n2yux")
 autoplay = true
-stream_paused = true
 
 [node name="PlayerData" type="Node" parent="Board/Grid" groups=["playerDataGroup"]]
 script = ExtResource("11_qllts")
