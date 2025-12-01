@@ -641,25 +641,52 @@ func clearAllOfType(gridPosition: Vector2, nibbleMatchType = null):
 		for i in width:
 			for j in height:
 				if boardNibbles[i][j] != null:
-					#if typeSelected == boardNibbles[i][j].nibbleType:
-						#matchAndDim(boardNibbles[i][j])
-						#$DestroyTimer.start()
-					if state == gameState.item && boardNibbles[i][j].nibbleType == nibbleMatchType:
+					# Handles item use from menu item
+					if boardNibbles[first_click.x][first_click.y] != null && state == gameState.item && boardNibbles[gridPosition.x][gridPosition.y].nibbleType == boardNibbles[i][j].nibbleType:
+							matchAndDim(boardNibbles[i][j])
+							$DestroyTimer.start()
+					#when type bomb is matched with type bomb, clear entire board
+					elif nibbleMatchType == "typeBomb" || typeSelected == "typeBomb":
 						matchAndDim(boardNibbles[i][j])
 						$DestroyTimer.start()
-					elif nibbleMatchType != null:
+					# Clearing type matched with
+					elif nibbleMatchType != null && state != gameState.item:
 						if nibbleMatchType == boardNibbles[i][j].nibbleType:
 							matchAndDim(boardNibbles[i][j])
 							$DestroyTimer.start()
-					elif nibbleMatchType == null:
+					# If is called without a match type, use a random type
+					elif nibbleMatchType == null && state != gameState.item:
 						if randomType == boardNibbles[i][j].nibbleType:
 							matchAndDim(boardNibbles[i][j])
 							$DestroyTimer.start()
 							
-							
+		# Remove item from board after use
 		boardNibbles[gridPosition.x][gridPosition.y].queue_free()
-		boardNibbles[gridPosition.x][gridPosition.y]= null			
+		boardNibbles[gridPosition.x][gridPosition.y]= null					
 					
+						# Handles item use from menu item
+					#if state == gameState.item && boardNibbles[i][j].nibbleType == nibbleMatchType:
+						#matchAndDim(boardNibbles[i][j])
+						#$DestroyTimer.start()
+					## Clearing type matched with
+					#elif nibbleMatchType != null:
+						#if nibbleMatchType == boardNibbles[i][j].nibbleType:
+							#matchAndDim(boardNibbles[i][j])
+							#$DestroyTimer.start()
+					## If is called without a match type, use a random type
+					#elif nibbleMatchType == null:
+						#if randomType == boardNibbles[i][j].nibbleType:
+							#matchAndDim(boardNibbles[i][j])
+							#$DestroyTimer.start()
+					## when type bomb is matched with type bomb, clear board
+					#elif nibbleMatchType == "typeBomb":
+						#matchAndDim(boardNibbles[i][j])
+						#$DestroyTimer.start()
+		## Remove item from board after use
+		#if state != gameState.item:
+			#boardNibbles[gridPosition.x][gridPosition.y].queue_free()
+			#boardNibbles[gridPosition.x][gridPosition.y].queue_free()
+			#boardNibbles[gridPosition.x][gridPosition.y]= null			
 	
 
 # clears a circular area around a given nibble, within a radius which is 2 by default.
@@ -673,7 +700,7 @@ func clearArea(gridPosition: Vector2, radius: int = 2):
 
 				# Check if the space is within the circular radius using squared distance
 				if spaceOffset.length_squared() <= radius * radius:
-					if isNibbleNull(nibbleInRange):
+					if isNibbleNull(nibbleInRange) && isInGrid(nibbleInRange):
 						matchAndDim(boardNibbles[nibbleInRange.x][nibbleInRange.y])
 		# Destroy matched pieces
 		$DestroyTimer.start()
