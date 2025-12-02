@@ -298,6 +298,8 @@ autoplay = true
 
 [node name="PlayerData" type="Node" parent="Board/Grid" groups=["playerDataGroup"]]
 script = ExtResource("11_qllts")
+startingCoin = 50
+startingUses = 2
 
 [node name="GameOver" parent="Board" instance=ExtResource("12_dpxor")]
 visible = false

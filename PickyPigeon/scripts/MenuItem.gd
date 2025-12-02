@@ -11,11 +11,13 @@ var lastState: bool = false
 var purchaseMenu
 var costText: Label
 # Subtracts from item uses, and then updates text to reflect the change.
-func setUse(value: int):
-	
+func subtractUse(value: int):	
 	uses -= abs(value)
 	updateText()
 
+func setUse(value: int):
+	uses = value
+	updateText()
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	itemButton = $ItemButton
@@ -54,7 +56,6 @@ func saveButton() -> String:
 func loadButton(data: Dictionary[String, int]):
 	if data.has(itemType):
 		uses = data[itemType]
-
 	else:
 		print("no " + itemType +" item saved:")
 		uses = 1

@@ -254,6 +254,8 @@ autostart = true
 
 [node name="PlayerData" type="Node" parent="Node2D" groups=["playerDataGroup"]]
 script = ExtResource("9_v30kg")
+startingCoin = 50
+startingUses = 2
 
 [node name="BackgroundMusic" type="AudioStreamPlayer2D" parent="Node2D" groups=["soundMusic"]]
 stream = ExtResource("10_87488")

@@ -5,7 +5,8 @@ var currentScene
 var allButtonsToSave
 var coins: int
 var clearAwardValues: Array[int] = [0,5, 15, 30]
-
+@export var startingCoin: int
+@export var startingUses: int
 # config
 var playerSettings: Dictionary[String, Variant] = {"musicVolume":100, "effectsVolume":100}
 
@@ -24,6 +25,11 @@ func _ready() -> void:
 		for i in playerSettings:
 			if playerSaveStats.has(i):
 				playerSettings.set(i, playerSaveStats.get(i))
+	# If no save data exists, sets stats to new game values
+	if loadData() == null:
+		coins = startingCoin
+		for i in allButtonsToSave.size():
+			allButtonsToSave[i].setUse(startingUses)
 	
 # Is used to update settings like volume
 func updateSetting(setting: String, value):

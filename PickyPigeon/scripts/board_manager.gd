@@ -708,7 +708,7 @@ func clearArea(gridPosition: Vector2, radius: int = 2):
 func updateItemUses():
 	for i in get_tree().get_nodes_in_group("itemButtons"):
 		if i.itemType == recentItem:
-			i.setUse(1)
+			i.subtractUse(1)
 # update board, usually needed after removing nibbles with items
 func boardUpdate():
 	updateMenus()
