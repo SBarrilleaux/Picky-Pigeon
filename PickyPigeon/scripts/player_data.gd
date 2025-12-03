@@ -4,7 +4,7 @@ var playerSaveStats: Dictionary[String,int]
 var currentScene
 var allButtonsToSave
 var coins: int
-var clearAwardValues: Array[int] = [0,5, 15, 30]
+var clearAwardValues: Array[int] = [0,5, 10, 15]
 @export var startingCoin: int
 @export var startingUses: int
 # config
@@ -130,7 +130,9 @@ func loadData():
 				value = value.trim_prefix("[")
 				value = value.trim_suffix("]")
 				value = value.split(",")
-			content[key] = value
+			# make sure the value being added is an int, which is the expected type of value stored for player data
+			if typeof(value) == 2:
+				content[key] = value
 		saveFile.close()
 		return content
 # Subtracts the provided amount from the current amount of coins

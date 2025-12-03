@@ -10,8 +10,8 @@ extends Node2D
 
 # Board customizations / Obstacles
 ## Locations on board which nibbles can't land on
-@export var emptySpaces: PackedVector2Array
-@export var obstacleSpaces: PackedVector2Array
+var emptySpaces: PackedVector2Array
+var obstacleSpaces: PackedVector2Array
 var possibleObstacles = { "bramble": preload("res://BoardItems&Obstacles/bramble.tscn") }
 var boardObstacles = []
 
@@ -38,9 +38,9 @@ var possibleNibbles = [
 
 var boardItemTypes = ["colBomb","rowBomb","typeBomb","bigBomb"]
 
-# the board / nibbles on the board
+## the board / nibbles on the board
 var boardNibbles = []
-# used for finding items
+## used for finding items
 var currentMatches = []
 
 # Level Objectives
@@ -60,15 +60,13 @@ var moveChecked = false
 # Max turns and the current number of turns left
 @export var turnMax: int = 0
 var turnRemaining: int = 0
-
+var turnText = ""
 
 # Input Variables
 var first_click = Vector2.ZERO
 var final_click = Vector2.ZERO
 var controlling = false
 
-
-var turnText = ""
 
 
 # Called when the node enters the scene tree for the first time.
@@ -229,7 +227,7 @@ func isInGrid(gridPosition):
 			return true
 	return false
 
-# handles storing inputs and converts mouse positions to its grid position
+## handles getting and storing mouse inputs
 func mouseInput():
 	if Input.is_action_just_pressed("click"):
 		if isInGrid(pixelToGrid(get_global_mouse_position().x, get_global_mouse_position().y)):
@@ -244,7 +242,7 @@ func mouseInput():
 			controlling = false
 
 
-# Finds the direction to swap pieces in
+## Finds the direction to swap pieces in
 func touchDifference(gridOne, gridTwo):
 	var difference = gridTwo - gridOne
 	if abs(difference.x) > abs(difference.y):
@@ -662,31 +660,7 @@ func clearAllOfType(gridPosition: Vector2, nibbleMatchType = null):
 							
 		# Remove item from board after use
 		boardNibbles[gridPosition.x][gridPosition.y].queue_free()
-		boardNibbles[gridPosition.x][gridPosition.y]= null					
-					
-						# Handles item use from menu item
-					#if state == gameState.item && boardNibbles[i][j].nibbleType == nibbleMatchType:
-						#matchAndDim(boardNibbles[i][j])
-						#$DestroyTimer.start()
-					## Clearing type matched with
-					#elif nibbleMatchType != null:
-						#if nibbleMatchType == boardNibbles[i][j].nibbleType:
-							#matchAndDim(boardNibbles[i][j])
-							#$DestroyTimer.start()
-					## If is called without a match type, use a random type
-					#elif nibbleMatchType == null:
-						#if randomType == boardNibbles[i][j].nibbleType:
-							#matchAndDim(boardNibbles[i][j])
-							#$DestroyTimer.start()
-					## when type bomb is matched with type bomb, clear board
-					#elif nibbleMatchType == "typeBomb":
-						#matchAndDim(boardNibbles[i][j])
-						#$DestroyTimer.start()
-		## Remove item from board after use
-		#if state != gameState.item:
-			#boardNibbles[gridPosition.x][gridPosition.y].queue_free()
-			#boardNibbles[gridPosition.x][gridPosition.y].queue_free()
-			#boardNibbles[gridPosition.x][gridPosition.y]= null			
+		boardNibbles[gridPosition.x][gridPosition.y]= null
 	
 
 # clears a circular area around a given nibble, within a radius which is 2 by default.

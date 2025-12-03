@@ -37,6 +37,7 @@ bigBomb = ExtResource("5_2aymh")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 
 [node name="Outline" type="Sprite2D" parent="."]
+visible = false
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 z_index = 170
