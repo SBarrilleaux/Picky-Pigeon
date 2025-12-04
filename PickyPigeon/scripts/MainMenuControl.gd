@@ -75,5 +75,6 @@ func tweenDone():
 
 
 func _on_level_list_item_clicked(index: int, _at_position: Vector2, mouse_button_index: int) -> void:
+	playerInfo.saveData()
 	if levels[index] != null && mouse_button_index == 1:
 		get_tree().change_scene_to_packed(levels[index])

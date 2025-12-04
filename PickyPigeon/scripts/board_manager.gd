@@ -370,6 +370,7 @@ func findBoardItems():
 		var currentType = boardNibbles[currentCol][currentRow].nibbleType
 		var colMatchedCount = 0
 		var rowMatchedCount = 0
+
 		# check for col row and color to get match counts
 		for j in currentMatches.size():
 			var checkCol = currentMatches[j].x

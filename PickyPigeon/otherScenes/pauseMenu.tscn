@@ -52,9 +52,9 @@ grow_vertical = 2
 scale = Vector2(0.753844, 0.753844)
 pivot_offset = Vector2(250, 32)
 theme_override_styles/fill = SubResource("StyleBoxFlat_iels5")
-max_value = 30.0
-step = 10.0
-value = 30.0
+max_value = 15.0
+step = 1.0
+value = 15.0
 show_percentage = false
 
 [node name="Label" type="Label" parent="Menu/MusicValueDisplay"]
@@ -85,8 +85,8 @@ offset_right = 250.0
 offset_bottom = 33.0
 grow_horizontal = 2
 grow_vertical = 2
-max_value = 30.0
-step = 10.0
+max_value = 15.0
+rounded = true
 
 [node name="EffectsValueDisplay" type="ProgressBar" parent="Menu"]
 layout_mode = 1
@@ -104,9 +104,9 @@ grow_vertical = 2
 scale = Vector2(0.753844, 0.753844)
 pivot_offset = Vector2(250, 32)
 theme_override_styles/fill = SubResource("StyleBoxFlat_iels5")
-max_value = 20.0
-step = 5.0
-value = 20.0
+max_value = 10.0
+step = 1.0
+value = 10.0
 show_percentage = false
 
 [node name="Label" type="Label" parent="Menu/EffectsValueDisplay"]
@@ -137,8 +137,7 @@ offset_right = 250.0
 offset_bottom = 33.0
 grow_horizontal = 2
 grow_vertical = 2
-max_value = 20.0
-step = 5.0
+max_value = 10.0
 
 [node name="Exit" type="Button" parent="Menu"]
 layout_mode = 1

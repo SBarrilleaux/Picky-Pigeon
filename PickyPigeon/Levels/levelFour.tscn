@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=4 uid="uid://dfk05wkfs7750"]
 
-[ext_resource type="PackedScene" uid="uid://dcc5gll3m8e6n" path="res://BaseLevel.tscn" id="1_guehw"]
+[ext_resource type="PackedScene" uid="uid://dcc5gll3m8e6n" path="res://otherScenes/BaseLevel.tscn" id="1_guehw"]
 
 [node name="Node3D" instance=ExtResource("1_guehw")]
 

@@ -8,7 +8,7 @@ var clearAwardValues: Array[int] = [0,5, 10, 15]
 @export var startingCoin: int
 @export var startingUses: int
 # config
-var playerSettings: Dictionary[String, Variant] = {"musicVolume":100, "effectsVolume":100}
+var playerSettings: Dictionary[String, Variant] = {"soundMusic":30, "soundEffect":30}
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -30,12 +30,7 @@ func _ready() -> void:
 		coins = startingCoin
 		for i in allButtonsToSave.size():
 			allButtonsToSave[i].setUse(startingUses)
-	
-# Is used to update settings like volume
-func updateSetting(setting: String, value):
-	if playerSettings.has(setting):
-		playerSettings.set(setting,value)
-
+			
 func getSetting(setting: String) -> Variant:
 	if playerSettings.has(setting):
 		return playerSettings[setting]
@@ -106,11 +101,9 @@ func saveData():
 		# save preferences
 		for i in playerSettings:
 			saveFile.store_line(str(i,":",playerSettings[i],"\r").replace(" ",""))
-			
 
 		saveFile.close()
 		
-	
 # Loads data into a dictionary of string: int to return
 func loadData():
 	# Load save file
@@ -141,6 +134,19 @@ func useCoins(coinCost: int) -> bool:
 		coins -= coinCost
 		return true
 	return false
+
+# Is used to update settings like volume
+func updateSetting(groupName: String, setting: String,  value):
+	if playerSettings.has(groupName):
+		# Adjust value in dictionary for saving
+		playerSettings.set(groupName,value)
+		if groupName == "soundMusic" || groupName == "soundEffect":
+			if value == 0:
+				get_tree().call_group(groupName, "set_volume_db", -1000)
+			get_tree().call_group(groupName, "set_volume_db", value)
+		else:
+			get_tree().call_group(groupName, setting, value)
+
 
 func _notification(what: int) -> void:
 	# save game before it closes

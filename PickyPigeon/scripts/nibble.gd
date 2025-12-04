@@ -1,5 +1,5 @@
+# Logic for the board Nibbles / pieces
 extends Node2D
-
 @export var nibbleType:String 
 @export var rowBomb: Texture
 @export var colBomb: Texture
@@ -34,12 +34,14 @@ func dim():
 	var tween: Tween = create_tween()
 	tween.tween_property(self,"scale",scale + effectScaleAmount, 0.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 
-# When nibble is changed to item remove its outline and undo effect from dim, and set scale for items
+# When nibble is changed to item remove its outline and undo effect from dim
 func resetScaleAndSetModulate():
 	scale = defaultScale
 	sprite.scale = Vector2(0.08,0.08)
 	sprite.modulate = Color(1,1,1,1)
 	outline.modulate = Color(0,0,0,0)
+
+# All four turn nibble into a kind of item
 func makeColBomb():
 	isColBomb = true
 	sprite.texture = colBomb
