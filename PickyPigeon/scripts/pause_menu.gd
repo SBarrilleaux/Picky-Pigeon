@@ -42,7 +42,7 @@ func _ready() -> void:
 		get_tree().call_group("soundMusic", "set_volume_db", -1000)
 	if effectsVolumeSlider.value == 0:
 		get_tree().call_group("soundEffect", "set_volume_db", -1000)
-# Fades in or out audio
+## Fades in or out audio of specified group
 func fade(value, groupName):
 	var tween: Tween = create_tween()
 	tween.finished.connect(on_tween_finished)

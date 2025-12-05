@@ -1,3 +1,4 @@
+# Handles save data
 extends Node
 
 var playerSaveStats: Dictionary[String,int]
@@ -35,12 +36,13 @@ func getSetting(setting: String) -> Variant:
 	if playerSettings.has(setting):
 		return playerSettings[setting]
 	return null
-	
+
 func getLevelScore(levelName: String) -> int:
 	if playerSaveStats.has(levelName):
 		return playerSaveStats[levelName]
 	return 0
-# Reads the given folder to find out how many files are in it
+
+## Reads the given path  to find out how many files are in a folder
 func getFileCount(path: String) -> Array:
 	
 	var levelList = []
@@ -76,6 +78,7 @@ func _on_grid_clear_score(rating: int) -> void:
 			coins += clearAwardValues[3]
 	saveData()
 
+# Saves data to file
 func saveData():
 	var saveFile = FileAccess.open("user://savegame.save", FileAccess.WRITE)
 	if saveFile:
@@ -86,7 +89,6 @@ func saveData():
 			if playerSaveStats.has(allLevels[i]):
 				var foundKey = playerSaveStats[allLevels[i]]
 				saveFile.store_line(str(allLevels[i],":",foundKey,"\r").replace(" ",""))
-
 			else:
 				# If the level has no entry, set it to a score of 0
 				saveFile.store_line(str(allLevels[i],":",0,"\r").replace(" ",""))
@@ -147,7 +149,7 @@ func updateSetting(groupName: String, setting: String,  value):
 		else:
 			get_tree().call_group(groupName, setting, value)
 
-
+# Signal from engine being used to save data before game closes.
 func _notification(what: int) -> void:
 	# save game before it closes
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:

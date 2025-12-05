@@ -1,3 +1,4 @@
+# Game over menu, sets the visual for level rating and controls the buttons in its menu for exitting or restarting
 extends Control
 
 @export var clearIconTexture: Texture2D
@@ -7,7 +8,6 @@ extends Control
 var scoreIconsArray: Array[TextureRect]
 
 # Allows the main menu scene to be specified in editor
-#@export var mainMenuScene: PackedScene
 @export_file("*.tscn") var mainMenuScenePath: String
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

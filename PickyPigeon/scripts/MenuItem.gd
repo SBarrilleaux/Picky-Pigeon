@@ -1,3 +1,5 @@
+# Handles menu items in level
+# item type and cost is set in editor
 extends Control
 
 var itemButton: Button
@@ -10,7 +12,7 @@ var lastState: bool = false
 # references for purchasing more items uses
 var purchaseMenu
 var costText: Label
-# Subtracts from item uses, and then updates text to reflect the change.
+# Subtracts from item uses, and then updates text to reflect the change. Used when purchasing item
 func subtractUse(value: int):	
 	uses -= abs(value)
 	updateText()
@@ -50,7 +52,6 @@ func updateText():
 func saveButton() -> String:
 	var buttonData: String
 	buttonData = itemType + ":" + str(uses)
-		#saveFile.store_line(str(playerSaveStats.keys()[i],":",playerSaveStats.values()[i],"\r").replace(" ",""))
 	return buttonData
 # Loads data from the dictionary, based on the itemType name as the key it is looking for
 func loadButton(data: Dictionary[String, int]):

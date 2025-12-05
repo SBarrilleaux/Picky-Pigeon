@@ -41,7 +41,7 @@ func resetScaleAndSetModulate():
 	sprite.modulate = Color(1,1,1,1)
 	outline.modulate = Color(0,0,0,0)
 
-# All four turn nibble into a kind of item
+# All four turn nibble into a kind of item, same logic on each currently except the kind of nibble they are be converted to
 func makeColBomb():
 	isColBomb = true
 	sprite.texture = colBomb

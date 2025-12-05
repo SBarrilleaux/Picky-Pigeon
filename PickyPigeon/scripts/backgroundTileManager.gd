@@ -1,3 +1,4 @@
+# Places background tiles based on spaces sent from board manager
 extends Node2D
 
 @export var boardGrid: Node2D

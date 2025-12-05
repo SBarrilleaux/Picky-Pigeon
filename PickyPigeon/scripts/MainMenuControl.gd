@@ -1,3 +1,4 @@
+# Manages everything main-menu related, mostly creating the level list and things like fading out the main logo
 extends Node2D
 
 # Groups for controlling visibility
@@ -23,15 +24,10 @@ func _ready() -> void:
 	# generate an item in the list for each level
 	for i in levels.size():
 		var levelName = levels[i].resource_path.get_basename().split("Levels/")
-
-		
-		# set level selection menu
+		# add level to selection menu
 		levelList.add_item("Level " + str(i + 1) + '\n' + str(playerInfo.getLevelScore(levelName[1])) + "/3", randomIconColor(i), true)
-		# set level score icons in list
-		#$MainMenu/LevelSelect/HScrollBar/LevelRatings.add_item("", playerInfo.)
-		
+
 	$MainMenu/LevelSelect/CoinText.text = "Coins \n" + str(playerInfo.coins)
-	
 	$MainMenu/LevelSelect/PickyPigeon.play("PigeonOther")
 	$BackgroundMusic.play()
 # Generate a random circle icon for each level
@@ -46,6 +42,7 @@ func randomIconColor(iconSeed: int) -> GradientTexture2D:
 	 0.49: Color(ranNum,ranNumTwo,1,1),
 	0.50: Color(0,0, 0, 0),
 	}
+	# Create the texture from random generation
 	var gradientRandom: Gradient = Gradient.new()
 	gradientRandom.offsets = gradientData.keys()
 	gradientRandom.colors = gradientData.values()
@@ -73,7 +70,7 @@ func tweenDone():
 	tween.tween_property(levelsGroup,"modulate", Color(1,1,1, 1), .4).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	
 
-
+# Changes scene to selected level
 func _on_level_list_item_clicked(index: int, _at_position: Vector2, mouse_button_index: int) -> void:
 	playerInfo.saveData()
 	if levels[index] != null && mouse_button_index == 1:
