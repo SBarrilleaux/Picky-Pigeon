@@ -6,7 +6,7 @@
 [node name="Item" instance=ExtResource("1_6mtd0")]
 tooltip_text = "Row Clear"
 itemType = "rowClear"
-itemCost = 10
+itemCost = 25
 
 [node name="ItemButton" parent="." index="0"]
 tooltip_text = "Clear Row"

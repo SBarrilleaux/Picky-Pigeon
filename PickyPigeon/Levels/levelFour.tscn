@@ -10,4 +10,4 @@ tile_map_data = PackedByteArray("AAAAAP7/AAABAAAAAAABAP3/AAABAAAAAAACAP7/AAABAAA
 [node name="Grid" parent="Board" index="2"]
 objectiveItems = Array[String](["sunflower", "blueberry", "bramble"])
 objectiveGoalTotal = Array[int]([50, 50, 10])
-turnMax = 25
+turnMax = 20

@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://7mryyx5le04p"]
+[gd_scene load_steps=25 format=3 uid="uid://7mryyx5le04p"]
 
 [ext_resource type="Script" uid="uid://bpcrfs265rvrx" path="res://scripts/MainMenuControl.gd" id="1_453mu"]
 [ext_resource type="Texture2D" uid="uid://bv7mfj1lllire" path="res://BackgroundAndUI/Icons/MenuIcons/PickyPigeonLogo.png" id="2_ih8ls"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://debp2wquq6qlb" path="res://Levels/levelThree.tscn" id="5_v30kg"]
 [ext_resource type="PackedScene" uid="uid://dfk05wkfs7750" path="res://Levels/levelFour.tscn" id="6_ke5ad"]
 [ext_resource type="PackedScene" uid="uid://crgkelrv43yg0" path="res://Levels/levelFive.tscn" id="7_pccyy"]
+[ext_resource type="PackedScene" uid="uid://yuc5tjl7e2iw" path="res://Levels/levelSix.tscn" id="8_cnsks"]
 [ext_resource type="Script" uid="uid://qcwyh4jkjsk1" path="res://scripts/player_data.gd" id="9_v30kg"]
 [ext_resource type="PackedScene" uid="uid://jtjcltyag8ve" path="res://otherScenes/pauseMenu.tscn" id="10_f0j8w"]
 [ext_resource type="AudioStream" uid="uid://5hhyqjjgkpm3" path="res://sounds/mainMenuMusicV2.mp3" id="13_pccyy"]
@@ -51,7 +52,7 @@ fill_to = Vector2(0, 1)
 [node name="Node2D" type="Node2D" parent="."]
 script = ExtResource("1_453mu")
 levelIcon = ExtResource("2_pccyy")
-levels = Array[PackedScene]([ExtResource("3_4pfr5"), ExtResource("4_v30kg"), ExtResource("5_v30kg"), ExtResource("6_ke5ad"), ExtResource("7_pccyy")])
+levels = Array[PackedScene]([ExtResource("3_4pfr5"), ExtResource("4_v30kg"), ExtResource("5_v30kg"), ExtResource("6_ke5ad"), ExtResource("7_pccyy"), ExtResource("8_cnsks")])
 
 [node name="PlayerData" type="Node" parent="Node2D" groups=["playerDataGroup"]]
 script = ExtResource("9_v30kg")
