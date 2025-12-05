@@ -12,7 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://crgkelrv43yg0" path="res://Levels/levelFive.tscn" id="7_pccyy"]
 [ext_resource type="Script" uid="uid://qcwyh4jkjsk1" path="res://scripts/player_data.gd" id="9_v30kg"]
 [ext_resource type="PackedScene" uid="uid://jtjcltyag8ve" path="res://otherScenes/pauseMenu.tscn" id="10_f0j8w"]
-[ext_resource type="AudioStream" uid="uid://8t88gto1uyym" path="res://sounds/MenuThemeV2.mp3" id="13_pccyy"]
+[ext_resource type="AudioStream" uid="uid://5hhyqjjgkpm3" path="res://sounds/mainMenuMusicV2.mp3" id="13_pccyy"]
 [ext_resource type="StyleBox" uid="uid://odlv7kym1cy4" path="res://BackgroundAndUI/backgroundPanels.tres" id="16_587j0"]
 [ext_resource type="PackedScene" uid="uid://brho8cm01rtcm" path="res://MenuItems/rowClearMenuItem.tscn" id="17_fj5t4"]
 [ext_resource type="PackedScene" uid="uid://dk25g6wltb3wt" path="res://MenuItems/columnClearMenuItem.tscn" id="18_6u7or"]

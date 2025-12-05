@@ -47,7 +47,7 @@ func fade(value, groupName):
 	var tween: Tween = create_tween()
 	tween.finished.connect(on_tween_finished)
 	for i in get_tree().get_nodes_in_group(groupName):
-		tween.tween_property(i,"volume_db",value, 0.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+		tween.tween_property(i,"volume_db",value, 0.2).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_IN_OUT)
 	
 func on_tween_finished():
 	musicVolumeSlider.value =	musicVolumeDisplay.value
@@ -83,8 +83,6 @@ func _on_exit_pressed() -> void:
 		# data doesn't need saved on main menu, so just exits
 		get_tree().quit(0)
 	else:
-		fade(musicVolumeSlider.value/2, "soundMusic")
-		await get_tree().create_timer(.2).timeout
 		# return to main menu
 		playerNode.saveData()
 		get_tree().change_scene_to_file(mainMenuScenePath)

@@ -646,8 +646,16 @@ func clearAllOfType(gridPosition: Vector2, nibbleMatchType = null):
 							$DestroyTimer.start()
 					#when type bomb is matched with type bomb, clear entire board
 					elif nibbleMatchType == "typeBomb" || typeSelected == "typeBomb":
-						matchAndDim(boardNibbles[i][j])
-						$DestroyTimer.start()
+							if typeSelected == "typeBomb" && nibbleMatchType == null:
+								matchAndDim(boardNibbles[i][j])
+								$DestroyTimer.start()
+							elif nibbleOne.nibbleType == "typeBomb" && nibbleTwo.nibbleType == "typeBomb" && boardNibbles[i][j] != null:
+								matchAndDim(boardNibbles[i][j])
+								$DestroyTimer.start()
+							else:
+								swapBack()
+								return
+							
 					# Clearing type matched with
 					elif nibbleMatchType != null && state != gameState.item:
 						if nibbleMatchType == boardNibbles[i][j].nibbleType:
