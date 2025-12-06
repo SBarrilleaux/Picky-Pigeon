@@ -131,7 +131,7 @@ func loadData():
 		return content
 # Subtracts the provided amount from the current amount of coins
 func useCoins(coinCost: int) -> bool:
-	if (coins - coinCost) > 0:
+	if (coins - coinCost) >= 0:
 		coins -= coinCost
 		return true
 	return false
@@ -144,7 +144,8 @@ func updateSetting(groupName: String, setting: String,  value):
 		if groupName == "soundMusic" || groupName == "soundEffect":
 			if value == 0:
 				get_tree().call_group(groupName, "set_volume_db", -1000)
-			get_tree().call_group(groupName, "set_volume_db", value)
+			else	:
+				get_tree().call_group(groupName, "set_volume_db", value)
 		else:
 			get_tree().call_group(groupName, setting, value)
 

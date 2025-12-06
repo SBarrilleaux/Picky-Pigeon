@@ -45,7 +45,7 @@ expand_margin_left = 10.0
 expand_margin_right = 10.0
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_kl2by"]
-color = Color(0.348038, 0.193515, 0.721086, 1)
+color = Color(0.6625, 0.55, 1, 1)
 thickness = 11
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_gboxu"]
@@ -53,7 +53,7 @@ color = Color(0.319121, 0.0199082, 0.602141, 1)
 thickness = 11
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_bbvdp"]
-color = Color(0.6625, 0.55, 1, 1)
+color = Color(0.35208, 0.1944, 0.72, 1)
 thickness = 11
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_teeun"]

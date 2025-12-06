@@ -439,7 +439,9 @@ func destroyMatched():
 		for j in height:
 			# Look for matched nibbles and remove them
 			if boardNibbles[i][j] != null:
-				if boardNibbles[i][j].matched:
+				if boardNibbles[i][j].nibbleType == "typeBomb" && boardObstacles[i][j] != null:
+					damageObstacle(Vector2(i,j))
+				elif boardNibbles[i][j].matched:
 					damageObstacle(Vector2(i,j))
 					updateObjectives(Vector2(i,j))
 					wasMatched = true
