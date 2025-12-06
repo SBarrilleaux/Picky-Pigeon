@@ -29,6 +29,9 @@ project/assembly_name="AnotherTest"
 
 itemButtons=""
 playerDataGroup=""
+soundEffect=""
+soundMusic=""
+mainMenuManager=""
 
 [gui]
 
@@ -45,3 +48,4 @@ click={
 [rendering]
 
 renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true

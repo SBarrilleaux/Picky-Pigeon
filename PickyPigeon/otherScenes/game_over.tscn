@@ -4,8 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://50wbqgnhj5x4" path="res://BackgroundAndUI/Icons/MenuIcons/clearIconV2.png" id="2_m7q7l"]
 [ext_resource type="Texture2D" uid="uid://bdl25n4cj1mpc" path="res://BackgroundAndUI/Icons/MenuIcons/failIcon.png" id="3_e1xbs"]
 [ext_resource type="Texture2D" uid="uid://dtwqv0vqix6pi" path="res://BackgroundAndUI/BackgroundTiles.png" id="5_3ednb"]
+[ext_resource type="Theme" uid="uid://cadxfbgyxkbvv" path="res://BackgroundAndUI/MenusTheme.tres" id="6_o5i8u"]
 [ext_resource type="Texture2D" uid="uid://rbqiydrcqfow" path="res://BackgroundAndUI/Icons/MenuIcons/gameOverMenu.png" id="6_p27gk"]
-[ext_resource type="Theme" uid="uid://de2n0oa8q8kvm" path="res://BackgroundAndUI/FontTheme.tres" id="7_gjykw"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8u835"]
 texture = ExtResource("5_3ednb")
@@ -145,7 +145,7 @@ offset_right = 317.0
 offset_bottom = 245.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("7_gjykw")
+theme = ExtResource("6_o5i8u")
 text = "Restart"
 
 [node name="ReturnToMain" type="Button" parent="."]
@@ -161,7 +161,7 @@ offset_right = -64.0
 offset_bottom = 245.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("7_gjykw")
+theme = ExtResource("6_o5i8u")
 text = "Main Menu"
 
 [connection signal="pressed" from="Restart" to="." method="_on_restart_pressed"]

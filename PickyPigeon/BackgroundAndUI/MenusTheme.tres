@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=11 format=3 uid="uid://cadxfbgyxkbvv"]
+[gd_resource type="Theme" load_steps=15 format=3 uid="uid://cadxfbgyxkbvv"]
 
 [ext_resource type="FontFile" uid="uid://c6lb8h4ou5gfa" path="res://BackgroundAndUI/Rubik_Doodle_Shadow_Font/RubikDoodleShadow-Regular.ttf" id="1_bbvdp"]
 
@@ -43,6 +43,22 @@ corner_radius_bottom_right = 40
 corner_radius_bottom_left = 40
 expand_margin_left = 10.0
 expand_margin_right = 10.0
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_kl2by"]
+color = Color(0.6625, 0.55, 1, 1)
+thickness = 11
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_gboxu"]
+color = Color(0.319121, 0.0199082, 0.602141, 1)
+thickness = 11
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_bbvdp"]
+color = Color(0.35208, 0.1944, 0.72, 1)
+thickness = 11
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_teeun"]
+color = Color(0.264874, 0.000855909, 0.49307, 1)
+thickness = 11
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bbvdp"]
 draw_center = false
@@ -102,6 +118,17 @@ Button/styles/focus = SubResource("StyleBoxFlat_1opvy")
 Button/styles/hover = SubResource("StyleBoxFlat_5adxy")
 Button/styles/normal = SubResource("StyleBoxFlat_s2o0n")
 Button/styles/pressed = SubResource("StyleBoxFlat_wg85w")
+HScrollBar/icons/decrement = null
+HScrollBar/icons/decrement_highlight = null
+HScrollBar/icons/decrement_pressed = null
+HScrollBar/icons/increment = null
+HScrollBar/icons/increment_highlight = null
+HScrollBar/icons/increment_pressed = null
+HScrollBar/styles/grabber = SubResource("StyleBoxLine_kl2by")
+HScrollBar/styles/grabber_highlight = SubResource("StyleBoxLine_gboxu")
+HScrollBar/styles/grabber_pressed = SubResource("StyleBoxLine_gboxu")
+HScrollBar/styles/scroll = SubResource("StyleBoxLine_bbvdp")
+HScrollBar/styles/scroll_focus = SubResource("StyleBoxLine_teeun")
 ItemButton/base_type = &"Button"
 ItemButton/colors/font_color = Color(0.513677, 0.590151, 0.744322, 1)
 ItemButton/constants/outline_size = 3

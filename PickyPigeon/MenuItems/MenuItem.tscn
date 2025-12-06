@@ -25,6 +25,7 @@ alignment = 2
 icon_alignment = 1
 
 [node name="buyItemMenu" type="Panel" parent="."]
+visible = false
 z_index = 200
 layout_mode = 1
 anchors_preset = 8

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b7ryoladwhsji"
-path="res://.godot/imported/brambleFull.png-2ce0cbb11bd18a147f3144780a5dcc61.ctex"
+uid="uid://cwanlfdg8owc5"
+path="res://.godot/imported/bigBombIcon.png-514a75a327c3002eeebdfd02009496b3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://BoardItems&Obstacles/obstacleArt/brambleFull.png"
-dest_files=["res://.godot/imported/brambleFull.png-2ce0cbb11bd18a147f3144780a5dcc61.ctex"]
+source_file="res://BackgroundAndUI/Icons/ItemIcons/bigBombIcon.png"
+dest_files=["res://.godot/imported/bigBombIcon.png-514a75a327c3002eeebdfd02009496b3.ctex"]
 
 [params]
 

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bv7mfj1lllire"
-path="res://.godot/imported/PickyPigeonLogo.png-b399d5ac4a9511b024ce5e04bbae9fee.ctex"
+path="res://.godot/imported/PickyPigeonLogo.png-6f9d128fb4387c666587356a30f36fae.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://BackgroundAndUI/Icons/MenuIcons/PickyPigeonLogo.png"
-dest_files=["res://.godot/imported/PickyPigeonLogo.png-b399d5ac4a9511b024ce5e04bbae9fee.ctex"]
+source_file="res://BackgroundAndUI/Icons/MenuIcons/logo/PickyPigeonLogo.png"
+dest_files=["res://.godot/imported/PickyPigeonLogo.png-6f9d128fb4387c666587356a30f36fae.ctex"]
 
 [params]
 

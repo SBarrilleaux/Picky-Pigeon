@@ -1,14 +1,20 @@
+# Handles save data
 extends Node
 
 var playerSaveStats: Dictionary[String,int]
 var currentScene
 var allButtonsToSave
 var coins: int
-var clearAwardValues: Array[int] = [0,5, 15, 30]
+var clearAwardValues: Array[int] = [0,5, 10, 15]
+@export var startingCoin: int
+@export var startingUses: int
+# config
+var playerSettings: Dictionary[String, Variant] = {"soundMusic":30, "soundEffect":30}
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# Get the current levels name
-	var currentScenePath = get_tree().current_scene.scene_file_path
+	var currentScenePath = get_tree().current_scene.scene_file_path.get_basename()
 	allButtonsToSave = get_tree().get_nodes_in_group("itemButtons")
 	currentScene = currentScenePath.get_file().get_basename()
 	# Load any data to level, if existing
@@ -17,39 +23,52 @@ func _ready() -> void:
 		for i in allButtonsToSave.size():
 			allButtonsToSave[i].loadButton(loadData())
 		coins = playerSaveStats["coins"]
+		for i in playerSettings:
+			if playerSaveStats.has(i):
+				playerSettings.set(i, playerSaveStats.get(i))
+	# If no save data exists, sets stats to new game values
+	if loadData() == null:
+		coins = startingCoin
+		for i in allButtonsToSave.size():
+			allButtonsToSave[i].setUse(startingUses)
+			
+func getSetting(setting: String) -> Variant:
+	if playerSettings.has(setting):
+		return playerSettings[setting]
+	return null
 
-	print("Prior Best: ")
-	print(playerSaveStats.get(currentScene))
-	print(currentScene)
+func getLevelScore(levelName: String) -> int:
+	if playerSaveStats.has(levelName):
+		return playerSaveStats[levelName]
+	return 0
 
-# Reads the given folder to find out how many files are in it
+## Reads the given path  to find out how many files are in a folder
 func getFileCount(path: String) -> Array:
 	
 	var levelList = []
 	var dir = DirAccess.open(path)
 	if dir != null:
 		dir.list_dir_begin()
-		var fileName = dir.get_next()
-		while fileName != "":
+		var fileName = dir.get_next().get_basename().split(".")
+		while fileName[0] != "":
 			# Exclude "." and ".." which represent the current and parent directories
-			if not fileName.begins_with("."):
+			if not fileName[0].begins_with("."):
 				# Check if it's a file (not a directory)
 				if not dir.current_is_dir():
-					levelList.append(fileName.substr(0, fileName.length() - 5))
-			fileName = dir.get_next()
+					levelList.append(fileName[0])
+			fileName = dir.get_next().get_basename().split(".")
 		dir.list_dir_end()
 	else:
 		print("Null directory", path)
 	return levelList
 
-
-
+# Triggered on game over
 func _on_grid_clear_score(rating: int) -> void:
 	#Add the current levels score to the dictionary if it is a new high score
 	if playerSaveStats.get(currentScene) != null:
 		if playerSaveStats[currentScene] < rating:
 			playerSaveStats[currentScene] = rating
-			
+	# award coins
 	match rating:
 		1:
 			coins += clearAwardValues[1]
@@ -59,17 +78,16 @@ func _on_grid_clear_score(rating: int) -> void:
 			coins += clearAwardValues[3]
 	saveData()
 
+# Saves data to file
 func saveData():
 	var saveFile = FileAccess.open("user://savegame.save", FileAccess.WRITE)
 	if saveFile:
 		# Save level Scores
 		var allLevels = getFileCount("res://Levels/")
-		
 		for i in allLevels.size():
 			if playerSaveStats.has(allLevels[i]):
 				var foundKey = playerSaveStats[allLevels[i]]
 				saveFile.store_line(str(allLevels[i],":",foundKey,"\r").replace(" ",""))
-
 			else:
 				# If the level has no entry, set it to a score of 0
 				saveFile.store_line(str(allLevels[i],":",0,"\r").replace(" ",""))
@@ -79,12 +97,17 @@ func saveData():
 			saveFile.store_line(allButtonsToSave[i].saveButton())
 		# save coins
 		saveFile.store_line(str("coins",":",coins,"\r").replace(" ",""))
+		
+		
+		# save preferences
+		for i in playerSettings:
+			saveFile.store_line(str(i,":",playerSettings[i],"\r").replace(" ",""))
 
 		saveFile.close()
-	
-	
+		
 # Loads data into a dictionary of string: int to return
 func loadData():
+	# Load save file
 	var saveFile = FileAccess.open("user://savegame.save", FileAccess.READ)
 	var content: Dictionary[String, int] = {}
 	if saveFile != null:
@@ -95,18 +118,39 @@ func loadData():
 			if value.is_valid_int():
 				value = int(value)
 			elif value.is_valid_float():
-				value = float(value)
+				#value = float(value)
+				value = int(value)
 			elif value.begins_with("["):
 				value = value.trim_prefix("[")
 				value = value.trim_suffix("]")
 				value = value.split(",")
-			content[key] = value
+			# make sure the value being added is an int, which is the expected type of value stored for player data
+			if typeof(value) == 2:
+				content[key] = value
 		saveFile.close()
 		return content
 # Subtracts the provided amount from the current amount of coins
 func useCoins(coinCost: int) -> bool:
-	if (coins - coinCost) > 0:
+	if (coins - coinCost) >= 0:
 		coins -= coinCost
-		print(coins)
 		return true
 	return false
+
+# Is used to update settings like volume
+func updateSetting(groupName: String, setting: String,  value):
+	if playerSettings.has(groupName):
+		# Adjust value in dictionary for saving
+		playerSettings.set(groupName,value)
+		if groupName == "soundMusic" || groupName == "soundEffect":
+			if value == 0:
+				get_tree().call_group(groupName, "set_volume_db", -1000)
+			else	:
+				get_tree().call_group(groupName, "set_volume_db", value)
+		else:
+			get_tree().call_group(groupName, setting, value)
+
+# Signal from engine being used to save data before game closes.
+func _notification(what: int) -> void:
+	# save game before it closes
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		saveData()

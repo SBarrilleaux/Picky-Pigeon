@@ -1,3 +1,5 @@
+# Handles menu items in level
+# item type and cost is set in editor
 extends Control
 
 var itemButton: Button
@@ -10,12 +12,14 @@ var lastState: bool = false
 # references for purchasing more items uses
 var purchaseMenu
 var costText: Label
-# Subtracts from item uses, and then updates text to reflect the change.
-func setUse(value: int):
-	
+# Subtracts from item uses, and then updates text to reflect the change. Used when purchasing item
+func subtractUse(value: int):	
 	uses -= abs(value)
 	updateText()
 
+func setUse(value: int):
+	uses = value
+	updateText()
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	itemButton = $ItemButton
@@ -36,24 +40,25 @@ func _on_item_button_toggled(toggled_on: bool) -> void:
 			# Let player buy another item if they are out of the item
 			elif gameManager.state == 1 && uses == 0:
 				purchaseMenu.visible = true
+				gameManager.setState(0)	
 			else:
 				itemButton.button_pressed = false
 
 func updateText():
-	itemButton.text = "\n" + str(uses)
+	if itemButton != null:
+		itemButton.text = "\n" + str(uses)
 
 # Saves the button info and sends it as a string, so that it can be stored in file then loaded into dictionary.
 func saveButton() -> String:
 	var buttonData: String
 	buttonData = itemType + ":" + str(uses)
-		#saveFile.store_line(str(playerSaveStats.keys()[i],":",playerSaveStats.values()[i],"\r").replace(" ",""))
 	return buttonData
 # Loads data from the dictionary, based on the itemType name as the key it is looking for
 func loadButton(data: Dictionary[String, int]):
 	if data.has(itemType):
 		uses = data[itemType]
 	else:
-		print("no such item saved:")
+		print("no " + itemType +" item saved:")
 		uses = 1
 	updateText()
 
@@ -61,14 +66,16 @@ func loadButton(data: Dictionary[String, int]):
 func _on_buy_button_pressed() -> void:
 	if get_tree().has_group("playerDataGroup"):
 		var playerDataNode = get_tree().get_nodes_in_group("playerDataGroup")
-		if playerDataNode[0].useCoins(itemCost):
+		if playerDataNode[0] != null && playerDataNode[0].useCoins(itemCost):
 			uses += 1
 			updateText()
 			if %Grid != null:
 				%Grid.updateMenus()
 			$ItemButton.button_pressed = false
 	purchaseMenu.visible = false
+	gameManager.setState(1)
 
 
 func _on_cancel_button_pressed() -> void:
 	purchaseMenu.visible = false
+	gameManager.setState(1)

@@ -1,3 +1,4 @@
+# Logic for board pieces with special functions, like brambles.
 extends Node2D
 
 # How many matches to destroy
@@ -11,7 +12,6 @@ var health: int
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	health = maxHealth
-	pass # Replace with function body.
 
 func takeDamage(damage):
 	health -= damage
