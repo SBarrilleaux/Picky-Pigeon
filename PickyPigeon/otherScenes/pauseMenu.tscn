@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://0kcel0rrkfa4" path="res://scripts/pause_menu.gd" id="1_iels5"]
 [ext_resource type="Texture2D" uid="uid://cymf7psr5riog" path="res://BackgroundAndUI/Icons/MenuIcons/buttonIcon.png" id="2_h7h71"]
-[ext_resource type="Texture2D" uid="uid://bv7mfj1lllire" path="res://BackgroundAndUI/Icons/MenuIcons/PickyPigeonLogo.png" id="3_h7h71"]
+[ext_resource type="Texture2D" uid="uid://bv7mfj1lllire" path="res://BackgroundAndUI/Icons/MenuIcons/logo/PickyPigeonLogo.png" id="3_h7h71"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iels5"]
 bg_color = Color(0.771875, 0.5225, 0.95, 0.458824)

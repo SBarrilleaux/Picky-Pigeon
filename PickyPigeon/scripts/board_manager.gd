@@ -11,7 +11,7 @@ extends Node2D
 ## Locations on board which nibbles can't land on
 var emptySpaces: PackedVector2Array
 var obstacleSpaces: PackedVector2Array
-var possibleObstacles = { "bramble": preload("res://BoardItems&Obstacles/bramble.tscn") }
+var possibleObstacles = { "bramble": preload("res://BoardItemsAndObstacles/bramble.tscn") }
 var boardObstacles = []
 
 ## custom signal used to send all currently used board spaces to the tilsetlayer.
@@ -67,7 +67,6 @@ var final_click = Vector2.ZERO
 var controlling = false
 
 
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	state = gameState.move
@@ -90,11 +89,14 @@ func _ready() -> void:
 			if iconTexture != null:
 				%ObjectivesList.add_item(str(objectiveGoalTotal[i]),iconTexture,false)
 		# try loading an obstacle art if the item objective was empty
-		elif ResourceLoader.exists("res://BoardItems&Obstacles/obstacleArt/" + objectiveItems[i] + "full.png"):
-				iconTexture = load("res://BoardItems&Obstacles/obstacleArt/" + objectiveItems[i] + "full.png")
+		elif ResourceLoader.exists("res://BoardItemsAndObstacles/obstacleArt/" + objectiveItems[i] + "Full.png".trim_suffix(".remap")):
+				iconTexture = load("res://BoardItemsAndObstacles/obstacleArt/" + objectiveItems[i] + "Full.png".trim_suffix(".remap"))
 				if iconTexture != null:
 					%ObjectivesList.add_item(str(objectiveGoalTotal[i]),iconTexture,false)
-
+		elif ResourceLoader.exists("res://BoardItemsAndObstacles/obstacleArt/" + objectiveItems[i] + "Full.png".trim_suffix(".import")):
+				iconTexture = load("res://BoardItemsAndObstacles/obstacleArt/" + objectiveItems[i] + "Full.png".trim_suffix(".import"))
+				if iconTexture != null:
+					%ObjectivesList.add_item(str(objectiveGoalTotal[i]),iconTexture,false)
 	# Sends what tiles aren't restricted and should have background tiles placed for them as a signal.
 	for i in width:
 		for j in height:

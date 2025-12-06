@@ -14,7 +14,7 @@ var playerSettings: Dictionary[String, Variant] = {"soundMusic":30, "soundEffect
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# Get the current levels name
-	var currentScenePath = get_tree().current_scene.scene_file_path
+	var currentScenePath = get_tree().current_scene.scene_file_path.get_basename()
 	allButtonsToSave = get_tree().get_nodes_in_group("itemButtons")
 	currentScene = currentScenePath.get_file().get_basename()
 	# Load any data to level, if existing
@@ -49,14 +49,14 @@ func getFileCount(path: String) -> Array:
 	var dir = DirAccess.open(path)
 	if dir != null:
 		dir.list_dir_begin()
-		var fileName = dir.get_next()
-		while fileName != "":
+		var fileName = dir.get_next().get_basename().split(".")
+		while fileName[0] != "":
 			# Exclude "." and ".." which represent the current and parent directories
-			if not fileName.begins_with("."):
+			if not fileName[0].begins_with("."):
 				# Check if it's a file (not a directory)
 				if not dir.current_is_dir():
-					levelList.append(fileName.substr(0, fileName.length() - 5))
-			fileName = dir.get_next()
+					levelList.append(fileName[0])
+			fileName = dir.get_next().get_basename().split(".")
 		dir.list_dir_end()
 	else:
 		print("Null directory", path)
@@ -68,7 +68,7 @@ func _on_grid_clear_score(rating: int) -> void:
 	if playerSaveStats.get(currentScene) != null:
 		if playerSaveStats[currentScene] < rating:
 			playerSaveStats[currentScene] = rating
-			
+	# award coins
 	match rating:
 		1:
 			coins += clearAwardValues[1]
@@ -84,7 +84,6 @@ func saveData():
 	if saveFile:
 		# Save level Scores
 		var allLevels = getFileCount("res://Levels/")
-		
 		for i in allLevels.size():
 			if playerSaveStats.has(allLevels[i]):
 				var foundKey = playerSaveStats[allLevels[i]]

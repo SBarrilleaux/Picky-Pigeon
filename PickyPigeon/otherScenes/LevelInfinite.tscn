@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://becx7u1oqnv4w"]
+
+[ext_resource type="PackedScene" uid="uid://dcc5gll3m8e6n" path="res://otherScenes/BaseLevel.tscn" id="1_so77d"]
+
+[node name="Node3D" instance=ExtResource("1_so77d")]
+
+[node name="Grid" parent="Board" index="2"]
+objectiveItems = Array[String](["sunflower", "popcorn", "blueberry", "peanut"])
+objectiveGoalTotal = Array[int]([9999, 9999, 9999, 9999])
+turnMax = 9999
+
+[node name="MoveSound" parent="Board/Grid/Sounds" index="0"]
+pitch_scale = 1.15
